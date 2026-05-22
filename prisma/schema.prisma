@@ -1,0 +1,210 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  username          String    @unique @db.VarChar(30)
+  email             String    @unique @db.VarChar(255)
+  passwordHash      String    @map("password_hash") @db.VarChar(255)
+  githubUsername    String?   @map("github_username") @db.VarChar(39)
+  githubConnectedAt DateTime? @map("github_connected_at")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @default(now()) @map("updated_at")
+
+  pet            Pet?
+  battlesChallenged Battle[] @relation("Challenger")
+  battlesOpponent   Battle[] @relation("Opponent")
+  battlesWon        Battle[] @relation("Winner")
+  friendshipsRequested Friendship[] @relation("Requester")
+  friendshipsReceived  Friendship[] @relation("Addressee")
+  guildMembership  GuildMember?
+  guildLed         Guild[]       @relation("GuildLeader")
+  guildMessages    GuildMessage[]
+  activities       Activity[]
+  skins            UserSkin[]
+
+  @@map("users")
+}
+
+model Pet {
+  id                   String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId               String    @unique @map("user_id") @db.Uuid
+  name                 String    @default("CodeBuddy") @db.VarChar(30)
+  level                Int       @default(1)
+  xp                   Int       @default(0)
+  hunger               Int       @default(80)
+  happiness            Int       @default(80)
+  stage                String    @default("egg") @db.VarChar(10)
+  totalCommits         Int       @default(0) @map("total_commits")
+  streakDays           Int       @default(0) @map("streak_days")
+  challengesCompleted  Int       @default(0) @map("challenges_completed")
+  hp                   Int       @default(60)
+  atk                  Int       @default(7)
+  def                  Int       @default(4)
+  spd                  Int       @default(6)
+  lastFed              DateTime  @default(now()) @map("last_fed")
+  lastPetted           DateTime  @default(now()) @map("last_petted")
+  createdAt            DateTime  @default(now()) @map("created_at")
+  equippedSkinId       String?   @map("equipped_skin_id") @db.Uuid
+  equippedAccessoryId  String?   @map("equipped_accessory_id") @db.Uuid
+
+  user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  equippedSkin       Skin?     @relation("EquippedSkin", fields: [equippedSkinId], references: [id])
+  equippedAccessory  Skin?     @relation("EquippedAccessory", fields: [equippedAccessoryId], references: [id])
+
+  @@map("pets")
+}
+
+model Battle {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  challengerId  String    @map("challenger_id") @db.Uuid
+  opponentId    String    @map("opponent_id") @db.Uuid
+  status        String    @default("waiting") @db.VarChar(15)
+  winnerId      String?   @map("winner_id") @db.Uuid
+  turns         Json      @default("[]")
+  xpAwarded     Int       @default(0) @map("xp_awarded")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  finishedAt    DateTime? @map("finished_at")
+
+  challenger    User      @relation("Challenger", fields: [challengerId], references: [id])
+  opponent      User      @relation("Opponent", fields: [opponentId], references: [id])
+  winner        User?     @relation("Winner", fields: [winnerId], references: [id])
+
+  @@map("battles")
+}
+
+model Friendship {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  requesterId String   @map("requester_id") @db.Uuid
+  addresseeId String   @map("addressee_id") @db.Uuid
+  status      String   @default("pending") @db.VarChar(10)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  requester   User     @relation("Requester", fields: [requesterId], references: [id])
+  addressee   User     @relation("Addressee", fields: [addresseeId], references: [id])
+
+  @@unique([requesterId, addresseeId])
+  @@map("friendships")
+}
+
+model Guild {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String   @unique @db.VarChar(50)
+  description String?  @db.VarChar(500)
+  leaderId    String   @map("leader_id") @db.Uuid
+  level       Int      @default(1)
+  xp          Int      @default(0)
+  memberCount Int      @default(1) @map("member_count")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  leader      User       @relation("GuildLeader", fields: [leaderId], references: [id])
+  members     GuildMember[]
+  messages    GuildMessage[]
+  warsAsGuild1 GuildWar[] @relation("WarGuild1")
+  warsAsGuild2 GuildWar[] @relation("WarGuild2")
+  warsWon      GuildWar[] @relation("WarWinner")
+
+  @@map("guilds")
+}
+
+model GuildMember {
+  id       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  guildId  String   @map("guild_id") @db.Uuid
+  userId   String   @unique @map("user_id") @db.Uuid
+  role     String   @default("member") @db.VarChar(10)
+  joinedAt DateTime @default(now()) @map("joined_at")
+
+  guild    Guild    @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id])
+
+  @@map("guild_members")
+}
+
+model GuildWar {
+  id              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  guild1Id        String    @map("guild1_id") @db.Uuid
+  guild2Id        String    @map("guild2_id") @db.Uuid
+  status          String    @default("scheduled") @db.VarChar(15)
+  champions1      Json      @default("[]")
+  champions2      Json      @default("[]")
+  battles         Json      @default("[]")
+  score1          Int       @default(0)
+  score2          Int       @default(0)
+  winnerGuildId   String?   @map("winner_guild_id") @db.Uuid
+  bestOf          Int       @default(3) @map("best_of")
+  scheduledAt     DateTime  @map("scheduled_at")
+  startedAt       DateTime? @map("started_at")
+  finishedAt      DateTime? @map("finished_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  guild1          Guild     @relation("WarGuild1", fields: [guild1Id], references: [id])
+  guild2          Guild     @relation("WarGuild2", fields: [guild2Id], references: [id])
+  winnerGuild     Guild?    @relation("WarWinner", fields: [winnerGuildId], references: [id])
+
+  @@map("guild_wars")
+}
+
+model GuildMessage {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  guildId   String   @map("guild_id") @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  content   String   @db.VarChar(1000)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  guild     Guild    @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("guild_messages")
+}
+
+model Skin {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String   @unique @db.VarChar(50)
+  description String?  @db.VarChar(200)
+  category    String   @db.VarChar(10)
+  rarity      String   @db.VarChar(10)
+  palette     Json     @default("{}")
+  accessory   String?  @db.VarChar(20)
+  animation   String?  @db.VarChar(20)
+  unlockType  String   @map("unlock_type") @db.VarChar(20)
+  unlockValue Int      @map("unlock_value")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  users       UserSkin[]
+  petsAsSkin  Pet[]    @relation("EquippedSkin")
+  petsAsAccessory Pet[] @relation("EquippedAccessory")
+
+  @@map("skins")
+}
+
+model UserSkin {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId     String   @map("user_id") @db.Uuid
+  skinId     String   @map("skin_id") @db.Uuid
+  unlockedAt DateTime @default(now()) @map("unlocked_at")
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skin       Skin     @relation(fields: [skinId], references: [id])
+
+  @@unique([userId, skinId])
+  @@map("user_skins")
+}
+
+model Activity {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId      String   @map("user_id") @db.Uuid
+  type        String   @db.VarChar(20)
+  description String?  @db.VarChar(255)
+  xpEarned    Int      @default(0) @map("xp_earned")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@map("activities")
+}
