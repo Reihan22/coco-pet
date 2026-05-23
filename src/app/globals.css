@@ -386,29 +386,42 @@ body {
 }
 
 /* ================================================================
-   DASHBOARD - Responsive, Glassmorphism, Modern Gaming UI
+   DASHBOARD - Eyecatching Cyberpunk Gaming UI
    ================================================================ */
 
-/* --- Background Orbs --- */
+/* --- Animated Background --- */
 .bg-orb {
   position: fixed;
   border-radius: 50%;
   pointer-events: none;
   z-index: 0;
+  filter: blur(80px);
 }
 .bg-orb--cyan {
-  top: -20%;
-  left: -10%;
-  width: 50vw;
-  height: 50vw;
-  background: radial-gradient(circle, rgba(0,255,213,0.05) 0%, transparent 70%);
+  top: -15%;
+  left: -5%;
+  width: 40vw;
+  height: 40vw;
+  background: radial-gradient(circle, rgba(0,255,213,0.15) 0%, transparent 70%);
+  animation: orb-float-1 20s ease-in-out infinite;
 }
 .bg-orb--pink {
-  bottom: -20%;
-  right: -10%;
-  width: 50vw;
-  height: 50vw;
-  background: radial-gradient(circle, rgba(255,45,120,0.05) 0%, transparent 70%);
+  bottom: -15%;
+  right: -5%;
+  width: 40vw;
+  height: 40vw;
+  background: radial-gradient(circle, rgba(255,45,120,0.15) 0%, transparent 70%);
+  animation: orb-float-2 25s ease-in-out infinite;
+}
+@keyframes orb-float-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(5vw, 3vh) scale(1.1); }
+  66% { transform: translate(-3vw, -5vh) scale(0.9); }
+}
+@keyframes orb-float-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-4vw, -4vh) scale(1.15); }
+  66% { transform: translate(6vw, 2vh) scale(0.85); }
 }
 
 /* --- Navbar --- */
@@ -417,14 +430,15 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  padding: 12px 20px;
+  padding: 14px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(10,10,15,0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  background: rgba(10,10,15,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0,255,213,0.1);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.3), 0 1px 0 rgba(0,255,213,0.05);
   z-index: 100;
   gap: 12px;
 }
@@ -521,9 +535,10 @@ body {
 }
 .tab-btn--active {
   border-color: var(--color-cyan);
-  background: rgba(0,255,213,0.1);
+  background: rgba(0,255,213,0.15);
   color: var(--color-cyan);
-  box-shadow: 0 0 12px rgba(0,255,213,0.15);
+  box-shadow: 0 0 20px rgba(0,255,213,0.25), inset 0 0 12px rgba(0,255,213,0.08);
+  text-shadow: 0 0 8px rgba(0,255,213,0.4);
 }
 .tab-btn--lab {
   border-color: var(--color-purple);
@@ -564,7 +579,8 @@ body {
   border-radius: 2px;
 }
 .quick-link:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  text-shadow: 0 0 10px currentColor;
 }
 
 .quick-link--gold { color: var(--color-gold); border-color: var(--color-gold); }
@@ -582,26 +598,42 @@ body {
 
 /* --- Glassmorphism Card --- */
 .card-glass {
-  background: rgba(18,18,26,0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 8px;
+  background: rgba(18,18,26,0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0,255,213,0.12);
+  border-radius: 12px;
   position: relative;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
 }
 .card-glass::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--color-cyan), var(--color-pink), var(--color-lime));
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-cyan), var(--color-pink), var(--color-lime), var(--color-cyan));
+  background-size: 300% 100%;
+  animation: border-flow 4s linear infinite;
+}
+.card-glass::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(0,255,213,0.03) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: 0;
 }
 .card-glass:hover {
-  transform: scale(1.02);
-  border-color: rgba(0,255,213,0.25);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(0,255,213,0.08);
+  transform: translateY(-4px) scale(1.01);
+  border-color: rgba(0,255,213,0.35);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 30px rgba(0,255,213,0.12), 0 0 60px rgba(0,255,213,0.05);
+}
+@keyframes border-flow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
 }
 
 /* --- Staggered Card Entrance --- */
@@ -619,11 +651,38 @@ body {
 .stats-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  gap: 10px;
 }
 .stats-grid--wide {
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
+  gap: 10px;
+}
+/* Neon stat card enhancement */
+.stats-grid [style*="border-radius"],
+.stats-grid--wide [style*="border-radius"] {
+  transition: all 0.3s ease;
+}
+.stat-card {
+  background: rgba(18,18,26,0.6);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 10px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.stat-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0,255,213,0.3);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--stat-color, var(--color-cyan));
+  opacity: 0.6;
 }
 
 /* --- Action Buttons --- */
@@ -790,6 +849,64 @@ body {
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
+
+/* --- Floating Particles --- */
+.particles {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.particle {
+  position: absolute;
+  bottom: -10px;
+  border-radius: 50%;
+  opacity: 0;
+  animation: particle-rise linear infinite;
+}
+.particle--cyan { background: var(--color-cyan); box-shadow: 0 0 6px var(--color-cyan); }
+.particle--pink { background: var(--color-pink); box-shadow: 0 0 6px var(--color-pink); }
+.particle--lime { background: var(--color-lime); box-shadow: 0 0 6px var(--color-lime); }
+@keyframes particle-rise {
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.3; }
+  100% { transform: translateY(-100vh) scale(0.3); opacity: 0; }
+}
+
+/* --- Pet Glow Ring --- */
+.pet-glow-ring {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 2px solid rgba(0,255,213,0.2);
+  box-shadow: 0 0 30px rgba(0,255,213,0.1), inset 0 0 30px rgba(0,255,213,0.05);
+  animation: ring-pulse 3s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+@keyframes ring-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.5; border-color: rgba(0,255,213,0.2); }
+  50% { transform: scale(1.08); opacity: 0.8; border-color: rgba(0,255,213,0.4); box-shadow: 0 0 50px rgba(0,255,213,0.2), inset 0 0 40px rgba(0,255,213,0.1); }
+}
+
+/* --- Glow Text (bot name) --- */
+.glow-text {
+  background: linear-gradient(90deg, var(--color-cyan), var(--color-lime), var(--color-cyan));
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: text-shimmer 3s linear infinite;
+  filter: drop-shadow(0 0 8px rgba(0,255,213,0.3));
+}
+@keyframes text-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
 /* ================================================================
    RESPONSIVE BREAKPOINTS
    ================================================================ */
@@ -914,6 +1031,26 @@ body {
 
 /* XP bar pulse on dashboard */
 .xp-pulse-wrap {
-  animation: xp-pulse 3s ease-in-out infinite;
-  border-radius: 4px;
+  animation: xp-pulse 2s ease-in-out infinite;
+  border-radius: 6px;
+  box-shadow: 0 0 15px rgba(0,255,213,0.15);
+}
+/* Scanline overlay for retro feel */
+.card-glass .pet-display::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,255,213,0.015) 2px,
+    rgba(0,255,213,0.015) 4px
+  );
+  pointer-events: none;
+  animation: scanline-scroll 8s linear infinite;
+}
+@keyframes scanline-scroll {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 100px; }
 }

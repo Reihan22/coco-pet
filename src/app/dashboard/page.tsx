@@ -215,6 +215,19 @@ export default function DashboardPage() {
       {/* Background gradient orbs */}
       <div className="bg-orb bg-orb--cyan" />
       <div className="bg-orb bg-orb--pink" />
+      {/* Floating particles */}
+      <div className="particles">
+        {Array.from({length: 12}).map((_, i) => (
+          <div key={i} className={`particle particle--${i % 3 === 0 ? 'cyan' : i % 3 === 1 ? 'pink' : 'lime'}`}
+            style={{
+              left: `${8 + (i * 7.5) % 90}%`,
+              animationDelay: `${i * 1.5}s`,
+              animationDuration: `${12 + (i * 3) % 15}s`,
+              width: `${3 + (i % 4)}px`,
+              height: `${3 + (i % 4)}px`,
+            }} />
+        ))}
+      </div>
 
       {/* Navbar */}
       <nav className="dash-nav">
@@ -290,7 +303,7 @@ export default function DashboardPage() {
                   ) : (
                     <span
                       onClick={() => { setBotName(pet.name); setEditingName(true); setRenameError(''); }}
-                      className="pet-name-text"
+                      className="pet-name-text glow-text"
                       title="Click to rename your bot"
                     >
                       {pet.name} ✏️
@@ -303,6 +316,8 @@ export default function DashboardPage() {
 
                 {/* Pet display */}
                 <div className="pet-display">
+                  {/* Glow ring */}
+                  <div className="pet-glow-ring" />
                   <PixelPet stage={stage} mood={mood} level={pet.level} size="lg"
                     skin={pet.equippedSkin ? {
                       palette: pet.equippedSkin.palette as any,
