@@ -96,8 +96,8 @@ export async function POST(
     }
 
     // Check if opponent is AI bot — resolve immediately, no pending system
-    const AI_EMAIL = 'ai@codebot.internal';
-    const isAIBattle = battle.opponent?.email === AI_EMAIL;
+    const AI_USERNAMES = ['MiMo Bot'];
+    const isAIBattle = battle.opponent ? AI_USERNAMES.includes(battle.opponent.username) : false;
 
     if (isAIBattle) {
       // AI picks action and resolve immediately
