@@ -21,7 +21,6 @@ export async function POST() {
         xp: { increment: XP_REWARD },
         level: newLevel,
         challengesCompleted,
-        lastActiveAt: new Date(),
       },
     });
 

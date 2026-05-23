@@ -52,7 +52,7 @@ export default function DashboardPage() {
   const [feedCooldown, setFeedCooldown] = useState(false);
   const [petCooldown, setPetCooldown] = useState(false);
   const [xpPopup, setXpPopup] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'overview' | 'achievements'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'achievements' | 'challenge'>('overview');
 
   const fetchData = useCallback(async () => {
     try {
