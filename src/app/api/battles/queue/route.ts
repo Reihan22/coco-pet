@@ -6,11 +6,10 @@ export async function GET() {
   try {
     const user = await requireUser();
 
-    // Find waiting battles (not created by this user, level range handled client-side for MVP)
     const waitingBattles = await prisma.battle.findMany({
       where: {
         status: 'waiting',
-        opponentId: user.id, // Only battles where this user is challenged
+        opponentId: user.id,
       },
       include: {
         challenger: {
@@ -25,7 +24,6 @@ export async function GET() {
       take: 20,
     });
 
-    // Also find any active battles for this user
     const activeBattles = await prisma.battle.findMany({
       where: {
         status: 'active',
@@ -60,7 +58,36 @@ export async function POST(request: Request) {
   try {
     const user = await requireUser();
 
-    // Find another user with pet who is not self, pick first available
+    // BUG FIX 3: Real matchmaking — find another user already in queue (waiting battle)
+    const queuedBattle = await prisma.battle.findFirst({
+      where: {
+        status: 'waiting',
+        challengerId: { not: user.id },
+      },
+      include: {
+        challenger: { select: { id: true, username: true } },
+      },
+      orderBy: { createdAt: 'asc' },
+    });
+
+    if (queuedBattle) {
+      // BUG FIX 4: Update matched battle to "active" and set current user as opponent
+      const battle = await prisma.battle.update({
+        where: { id: queuedBattle.id },
+        data: {
+          opponentId: user.id,
+          status: 'active',
+        },
+        include: {
+          challenger: { select: { id: true, username: true } },
+          opponent: { select: { id: true, username: true } },
+        },
+      });
+
+      return NextResponse.json({ battle, message: 'Matched with another player!' });
+    }
+
+    // Fallback: find any opponent and create a waiting battle
     const opponent = await prisma.user.findFirst({
       where: {
         id: { not: user.id },
@@ -89,11 +116,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ battle: existing, message: 'Existing battle found' });
     }
 
+    // Create battle as "active" directly when matching with a bot
     const battle = await prisma.battle.create({
       data: {
         challengerId: user.id,
         opponentId: opponent.id,
-        status: 'waiting',
+        status: 'active',
         turns: [],
       },
       include: {
@@ -103,6 +131,25 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({ battle }, { status: 201 });
+  } catch {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+}
+
+// BUG FIX 11: DELETE handler to leave queue
+export async function DELETE() {
+  try {
+    const user = await requireUser();
+
+    // Remove any waiting battles where this user is the challenger
+    const deleted = await prisma.battle.deleteMany({
+      where: {
+        challengerId: user.id,
+        status: 'waiting',
+      },
+    });
+
+    return NextResponse.json({ success: true, removed: deleted.count });
   } catch {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
