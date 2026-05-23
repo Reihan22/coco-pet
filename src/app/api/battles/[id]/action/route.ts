@@ -49,7 +49,7 @@ export async function POST(
       return NextResponse.json({ error: 'Not a participant in this battle' }, { status: 403 });
     }
 
-    if (!battle.challenger.pet || !battle.opponent.pet) {
+    if (!battle.challenger.pet || !battle.opponent?.pet) {
       return NextResponse.json({ error: 'Pet data missing' }, { status: 500 });
     }
 
@@ -146,6 +146,7 @@ export async function POST(
         // Winner gets 50 XP, loser gets 20 XP
         if (winnerId) {
           const loserId = winnerId === battle.challengerId ? battle.opponentId : battle.challengerId;
+          if (!loserId) return;
           
           const winnerPet = await tx.pet.findUnique({ where: { userId: winnerId } });
           const loserPet = await tx.pet.findUnique({ where: { userId: loserId } });
