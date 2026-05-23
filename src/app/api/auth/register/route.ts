@@ -57,6 +57,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: err.issues[0].message }, { status: 400 });
     }
     console.error('Register error:', err);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json({ error: 'Internal server error', detail: err instanceof Error ? err.message : String(err) }, { status: 500 });
   }
 }
