@@ -9,7 +9,7 @@ export async function GET() {
     const waitingBattles = await prisma.battle.findMany({
       where: {
         status: 'waiting',
-        opponentId: user.id,
+        challengerId: user.id,
       },
       include: {
         challenger: {
@@ -54,22 +54,38 @@ export async function GET() {
   }
 }
 
-export async function POST(request: Request) {
+export async function POST() {
   try {
     const user = await requireUser();
 
-    // Clean up stale waiting battles (>2 min old)
+    // 1. Clean up stale waiting battles (>2 min old)
     const twoMinAgo = new Date(Date.now() - 2 * 60 * 1000);
     await prisma.battle.deleteMany({
       where: { status: 'waiting', createdAt: { lt: twoMinAgo } },
     });
 
-    // Remove any existing waiting battle by this user (prevent double-queue)
+    // 2. Remove own stale waiting battles (prevent double-queue)
     await prisma.battle.deleteMany({
       where: { challengerId: user.id, status: 'waiting' },
     });
 
-    // Real matchmaking — find another user already in queue (recent waiting battle)
+    // 3. Check if user already has an active battle
+    const activeBattle = await prisma.battle.findFirst({
+      where: {
+        status: 'active',
+        OR: [{ challengerId: user.id }, { opponentId: user.id }],
+      },
+      include: {
+        challenger: { select: { id: true, username: true } },
+        opponent: { select: { id: true, username: true } },
+      },
+    });
+
+    if (activeBattle) {
+      return NextResponse.json({ battle: activeBattle, message: 'Already in a battle' });
+    }
+
+    // 4. Try to match with another player's waiting battle
     const queuedBattle = await prisma.battle.findFirst({
       where: {
         status: 'waiting',
@@ -83,7 +99,7 @@ export async function POST(request: Request) {
     });
 
     if (queuedBattle) {
-      // BUG FIX 4: Update matched battle to "active" and set current user as opponent
+      // Match found! Update to active with current user as opponent
       const battle = await prisma.battle.update({
         where: { id: queuedBattle.id },
         data: {
@@ -99,61 +115,28 @@ export async function POST(request: Request) {
       return NextResponse.json({ battle, message: 'Matched with another player!' });
     }
 
-    // Fallback: find any opponent and create a waiting battle
-    const opponent = await prisma.user.findFirst({
-      where: {
-        id: { not: user.id },
-        pet: { isNot: null },
-      },
-      include: { pet: true },
-      orderBy: { createdAt: 'asc' },
-    });
-
-    if (!opponent) {
-      return NextResponse.json({ error: 'No opponents available' }, { status: 404 });
-    }
-
-    // Check for existing battle
-    const existing = await prisma.battle.findFirst({
-      where: {
-        OR: [
-          { challengerId: user.id, opponentId: opponent.id },
-          { challengerId: opponent.id, opponentId: user.id },
-        ],
-        status: { in: ['waiting', 'active'] },
-      },
-    });
-
-    if (existing) {
-      return NextResponse.json({ battle: existing, message: 'Existing battle found' });
-    }
-
-    // Create battle as "active" directly when matching with a bot
+    // 5. No match — create a waiting battle for others to find
     const battle = await prisma.battle.create({
       data: {
         challengerId: user.id,
-        opponentId: opponent.id,
-        status: 'active',
+        status: 'waiting',
         turns: [],
       },
       include: {
         challenger: { select: { id: true, username: true } },
-        opponent: { select: { id: true, username: true } },
       },
     });
 
-    return NextResponse.json({ battle }, { status: 201 });
+    return NextResponse.json({ battle, message: 'Waiting for opponent...' }, { status: 201 });
   } catch {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 }
 
-// BUG FIX 11: DELETE handler to leave queue
 export async function DELETE() {
   try {
     const user = await requireUser();
 
-    // Remove any waiting battles where this user is the challenger
     const deleted = await prisma.battle.deleteMany({
       where: {
         challengerId: user.id,

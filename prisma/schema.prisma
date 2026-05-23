@@ -64,7 +64,7 @@ model Pet {
 model Battle {
   id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   challengerId  String    @map("challenger_id") @db.Uuid
-  opponentId    String    @map("opponent_id") @db.Uuid
+  opponentId    String?   @map("opponent_id") @db.Uuid
   status        String    @default("waiting") @db.VarChar(15)
   winnerId      String?   @map("winner_id") @db.Uuid
   turns         Json      @default("[]")
@@ -73,7 +73,7 @@ model Battle {
   finishedAt    DateTime? @map("finished_at")
 
   challenger    User      @relation("Challenger", fields: [challengerId], references: [id])
-  opponent      User      @relation("Opponent", fields: [opponentId], references: [id])
+  opponent      User?     @relation("Opponent", fields: [opponentId], references: [id])
   winner        User?     @relation("Winner", fields: [winnerId], references: [id])
 
   @@map("battles")
