@@ -1,12 +1,52 @@
 const AI_ENDPOINT = process.env.AI_ENDPOINT || 'http://127.0.0.1:20128/v1';
 const AI_API_KEY = process.env.AI_API_KEY || '';
-const AI_MODEL = process.env.AI_MODEL || 'MiMo-V2.5-Pro';
+const AI_MODEL = process.env.AI_MODEL || 'GG';
 
 export const AI_LABEL = process.env.NEXT_PUBLIC_AI_LABEL || 'Xiaomi MiMo V2.5 Pro';
 
 export interface ChatMessage {
   role: 'system' | 'user' | 'assistant';
   content: string;
+}
+
+/**
+ * Parse SSE response from 9router — strips `data: ` prefix and extracts content.
+ * MiMo models put the actual reply in `reasoning_content` or `content`.
+ */
+function parseSSEResponse(text: string): string {
+  // If it's plain JSON, parse directly
+  if (text.startsWith('{')) {
+    const data = JSON.parse(text);
+    return data.choices?.[0]?.message?.content
+      || data.choices?.[0]?.message?.reasoning_content
+      || '';
+  }
+
+  // SSE format: concatenate all data chunks
+  let fullContent = '';
+  let fullReasoning = '';
+  for (const line of text.split('\n')) {
+    if (!line.startsWith('data: ')) continue;
+    const payload = line.slice(6).trim();
+    if (payload === '[DONE]') break;
+    try {
+      const chunk = JSON.parse(payload);
+      const msg = chunk.choices?.[0]?.message;
+      const delta = chunk.choices?.[0]?.delta;
+      if (msg) {
+        fullContent += msg.content || '';
+        fullReasoning += msg.reasoning_content || '';
+      }
+      if (delta) {
+        fullContent += delta.content || '';
+        fullReasoning += delta.reasoning_content || '';
+      }
+    } catch {
+      // skip parse errors
+    }
+  }
+
+  return fullContent || fullReasoning || '';
 }
 
 export async function aiChat(messages: ChatMessage[], maxTokens = 500): Promise<string> {
@@ -29,11 +69,11 @@ export async function aiChat(messages: ChatMessage[], maxTokens = 500): Promise<
     throw new Error(`AI API ${res.status}: ${err.slice(0, 200)}`);
   }
 
-  const data = await res.json();
-  return data.choices?.[0]?.message?.content || 'No response from AI.';
+  const text = await res.text();
+  return parseSSEResponse(text) || 'No response from AI.';
 }
 
-// Legacy wrapper — used by /api/chat/route.ts
+// Legacy streaming wrapper — used by /api/chat/route.ts
 export async function* chatCompletionStream(
   messages: ChatMessage[],
 ): AsyncGenerator<string> {
@@ -69,7 +109,8 @@ export async function* chatCompletionStream(
       if (data === '[DONE]') return;
       try {
         const parsed = JSON.parse(data);
-        const content = parsed.choices?.[0]?.delta?.content;
+        const content = parsed.choices?.[0]?.delta?.content
+          || parsed.choices?.[0]?.delta?.reasoning_content;
         if (content) yield content;
       } catch {
         // skip parse errors
