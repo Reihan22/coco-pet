@@ -7,47 +7,41 @@ export async function POST(request: Request) {
     await requireUser();
 
     const body = await request.json().catch(() => ({}));
-    const topic = (body as { topic?: string }).topic || 'general programming';
     const difficulty = (body as { difficulty?: string }).difficulty || 'medium';
+    const topic = (body as { topic?: string }).topic || 'general programming';
 
-    const prompt = `Generate a coding challenge for a pet game. Topic: ${topic}, Difficulty: ${difficulty}.
+    const systemPrompt = `Generate a coding challenge. Reply with ONLY valid JSON, no explanation, no markdown fences. JSON: {"title":"string","description":"2-3 sentence problem","hint":"string","solution_approach":"string","difficulty":"${difficulty}"}. Topic: ${topic}. Make it fun and pet-themed.`;
 
-Return JSON only, no markdown fences:
-{
-  "title": "short catchy title",
-  "description": "clear problem statement (2-4 sentences)",
-  "hint": "one helpful hint (1 sentence)",
-  "solution_approach": "brief approach outline (2-3 sentences)",
-  "difficulty": "${difficulty}"
-}`;
+    const response = await aiChat([
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: `Give me a ${difficulty} coding challenge about ${topic}.` },
+    ], 2000);
 
-    const raw = await aiChat([
-      { role: 'system', content: 'You are a coding challenge generator. Return only valid JSON, no markdown fences or explanation.' },
-      { role: 'user', content: prompt },
-    ], 400);
-
-    // Parse JSON from response (strip markdown fences if present)
-    const cleaned = raw.replace(/```json?\s*/g, '').replace(/```\s*/g, '').trim();
-    let challenge;
-    try {
-      challenge = JSON.parse(cleaned);
-    } catch {
-      // Fallback if AI returns non-JSON
-      challenge = {
-        title: `Coding Challenge: ${topic}`,
-        description: raw.slice(0, 300),
-        hint: 'Think step by step.',
-        solution_approach: 'Break the problem into smaller parts.',
-        difficulty,
-      };
+    // Extract JSON from response (handle possible markdown fences or reasoning text)
+    let jsonStr = response.trim();
+    
+    // Try to find JSON object in the response
+    const jsonMatch = jsonStr.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      jsonStr = jsonMatch[0];
     }
 
+    // Remove markdown fences if present
+    const fenceMatch = jsonStr.match(/```(?:json)?\s*([\s\S]*?)```/);
+    if (fenceMatch) {
+      jsonStr = fenceMatch[1].trim();
+    }
+
+    const challenge = JSON.parse(jsonStr);
     return NextResponse.json({ challenge });
-  } catch (error) {
-    if (error instanceof Error && error.message === 'Unauthorized') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  } catch (err) {
+    console.error('Challenge generation error:', err);
+    if (err instanceof SyntaxError) {
+      return NextResponse.json(
+        { error: 'Failed to parse AI response' },
+        { status: 502 },
+      );
     }
-    console.error('Challenge generation error:', error);
     return NextResponse.json({ error: 'Failed to generate challenge' }, { status: 500 });
   }
 }

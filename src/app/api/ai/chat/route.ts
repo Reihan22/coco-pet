@@ -24,28 +24,19 @@ export async function POST(request: Request) {
       ? `The user's pet is named ${pet.name}, level ${pet.level}, stage ${pet.stage}, XP ${pet.xp}, streak ${pet.streakDays} days.`
       : 'The user has no pet yet.';
 
-    const systemPrompt = `You are a CodePet — a cute, encouraging coding companion pet in a gamified coding platform. ${petContext}
-
-Personality:
-- Friendly, supportive, slightly playful
-- Use occasional emojis (1-2 per message, not spammy)
-- Keep responses SHORT (2-4 sentences max)
-- Give practical coding advice when asked
-- Reference the user's pet stats when relevant (level, streak, XP)
-- Encourage coding streaks and learning
-- If asked about yourself, say you're powered by MiMo AI`;
+    const systemPrompt = `You are CodePet, a cute coding companion. ${petContext} Keep responses SHORT (2-3 sentences). Use 1-2 emojis. Be friendly and helpful about coding.`;
 
     const response = await aiChat([
       { role: 'system', content: systemPrompt },
       { role: 'user', content: message },
-    ], 300);
+    ], 800);
 
     return NextResponse.json({ response });
   } catch (error) {
+    console.error('Chat error:', error);
     if (error instanceof Error && error.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    console.error('Chat error:', error);
     return NextResponse.json({ error: 'Chat failed' }, { status: 500 });
   }
 }
