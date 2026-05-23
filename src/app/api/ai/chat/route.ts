@@ -1,29 +1,51 @@
 import { NextResponse } from 'next/server';
 import { requireUser } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
+import { aiChat } from '@/lib/ai';
 
 export async function POST(request: Request) {
   try {
-    await requireUser();
+    const user = await requireUser();
 
     const body = await request.json().catch(() => ({}));
     const message = (body as { message?: string }).message || '';
 
-    // Stub: return mock pet response since AI endpoint not publicly reachable
-    const responses = [
-      "Hey there! I'm your CodePet buddy! 🐾 Let's code something awesome today!",
-      "Great question! Remember, every line of code you write makes me stronger! 💪",
-      "I believe in you! Keep coding and I'll keep evolving! 🌟",
-      "That's interesting! Have you tried using a different approach? I'm here to help! 🤖",
-      "You're doing amazing! Keep up the streak and I'll grow even more! 🔥",
-    ];
+    if (!message.trim()) {
+      return NextResponse.json({ error: 'Message required' }, { status: 400 });
+    }
 
-    const response = responses[Math.floor(Math.random() * responses.length)];
+    // Fetch pet info for context
+    const pet = await prisma.pet.findUnique({
+      where: { userId: user.id },
+      select: { name: true, level: true, stage: true, xp: true, streak: true },
+    });
+
+    const petContext = pet
+      ? `The user's pet is named ${pet.name}, level ${pet.level}, stage ${pet.stage}, XP ${pet.xp}, streak ${pet.streak} days.`
+      : 'The user has no pet yet.';
+
+    const systemPrompt = `You are a CodePet — a cute, encouraging coding companion pet in a gamified coding platform. ${petContext}
+
+Personality:
+- Friendly, supportive, slightly playful
+- Use occasional emojis (1-2 per message, not spammy)
+- Keep responses SHORT (2-4 sentences max)
+- Give practical coding advice when asked
+- Reference the user's pet stats when relevant (level, streak, XP)
+- Encourage coding streaks and learning
+- If asked about yourself, say you're powered by MiMo AI`;
+
+    const response = await aiChat([
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: message },
+    ], 300);
 
     return NextResponse.json({ response });
   } catch (error) {
     if (error instanceof Error && error.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+    console.error('Chat error:', error);
     return NextResponse.json({ error: 'Chat failed' }, { status: 500 });
   }
 }

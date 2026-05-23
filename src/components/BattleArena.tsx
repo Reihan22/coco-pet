@@ -183,6 +183,32 @@ export default function BattleArena({ battleId }: { battleId: string }) {
 
   if (!battle) return null;
 
+  // Waiting state - no opponent yet
+  if (battle.status === 'waiting' && !battle.opponent) {
+    return (
+      <div style={{ textAlign: 'center', padding: 60 }}>
+        <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 18, color: '#ffd700', marginBottom: 16, animation: 'pulse-glow 2s ease-in-out infinite' }}>
+          ⏳ Waiting for opponent...
+        </div>
+        <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 10, color: '#666', marginBottom: 24 }}>
+          Share your challenge link or wait for someone to join
+        </div>
+        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#888' }}>
+          Battle ID: {battle.id}
+        </div>
+        <button
+          onClick={() => router.push('/dashboard/battles')}
+          style={{
+            marginTop: 24, fontFamily: "'Press Start 2P', monospace", fontSize: 9, padding: '10px 20px',
+            border: '2px solid #ff6b35', background: 'rgba(255,107,53,0.1)', color: '#ff6b35', cursor: 'pointer',
+          }}
+        >
+          ← BACK TO BATTLES
+        </button>
+      </div>
+    );
+  }
+
   const isChallenger = currentUserId === battle.challengerId;
   const myRole = isChallenger ? 'challenger' : 'opponent';
   const myUser = isChallenger ? battle.challenger : battle.opponent;

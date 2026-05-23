@@ -234,9 +234,9 @@ export default function HomePage() {
           display: 'flex', justifyContent: 'center', gap: 40, flexWrap: 'wrap',
           maxWidth: 700, margin: '0 auto',
         }}>
-          <StatBox label="Developers" value={stats.users} color="#00ffd5" />
-          <StatBox label="Battles" value={stats.battles} color="#ff2d78" />
-          <StatBox label="Guilds" value={stats.guilds} color="#b44dff" />
+          <StatBox label={stats.users === 1 ? 'Developer' : 'Developers'} value={stats.users} color="#00ffd5" />
+          <StatBox label={stats.battles === 1 ? 'Battle' : 'Battles'} value={stats.battles} color="#ff2d78" />
+          <StatBox label={stats.guilds === 1 ? 'Guild' : 'Guilds'} value={stats.guilds} color="#b44dff" />
         </div>
       </section>
 

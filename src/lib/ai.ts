@@ -4,12 +4,12 @@ const AI_MODEL = process.env.AI_MODEL || 'MiMo-V2.5-Pro';
 
 export const AI_LABEL = process.env.NEXT_PUBLIC_AI_LABEL || 'Xiaomi MiMo V2.5 Pro';
 
-interface ChatMessage {
+export interface ChatMessage {
   role: 'system' | 'user' | 'assistant';
   content: string;
 }
 
-export async function chatCompletion(messages: ChatMessage[]): Promise<string> {
+export async function aiChat(messages: ChatMessage[], maxTokens = 500): Promise<string> {
   const res = await fetch(`${AI_ENDPOINT}/chat/completions`, {
     method: 'POST',
     headers: {
@@ -19,15 +19,21 @@ export async function chatCompletion(messages: ChatMessage[]): Promise<string> {
     body: JSON.stringify({
       model: AI_MODEL,
       messages,
-      max_tokens: 500,
+      max_tokens: maxTokens,
       temperature: 0.8,
     }),
   });
-  if (!res.ok) throw new Error(`AI API error: ${res.status}`);
+
+  if (!res.ok) {
+    const err = await res.text().catch(() => '');
+    throw new Error(`AI API ${res.status}: ${err.slice(0, 200)}`);
+  }
+
   const data = await res.json();
-  return data.choices[0].message.content;
+  return data.choices?.[0]?.message?.content || 'No response from AI.';
 }
 
+// Legacy wrapper — used by /api/chat/route.ts
 export async function* chatCompletionStream(
   messages: ChatMessage[],
 ): AsyncGenerator<string> {
@@ -45,10 +51,12 @@ export async function* chatCompletionStream(
       stream: true,
     }),
   });
+
   if (!res.ok || !res.body) throw new Error(`AI API error: ${res.status}`);
   const reader = res.body.getReader();
   const decoder = new TextDecoder();
   let buffer = '';
+
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
@@ -68,4 +76,9 @@ export async function* chatCompletionStream(
       }
     }
   }
+}
+
+// Legacy wrapper — used by /api/challenges/generate/route.ts
+export async function chatCompletion(messages: ChatMessage[]): Promise<string> {
+  return aiChat(messages, 500);
 }
