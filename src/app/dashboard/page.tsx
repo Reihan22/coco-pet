@@ -42,6 +42,10 @@ interface PetData {
   personalityUnlocked?: boolean;
   skills?: any[];
   activeSkills?: string[];
+  equippedSkinId?: string | null;
+  equippedAccessoryId?: string | null;
+  equippedSkin?: { palette?: any; accessory?: string | null; animation?: string | null } | null;
+  equippedAccessory?: { palette?: any; accessory?: string | null; animation?: string | null } | null;
 }
 
 interface UserData {
@@ -405,7 +409,13 @@ export default function DashboardPage() {
                   display: 'flex', justifyContent: 'center', alignItems: 'center',
                   padding: '20px 0', position: 'relative',
                 }}>
-                  <PixelPet stage={stage} mood={mood} level={pet.level} size="lg" />
+                  <PixelPet stage={stage} mood={mood} level={pet.level} size="lg"
+                    skin={pet.equippedSkin ? {
+                      palette: pet.equippedSkin.palette as any,
+                      accessory: pet.equippedAccessory?.accessory ?? pet.equippedSkin.accessory,
+                      animation: pet.equippedAccessory?.animation ?? pet.equippedSkin.animation,
+                    } : undefined}
+                  />
 
                   {/* XP popup */}
                   {xpPopup && (

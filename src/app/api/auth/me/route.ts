@@ -8,7 +8,7 @@ export async function GET() {
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
   }
 
-  const pet = await prisma.pet.findUnique({ where: { userId: user.id } });
+  const pet = await prisma.pet.findUnique({ where: { userId: user.id }, include: { equippedSkin: true, equippedAccessory: true } });
 
   return NextResponse.json({
     user: { id: user.id, username: user.username, email: user.email, githubUsername: user.githubUsername, tokens: user.tokens },
