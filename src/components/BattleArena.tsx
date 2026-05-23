@@ -122,6 +122,7 @@ export default function BattleArena({ battleId }: { battleId: string }) {
   const [myAnim, setMyAnim] = useState('');
   const [oppAnim, setOppAnim] = useState('');
   const [screenShake, setScreenShake] = useState(false);
+  const [waitingForOpponent, setWaitingForOpponent] = useState(false);
   const logRef = useRef<HTMLDivElement>(null);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -142,10 +143,22 @@ export default function BattleArena({ battleId }: { battleId: string }) {
         return;
       }
       const data = await res.json();
+      const oldTurnCount = battle?.turns?.length || 0;
+      const newTurnCount = data.battle?.turns?.length || 0;
+
+      // If new turn resolved, clear waiting + trigger animations
+      if (waitingForOpponent && newTurnCount > oldTurnCount) {
+        setWaitingForOpponent(false);
+        // Trigger opponent's response animation
+        setOppAnim('damage-anim');
+        setTimeout(() => setOppAnim(''), 400);
+      }
+
       setBattle(data.battle);
 
       if (data.battle.status === 'finished') {
         setShowVictory(true);
+        setWaitingForOpponent(false);
         if (pollRef.current) clearInterval(pollRef.current);
       }
     } catch {
@@ -153,7 +166,7 @@ export default function BattleArena({ battleId }: { battleId: string }) {
     } finally {
       setLoading(false);
     }
-  }, [battleId, router]);
+  }, [battleId, router, battle?.turns?.length, waitingForOpponent]);
 
   useEffect(() => {
     fetchBattle();
@@ -161,7 +174,7 @@ export default function BattleArena({ battleId }: { battleId: string }) {
     // Poll during active battle
     pollRef.current = setInterval(() => {
       fetchBattle();
-    }, 2000);
+    }, waitingForOpponent ? 1000 : 2000);
 
     return () => {
       if (pollRef.current) clearInterval(pollRef.current);
@@ -180,22 +193,6 @@ export default function BattleArena({ battleId }: { battleId: string }) {
     setActionLoading(true);
     setError('');
 
-    // Trigger animation based on action
-    if (action === 'attack') {
-      setMyAnim('attack-anim');
-      setTimeout(() => setOppAnim('damage-anim'), 300);
-      setTimeout(() => setScreenShake(true), 300);
-      setTimeout(() => { setMyAnim(''); setOppAnim(''); setScreenShake(false); }, 800);
-    } else if (action === 'defend') {
-      setMyAnim('defend-anim');
-      setTimeout(() => setMyAnim(''), 600);
-    } else if (action === 'special') {
-      setMyAnim('special-anim');
-      setTimeout(() => setOppAnim('damage-anim'), 400);
-      setTimeout(() => setScreenShake(true), 400);
-      setTimeout(() => { setMyAnim(''); setOppAnim(''); setScreenShake(false); }, 1000);
-    }
-
     try {
       const res = await fetch(`/api/battles/${battleId}/action`, {
         method: 'POST',
@@ -210,6 +207,14 @@ export default function BattleArena({ battleId }: { battleId: string }) {
         return;
       }
 
+      // Check if waiting for opponent's action
+      if (data.status === 'waiting_for_opponent') {
+        setWaitingForOpponent(true);
+        setActionLoading(false);
+        return;
+      }
+
+      setWaitingForOpponent(false);
       // Refresh battle
       await fetchBattle();
     } catch {
@@ -441,9 +446,22 @@ export default function BattleArena({ battleId }: { battleId: string }) {
 
           {/* Action Buttons */}
           {battle.status === 'active' && (
-            <div style={{
-              display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8,
-            }}>
+            <>
+              {waitingForOpponent && (
+                <div style={{
+                  fontFamily: "'Press Start 2P', monospace", fontSize: 10, color: '#00ffd5',
+                  textAlign: 'center', padding: 16,
+                  border: '2px dashed #00ffd5', background: 'rgba(0,255,213,0.08)',
+                  animation: 'pulse 2s ease-in-out infinite',
+                }}>
+                  ⏳ Waiting for opponent's move...
+                </div>
+              )}
+              <div style={{
+                display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8,
+                opacity: waitingForOpponent ? 0.4 : 1,
+                pointerEvents: waitingForOpponent ? 'none' : 'auto',
+              }}>
               {[
                 { key: 'attack', label: '⚔️ Attack', color: '#ff6b35', desc: 'Basic attack' },
                 { key: 'defend', label: '🛡️ Defend', color: '#00ffd5', desc: 'Halve incoming damage' },
@@ -471,6 +489,7 @@ export default function BattleArena({ battleId }: { battleId: string }) {
                 </button>
               ))}
             </div>
+            </>
           )}
 
           {/* Error */}

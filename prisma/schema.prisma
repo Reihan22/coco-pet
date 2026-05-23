@@ -78,6 +78,7 @@ model Battle {
   status        String    @default("waiting") @db.VarChar(15)
   winnerId      String?   @map("winner_id") @db.Uuid
   turns         Json      @default("[]")
+  pendingActions Json     @default("{}") @map("pending_actions")
   xpAwarded     Int       @default(0) @map("xp_awarded")
   createdAt     DateTime  @default(now()) @map("created_at")
   finishedAt    DateTime? @map("finished_at")
