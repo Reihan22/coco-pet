@@ -1,6 +1,61 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+
+// Animation CSS injected via style tag
+const battleAnimations = `
+@keyframes attackSlash {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(30px) scale(1.1); }
+  40% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes defendShield {
+  0% { transform: scale(1); opacity: 1; }
+  30% { transform: scale(1.3); opacity: 0.8; box-shadow: 0 0 30px rgba(0,255,213,0.8); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes specialBlast {
+  0% { transform: scale(1); filter: brightness(1); }
+  20% { transform: scale(1.2); filter: brightness(2); }
+  40% { transform: scale(0.9); filter: brightness(0.8); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+@keyframes damageFlash {
+  0% { background: rgba(255,0,0,0.5); }
+  50% { background: rgba(255,0,0,0.8); }
+  100% { background: transparent; }
+}
+
+@keyframes shakeScreen {
+  0%, 100% { transform: translateX(0); }
+  10% { transform: translateX(-8px) rotate(-1deg); }
+  20% { transform: translateX(8px) rotate(1deg); }
+  30% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  50% { transform: translateX(-4px); }
+  60% { transform: translateX(4px); }
+  70% { transform: translateX(-2px); }
+  80% { transform: translateX(2px); }
+}
+
+@keyframes critGlow {
+  0% { text-shadow: 0 0 5px #ffd700; }
+  50% { text-shadow: 0 0 30px #ffd700, 0 0 60px #ff6b35; }
+  100% { text-shadow: 0 0 5px #ffd700; }
+}
+
+.attack-anim { animation: attackSlash 0.6s ease-out; }
+.defend-anim { animation: defendShield 0.5s ease-out; }
+.special-anim { animation: specialBlast 0.8s ease-out; }
+.damage-anim { animation: damageFlash 0.3s ease-out; }
+.shake-anim { animation: shakeScreen 0.5s ease-out; }
+.crit-text { animation: critGlow 1s ease-in-out infinite; }
+`;
+
 import { useRouter } from 'next/navigation';
 import { calculateStats } from '@/lib/pet';
 import PixelPet from '@/components/PixelPet';
@@ -64,6 +119,9 @@ export default function BattleArena({ battleId }: { battleId: string }) {
   const [actionLoading, setActionLoading] = useState(false);
   const [error, setError] = useState('');
   const [showVictory, setShowVictory] = useState(false);
+  const [myAnim, setMyAnim] = useState('');
+  const [oppAnim, setOppAnim] = useState('');
+  const [screenShake, setScreenShake] = useState(false);
   const logRef = useRef<HTMLDivElement>(null);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -121,6 +179,22 @@ export default function BattleArena({ battleId }: { battleId: string }) {
     if (actionLoading || !battle || battle.status !== 'active') return;
     setActionLoading(true);
     setError('');
+
+    // Trigger animation based on action
+    if (action === 'attack') {
+      setMyAnim('attack-anim');
+      setTimeout(() => setOppAnim('damage-anim'), 300);
+      setTimeout(() => setScreenShake(true), 300);
+      setTimeout(() => { setMyAnim(''); setOppAnim(''); setScreenShake(false); }, 800);
+    } else if (action === 'defend') {
+      setMyAnim('defend-anim');
+      setTimeout(() => setMyAnim(''), 600);
+    } else if (action === 'special') {
+      setMyAnim('special-anim');
+      setTimeout(() => setOppAnim('damage-anim'), 400);
+      setTimeout(() => setScreenShake(true), 400);
+      setTimeout(() => { setMyAnim(''); setOppAnim(''); setScreenShake(false); }, 1000);
+    }
 
     try {
       const res = await fetch(`/api/battles/${battleId}/action`, {
@@ -242,6 +316,7 @@ export default function BattleArena({ battleId }: { battleId: string }) {
 
   return (
     <div style={{ position: 'relative' }}>
+      <style>{battleAnimations}</style>
       {/* Victory/Defeat Overlay */}
       {showVictory && battle.status === 'finished' && (
         <div style={{
@@ -326,18 +401,20 @@ export default function BattleArena({ battleId }: { battleId: string }) {
           {/* Fighters */}
           <div style={{
             display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: 16, alignItems: 'center',
-          }}>
+          }} className={screenShake ? 'shake-anim' : ''}>
             {/* My Bot */}
-            <FighterCard
-              username={`@${myUser.username}`}
-              petName={myUser.pet?.name || '???'}
-              stage={myUser.pet?.stage || 'egg'}
-              level={myUser.pet?.level || 1}
-              currentHp={myHp}
-              maxHp={myMaxHp}
-              hpPct={myHpPct}
-              isYou={true}
-            />
+            <div className={myAnim}>
+              <FighterCard
+                username={`@${myUser.username}`}
+                petName={myUser.pet?.name || '???'}
+                stage={myUser.pet?.stage || 'egg'}
+                level={myUser.pet?.level || 1}
+                currentHp={myHp}
+                maxHp={myMaxHp}
+                hpPct={myHpPct}
+                isYou={true}
+              />
+            </div>
 
             {/* VS */}
             <div style={{
@@ -348,16 +425,18 @@ export default function BattleArena({ battleId }: { battleId: string }) {
             </div>
 
             {/* Opponent Pet */}
-            <FighterCard
-              username={`@${oppUser.username}`}
-              petName={oppUser.pet?.name || '???'}
-              stage={oppUser.pet?.stage || 'egg'}
-              level={oppUser.pet?.level || 1}
-              currentHp={oppHp}
-              maxHp={oppMaxHp}
-              hpPct={oppHpPct}
-              isYou={false}
-            />
+            <div className={oppAnim}>
+              <FighterCard
+                username={`@${oppUser.username}`}
+                petName={oppUser.pet?.name || '???'}
+                stage={oppUser.pet?.stage || 'egg'}
+                level={oppUser.pet?.level || 1}
+                currentHp={oppHp}
+                maxHp={oppMaxHp}
+                hpPct={oppHpPct}
+                isYou={false}
+              />
+            </div>
           </div>
 
           {/* Action Buttons */}
@@ -426,8 +505,11 @@ export default function BattleArena({ battleId }: { battleId: string }) {
                     fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: evt.critical ? '#ffd700' : (evt.action === 'flee' && evt.success ? '#ffd700' : '#ccc'),
                     marginBottom: 2,
                     textShadow: evt.critical ? '0 0 8px rgba(255,215,0,0.5)' : 'none',
-                  }}>
-                    {evt.critical && <span style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#ffd700' }}>CRITICAL! </span>}
+                  }} className={evt.critical ? 'crit-text' : ''}>
+                    {evt.critical && <span style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#ffd700' }}>💥 CRITICAL! </span>}
+                    {evt.action === 'attack' && <span style={{ color: '#ff6b35' }}>⚔️ </span>}
+                    {evt.action === 'defend' && <span style={{ color: '#00ffd5' }}>🛡️ </span>}
+                    {evt.action === 'special' && <span style={{ color: '#ff2d78' }}>💥 </span>}
                     {evt.message}
                   </div>
                 ))}
@@ -475,7 +557,7 @@ function FighterCard({ username, petName, stage, level, currentHp, maxHp, hpPct,
       </div>
       <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#888', marginBottom: 8 }}>Lv.{level} {stage}</div>
       {/* HP Bar */}
-      <div style={{ background: '#1a1a1a', height: 14, borderRadius: 2, overflow: 'hidden', position: 'relative' }}>
+      <div style={{ width: '100%', minWidth: 120, background: '#1a1a1a', height: 18, borderRadius: 4, overflow: 'hidden', position: 'relative', border: '1px solid #333', boxShadow: `0 0 8px rgba(${hpPct > 50 ? '57,255,20' : hpPct > 25 ? '255,215,0' : '255,68,68'},0.3)` }}>
         <div style={{
           background: hpColor, height: '100%',
           width: `${hpPct}%`,
@@ -485,8 +567,8 @@ function FighterCard({ username, petName, stage, level, currentHp, maxHp, hpPct,
         <div style={{
           position: 'absolute', inset: 0,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontFamily: "'Press Start 2P', monospace", fontSize: 7, color: '#fff',
-          textShadow: '0 0 4px #000',
+          fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#fff',
+          textShadow: '0 0 6px #000, 0 1px 2px #000',
         }}>
           {currentHp} / {maxHp}
         </div>
