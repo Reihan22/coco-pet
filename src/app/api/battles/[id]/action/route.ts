@@ -11,6 +11,49 @@ import {
 } from '@/lib/battle';
 import { calculateLevel, calculateStage, calculateStats } from '@/lib/pet';
 
+// Personality multipliers for combat
+const PERSONALITY_MULTS: Record<string, { atkMult: number; defMult: number }> = {
+  aggressive: { atkMult: 1.15, defMult: 0.90 },
+  defensive: { atkMult: 0.90, defMult: 1.15 },
+  balanced: { atkMult: 1.10, defMult: 1.10 },
+  chaotic: { atkMult: 1.0, defMult: 1.0 }, // applied randomly per turn
+};
+
+// Apply skill boosts + personality multipliers to base stats
+function applyModifiers(baseStats: { hp: number; atk: number; def: number; spd: number }, pet: any) {
+  let { hp, atk, def, spd } = baseStats;
+
+  // Apply active skill boosts
+  const skills = Array.isArray(pet.skills) ? pet.skills as any[] : [];
+  const active = Array.isArray(pet.activeSkills) ? pet.activeSkills as string[] : [];
+  for (const skill of skills) {
+    if (!active.includes(skill.id)) continue;
+    if (skill.stat === 'atk') atk += skill.boost;
+    else if (skill.stat === 'def') def += skill.boost;
+    else if (skill.stat === 'spd') spd += skill.boost;
+    else if (skill.stat === 'hp') hp += skill.boost;
+  }
+
+  // Apply personality multipliers
+  const personality = pet.personality as string | null;
+  if (personality) {
+    const mults = PERSONALITY_MULTS[personality];
+    if (mults) {
+      if (personality === 'chaotic') {
+        // Random 0-25% boost each battle
+        const chaos = 1 + Math.random() * 0.25;
+        atk = Math.round(atk * chaos);
+        def = Math.round(def * chaos);
+      } else {
+        atk = Math.round(atk * mults.atkMult);
+        def = Math.round(def * mults.defMult);
+      }
+    }
+  }
+
+  return { hp, atk, def, spd };
+}
+
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
@@ -63,8 +106,8 @@ export async function POST(
     // Get stats for both pets using the battle engine's calculateStats
     const cStage = battle.challenger.pet.stage;
     const oStage = battle.opponent.pet.stage;
-    const challengerStats = calculateStats(battle.challenger.pet.level, cStage);
-    const opponentStats = calculateStats(battle.opponent.pet.level, oStage);
+    const challengerStats = applyModifiers(calculateStats(battle.challenger.pet.level, cStage), battle.challenger.pet);
+    const opponentStats = applyModifiers(calculateStats(battle.opponent.pet.level, oStage), battle.opponent.pet);
 
     // Rebuild fighter states from turn history
     let cState: FighterState = initFighterState(challengerStats.hp);
