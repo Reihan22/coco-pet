@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>100T Xiaomi MiMo — Submission Form</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --card: #12121a;
+    --border: rgba(255,255,255,0.08);
+    --accent: #00ffd5;
+    --pink: #ff2d78;
+    --gold: #ffd700;
+    --purple: #b44dff;
+    --text: #e0e0e0;
+    --muted: #666;
+    --input-bg: #0d0d14;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+  .container { max-width: 720px; margin: 0 auto; }
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .subtitle {
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 40px;
+  }
+  .subtitle a { color: var(--accent); text-decoration: none; }
+  .progress-bar {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 32px;
+  }
+  .progress-bar .step {
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border);
+    transition: background 0.3s;
+  }
+  .progress-bar .step.active { background: var(--accent); }
+  .progress-bar .step.done { background: var(--accent); opacity: 0.5; }
+  .section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s;
+  }
+  .section:hover { border-color: rgba(0,255,213,0.15); }
+  .section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title .num {
+    background: rgba(0,255,213,0.1);
+    color: var(--accent);
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  label .req { color: var(--pink); margin-left: 2px; }
+  label .hint {
+    font-weight: 400;
+    color: var(--muted);
+    font-size: 12px;
+    margin-left: 8px;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="url"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0,255,213,0.08);
+  }
+  textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+  select { cursor: pointer; appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%23666' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+  }
+  select option { background: var(--card); color: var(--text); }
+  .field { margin-bottom: 18px; }
+  .field:last-child { margin-bottom: 0; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .word-count {
+    text-align: right;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .word-count.warn { color: var(--gold); }
+  .word-count.over { color: var(--pink); }
+  .upload-area {
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    padding: 32px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .upload-area:hover { border-color: var(--accent); background: rgba(0,255,213,0.02); }
+  .upload-area input[type="file"] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer;
+  }
+  .upload-icon { font-size: 32px; margin-bottom: 8px; }
+  .upload-text { font-size: 13px; color: var(--muted); }
+  .upload-text strong { color: var(--accent); }
+  .file-list { margin-top: 12px; }
+  .file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0,255,213,0.04);
+    border: 1px solid rgba(0,255,213,0.1);
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-top: 6px;
+    font-size: 12px;
+  }
+  .file-item .remove {
+    color: var(--pink);
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    padding: 0 4px;
+  }
+  .preview-section {
+    background: var(--card);
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    padding: 28px;
+    margin-top: 24px;
+    display: none;
+  }
+  .preview-section h3 {
+    color: var(--accent);
+    margin-bottom: 16px;
+    font-size: 16px;
+  }
+  .preview-content {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    font-size: 13px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    max-height: 500px;
+    overflow-y: auto;
+    color: #ccc;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), #00c9a7);
+    color: #000;
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,255,213,0.3); }
+  .btn-secondary {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+  }
+  .btn-secondary:hover { background: rgba(0,255,213,0.05); }
+  .btn-copy {
+    background: rgba(180,77,255,0.15);
+    border: 1px solid rgba(180,77,255,0.3);
+    color: var(--purple);
+    font-size: 12px;
+    padding: 8px 16px;
+  }
+  .btn-copy:hover { background: rgba(180,77,255,0.25); }
+  .actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .email-hint {
+    background: rgba(255,215,0,0.06);
+    border: 1px solid rgba(255,215,0,0.15);
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--gold);
+    line-height: 1.6;
+  }
+  .email-hint code {
+    background: rgba(255,215,0,0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 12px;
+  }
+  @media (max-width: 600px) {
+    .row { grid-template-columns: 1fr; }
+    body { padding: 20px 12px; }
+    .section { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🤖 100T Xiaomi MiMo</h1>
+  <p class="subtitle">Submission Form — <a href="https://100t.xiaomimimo.com/" target="_blank">100位AI创作者计划</a></p>
+
+  <div class="progress-bar">
+    <div class="step active" id="prog-1"></div>
+    <div class="step" id="prog-2"></div>
+    <div class="step" id="prog-3"></div>
+    <div class="step" id="prog-4"></div>
+    <div class="step" id="prog-5"></div>
+  </div>
+
+  <!-- Section 1: Project Info -->
+  <div class="section">
+    <div class="section-title"><span class="num">1</span> 项目信息 / Project Info</div>
+    <div class="field">
+      <label>项目名称 Project Name <span class="req">*</span></label>
+      <input type="text" id="projectName" value="CodeBot — AI-Powered Mech Builder" placeholder="Your project name">
+    </div>
+    <div class="field">
+      <label>参赛类别 Category <span class="req">*</span></label>
+      <select id="category">
+        <option value="AI + Work">AI + Work (生产力工具 / Productivity)</option>
+        <option value="AI + Life">AI + Life (智能家居 / Smart Life)</option>
+        <option value="AI + Creation">AI + Creation (创作 / Creative)</option>
+        <option value="AI + Education">AI + Education (教育 / Learning)</option>
+        <option value="AI + Public Good">AI + Public Good (公益 / Social Impact)</option>
+        <option value="Open">Open (开放方向 / Open Direction)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>在线演示 Demo URL <span class="hint">(optional)</span></label>
+      <input type="url" id="demoUrl" value="https://coco-pet.vercel.app" placeholder="https://...">
+    </div>
+    <div class="field">
+      <label>源代码 GitHub URL <span class="hint">(optional)</span></label>
+      <input type="url" id="githubUrl" value="https://github.com/Reihan22/codebot" placeholder="https://github.com/...">
+    </div>
+  </div>
+
+  <!-- Section 2: Project Description -->
+  <div class="section">
+    <div class="section-title"><span class="num">2</span> 项目介绍 / Project Description <span class="hint">(≤500字)</span></div>
+    <div class="field">
+      <label>功能特点 Features <span class="req">*</span></label>
+      <textarea id="features" rows="6" placeholder="Describe your project's key features...">CodeBot is a web-based AI-powered virtual mech builder that gamifies the developer experience. Developers create and evolve a pixel-art mech robot that grows stronger with coding activity, AI-powered challenges, and turn-based combat — all powered by Xiaomi MiMo V2.5 Pro.
+
+Key AI Features:
+• AI Engineer Chat — Conversational AI assistant with streaming responses for coding advice and debugging help
+• Daily AI Challenges — Fresh coding challenges generated by MiMo, difficulty-scaled per user, auto-persisted and deduplicated
+• Bot Lore Generator — MiMo creates dramatic sci-fi backstories for each developer's mech with personalized narratives
+• AI Battle Commentary — Real-time AI-generated dramatic narration for mech duels
+• MiMo Token Usage Dashboard — Transparent public display of daily/monthly AI token consumption
+
+Gamification Loop: Code → Earn XP → Evolve Mech → Unlock Features → Battle → Join Guilds → More Code
+5 evolution stages: Frame → Chassis → Armor → Full Mech → Legend</textarea>
+      <div class="word-count" id="features-count">0 / 500</div>
+    </div>
+    <div class="field">
+      <label>技术方案 Technical Approach <span class="req">*</span></label>
+      <textarea id="techApproach" rows="4" placeholder="Tech stack, AI integration details...">• Framework: Next.js 16 (App Router) with TypeScript, deployed on Vercel
+• Database: PostgreSQL via Prisma 6 ORM (Neon serverless)
+• AI: Xiaomi MiMo V2.5 Pro via OpenAI-compatible API with SSE streaming and reasoning_content field support (MiMo-specific chain-of-thought)
+• Auth: Session-based with bcrypt hashing
+• Design: Pixel art aesthetic with self-hosted Press Start 2P + JetBrains Mono fonts</textarea>
+      <div class="word-count" id="tech-count">0 / 500</div>
+    </div>
+  </div>
+
+  <!-- Section 3: Media -->
+  <div class="section">
+    <div class="section-title"><span class="num">3</span> 媒体素材 / Media <span class="hint">(video ≤3min or screenshots)</span></div>
+    <div class="field">
+      <label>演示视频 Demo Video URL <span class="hint">(YouTube/Bilibili/etc)</span></label>
+      <input type="url" id="videoUrl" placeholder="https://youtube.com/watch?v=...">
+    </div>
+    <div class="field">
+      <label>截图 Screenshots</label>
+      <div class="upload-area" id="uploadArea">
+        <input type="file" id="screenshots" accept="image/*" multiple>
+        <div class="upload-icon">📸</div>
+        <div class="upload-text"><strong>Click to upload</strong> or drag and drop</div>
+        <div class="upload-text" style="font-size:11px;margin-top:4px">PNG, JPG, WebP — max 10MB each</div>
+      </div>
+      <div class="file-list" id="fileList"></div>
+    </div>
+  </div>
+
+  <!-- Section 4: Team / Personal -->
+  <div class="section">
+    <div class="section-title"><span class="num">4</span> 个人/团队介绍 / Team Intro <span class="hint">(≤100字)</span></div>
+    <div class="field">
+      <label>团队名称 Team Name <span class="hint">(or your name)</span></label>
+      <input type="text" id="teamName" placeholder="Your name or team name">
+    </div>
+    <div class="field">
+      <label>简介 Bio <span class="req">*</span></label>
+      <textarea id="bio" rows="3" placeholder="Brief intro about yourself/team (≤100 words)..."></textarea>
+      <div class="word-count" id="bio-count">0 / 100</div>
+    </div>
+  </div>
+
+  <!-- Section 5: Contact -->
+  <div class="section">
+    <div class="section-title"><span class="num">5</span> 联系方式 / Contact</div>
+    <div class="row">
+      <div class="field">
+        <label>姓名 Name <span class="req">*</span></label>
+        <input type="text" id="contactName" placeholder="Your name">
+      </div>
+      <div class="field">
+        <label>电话 Phone <span class="req">*</span></label>
+        <input type="tel" id="phone" placeholder="+86 ...">
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label>微信 WeChat <span class="req">*</span></label>
+        <input type="text" id="wechat" placeholder="WeChat ID">
+      </div>
+      <div class="field">
+        <label>邮箱 Email <span class="hint">(optional)</span></label>
+        <input type="email" id="email" placeholder="you@email.com">
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions">
+    <button class="btn btn-primary" onclick="generatePreview()">📄 Generate Submission</button>
+  </div>
+
+  <!-- Preview -->
+  <div class="preview-section" id="preview">
+    <h3>📋 Generated Submission Package</h3>
+    <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+      <button class="btn btn-copy" onclick="copyText('emailBody')">📋 Copy Email Body</button>
+      <button class="btn btn-copy" onclick="copyText('subjectLine')">📋 Copy Subject</button>
+      <button class="btn btn-copy" onclick="downloadMd()">⬇️ Download .md</button>
+    </div>
+    <div id="subjectPreview" style="margin-bottom:12px;font-size:13px"></div>
+    <div class="preview-content" id="previewContent"></div>
+    <div class="email-hint">
+      📮 Send to: <code>ai100@xiaomi.com</code><br>
+      Subject: <code id="subjectCode"></code><br>
+      Attach: screenshots + demo video link
+    </div>
+  </div>
+</div>
+
+<script>
+  // Word count helpers
+  function countWords(text) {
+    const chinese = (text.match(/[\u4e00-\u9fff]/g) || []).length;
+    const english = text.replace(/[\u4e00-\u9fff]/g, '').trim().split(/\s+/).filter(w => w).length;
+    return chinese + english;
+  }
+
+  function updateCount(textareaId, countId, max) {
+    const ta = document.getElementById(textareaId);
+    const c = document.getElementById(countId);
+    const n = countWords(ta.value);
+    c.textContent = n + ' / ' + max;
+    c.className = 'word-count' + (n > max ? ' over' : n > max * 0.9 ? ' warn' : '');
+  }
+
+  document.getElementById('features').addEventListener('input', () => updateCount('features','features-count',500));
+  document.getElementById('techApproach').addEventListener('input', () => updateCount('tech','tech-count',500));
+  document.getElementById('bio').addEventListener('input', () => updateCount('bio','bio-count',100));
+
+  // Initialize counts
+  updateCount('features','features-count',500);
+  updateCount('tech','tech-count',500);
+  updateCount('bio','bio-count',100);
+
+  // File upload
+  const files = [];
+  document.getElementById('screenshots').addEventListener('change', function(e) {
+    for (const f of e.target.files) {
+      files.push(f);
+    }
+    renderFiles();
+  });
+
+  function removeFile(i) {
+    files.splice(i, 1);
+    renderFiles();
+  }
+
+  function renderFiles() {
+    const list = document.getElementById('fileList');
+    list.innerHTML = files.map((f, i) =>
+      `<div class="file-item"><span>🖼️ ${f.name} (${(f.size/1024).toFixed(0)}KB)</span><span class="remove" onclick="removeFile(${i})">×</span></div>`
+    ).join('');
+  }
+
+  // Progress bar
+  function updateProgress() {
+    const sections = document.querySelectorAll('.section');
+    sections.forEach((s, i) => {
+      const inputs = s.querySelectorAll('input, textarea, select');
+      let filled = 0;
+      inputs.forEach(inp => { if (inp.value.trim()) filled++; });
+      const step = document.getElementById('prog-' + (i + 1));
+      if (step) {
+        step.className = 'step' + (filled === inputs.length ? ' done' : filled > 0 ? ' active' : '');
+      }
+    });
+  }
+  document.querySelectorAll('input, textarea, select').forEach(el => {
+    el.addEventListener('input', updateProgress);
+  });
+
+  // Generate preview
+  function v(id) { return document.getElementById(id).value.trim(); }
+
+  let emailBodyText = '';
+  let subjectText = '';
+
+  function generatePreview() {
+    const name = v('contactName') || v('teamName') || '[Name]';
+    const team = v('teamName') || name;
+    const cat = v('category');
+
+    subjectText = `【AI创作者】${v('projectName')} — ${team}`;
+
+    emailBodyText = `# ${v('projectName')}
+
+## Basic Info
+- **Category:** ${cat}
+- **Team:** ${team}
+- **Demo:** ${v('demoUrl') || 'N/A'}
+- **GitHub:** ${v('githubUrl') || 'N/A'}
+- **Video:** ${v('videoUrl') || 'N/A'}
+
+---
+
+## 项目介绍 / Project Description
+
+### 功能特点 / Features
+
+${v('features')}
+
+### 技术方案 / Technical Approach
+
+${v('techApproach')}
+
+---
+
+## 个人/团队介绍 / Team Intro
+
+${v('bio')}
+
+---
+
+## 联系方式 / Contact
+
+- **Name:** ${name}
+- **Phone:** ${v('phone') || 'N/A'}
+- **WeChat:** ${v('wechat') || 'N/A'}
+- **Email:** ${v('email') || 'N/A'}
+
+---
+
+## Selection Criteria Alignment
+
+| Criteria | Weight | Strength |
+|----------|--------|----------|
+| Innovation | 30% | AI as core engine — challenges, lore, commentary all powered by MiMo |
+| Practicality | 25% | Working live demo with real developer use case |
+| Technical | 20% | Next.js 16, SSE streaming, MiMo reasoning_content integration |
+| Completion | 15% | Full stack: auth, battles, guilds, challenges, evolution |
+| Social Value | 10% | Open-source, community building, transparent AI usage |
+`;
+
+    document.getElementById('subjectCode').textContent = subjectText;
+    document.getElementById('subjectPreview').innerHTML = `<strong>Subject:</strong> <span style="color:var(--accent)">${subjectText}</span>`;
+    document.getElementById('previewContent').textContent = emailBodyText;
+    document.getElementById('preview').style.display = 'block';
+    document.getElementById('preview').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function copyText(type) {
+    const text = type === 'subjectLine' ? subjectText : emailBodyText;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = event.target;
+      const orig = btn.textContent;
+      btn.textContent = '✅ Copied!';
+      setTimeout(() => btn.textContent = orig, 1500);
+    });
+  }
+
+  function downloadMd() {
+    const blob = new Blob([emailBodyText], { type: 'text/markdown' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = '100t-mimo-submission.md';
+    a.click();
+  }
+</script>
+</body>
+</html>
