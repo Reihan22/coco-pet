@@ -2,7 +2,7 @@
 
 > Your virtual mech bot evolves with your coding activity. Build, code, battle — powered by **Xiaomi MiMo V2.5 Pro**.
 
-**Live:** [coco-pet.vercel.app](https://coco-pet.vercel.app)
+**Live:** [codebot-mimo.vercel.app](https://codebot-mimo.vercel.app)
 
 ---
 
