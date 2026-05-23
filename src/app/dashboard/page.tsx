@@ -181,10 +181,8 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ fontFamily: "var(--font-pixel)", fontSize: 12, color: '#00ffd5', animation: 'pulse-glow 2s ease-in-out infinite' }}>
-          Loading...
-        </div>
+      <div className="dash-loading">
+        <div className="dash-loading-text">Loading...</div>
       </div>
     );
   }
@@ -215,46 +213,20 @@ export default function DashboardPage() {
   return (
     <div style={{ minHeight: '100vh', position: 'relative' }}>
       {/* Background gradient orbs */}
-      <div style={{
-        position: 'fixed', top: '-20%', left: '-10%', width: '50vw', height: '50vw',
-        borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,255,213,0.04) 0%, transparent 70%)',
-        pointerEvents: 'none', zIndex: 0,
-      }} />
-      <div style={{
-        position: 'fixed', bottom: '-20%', right: '-10%', width: '50vw', height: '50vw',
-        borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,45,120,0.04) 0%, transparent 70%)',
-        pointerEvents: 'none', zIndex: 0,
-      }} />
+      <div className="bg-orb bg-orb--cyan" />
+      <div className="bg-orb bg-orb--pink" />
 
       {/* Navbar */}
-      <nav style={{
-        position: 'sticky', top: 0, left: 0, right: 0,
-        padding: '12px 24px',
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        background: 'rgba(10,10,15,0.9)',
-        backdropFilter: 'blur(12px)',
-        borderBottom: '1px solid rgba(255,255,255,0.05)',
-        zIndex: 100,
-      }}>
-        <Link href="/" style={{ textDecoration: 'none' }}>
-          <div style={{ fontFamily: "var(--font-pixel)", fontSize: 12, color: '#00ffd5' }}>
-            🤖 CodeBot
-          </div>
+      <nav className="dash-nav">
+        <Link href="/" className="nav-logo">
+          🤖 CodeBot
         </Link>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <span style={{
-            fontFamily: "var(--font-pixel)", fontSize: 8,
-            color: '#ffd700', background: 'rgba(255,215,0,0.1)',
-            padding: '4px 10px', borderRadius: 4,
-            border: '1px solid rgba(255,215,0,0.3)',
-          }}>
-            🪙 {user.tokens ?? 0}
-          </span>
-          <span style={{ fontSize: 12, color: '#666' }}>@{user.username}</span>
+        <div className="nav-right">
+          <span className="token-badge">🪙 {user.tokens ?? 0}</span>
+          <span className="nav-username">@{user.username}</span>
           <button
             onClick={handleLogout}
-            className="btn-pixel btn-pixel-pink"
-            style={{ fontSize: 8, padding: '6px 12px' }}
+            className="btn-pixel btn-pixel-pink nav-logout"
           >
             Logout
           </button>
@@ -262,153 +234,75 @@ export default function DashboardPage() {
       </nav>
 
       {/* Main content */}
-      <main style={{
-        maxWidth: 1100,
-        margin: '0 auto',
-        padding: '24px 20px 60px',
-        position: 'relative', zIndex: 1,
-      }}>
-        {/* Tab navigation */}
-        <div style={{ display: 'flex', gap: 8, marginBottom: 24 }}>
+      <main className="dash-main">
+        {/* Tab navigation + quick links */}
+        <div className="tab-bar">
           {(['overview', 'achievements', 'challenge'] as const).map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              style={{
-                fontFamily: "var(--font-pixel)",
-                fontSize: 9,
-                padding: '8px 16px',
-                border: `2px solid ${activeTab === tab ? '#00ffd5' : '#333'}`,
-                background: activeTab === tab ? 'rgba(0,255,213,0.1)' : 'transparent',
-                color: activeTab === tab ? '#00ffd5' : '#666',
-                cursor: 'pointer',
-                textTransform: 'uppercase',
-                transition: 'all 0.2s',
-              }}
+              className={`tab-btn ${activeTab === tab ? 'tab-btn--active' : ''}`}
             >
               {tab === 'overview' ? '🏠 Overview' : tab === 'achievements' ? '🏆 Achievements' : '🎮 Challenge'}
             </button>
           ))}
           <button
             onClick={() => setActiveTab('lab')}
-            style={{
-              fontFamily: "var(--font-pixel)",
-              fontSize: 9, padding: '8px 16px',
-              border: `2px solid ${activeTab === 'lab' ? '#b44dff' : '#333'}`,
-              background: activeTab === 'lab' ? 'rgba(180,77,255,0.12)' : 'transparent',
-              color: activeTab === 'lab' ? '#b44dff' : '#666',
-              cursor: 'pointer', textTransform: 'uppercase', transition: 'all 0.2s',
-            }}
+            className={`tab-btn ${activeTab === 'lab' ? 'tab-btn--lab' : ''}`}
           >
             🧬 MiMo Lab
           </button>
-          <div style={{ flex: 1 }} />
-          {/* Future nav links */}
-          <Link href="/skins" style={{
-            fontFamily: "var(--font-pixel)", fontSize: 8,
-            color: '#ffd700', padding: '8px 12px', textDecoration: 'none',
-            border: '1px solid #ffd700',
-          }}>
-            🎨 Paint
-          </Link>
-          <Link href="/dashboard/battles" style={{
-            fontFamily: "var(--font-pixel)", fontSize: 8,
-            color: '#ff6b35', padding: '8px 12px', textDecoration: 'none',
-            border: '1px solid #ff6b35',
-          }}>
-            ⚔️ Duels
-          </Link>
-          <Link href="/dashboard/friends" style={{
-            fontFamily: "var(--font-pixel)", fontSize: 8,
-            color: '#00ffd5', padding: '8px 12px', textDecoration: 'none',
-            border: '1px solid #00ffd5',
-          }}>
-            👥 Friends
-          </Link>
-          <Link href="/guild" style={{
-            fontFamily: "var(--font-pixel)", fontSize: 8,
-            color: '#b44dff', padding: '8px 12px', textDecoration: 'none',
-            border: '1px solid #b44dff',
-          }}>
-            🏰 Squad
-          </Link>
-          <Link href="/guild-wars" style={{
-            fontFamily: "var(--font-pixel)", fontSize: 8,
-            color: '#ff2d78', padding: '8px 12px', textDecoration: 'none',
-            border: '1px solid #ff2d78',
-          }}>
-            🏆 Squad Wars
-          </Link>
-          <Link href="/leaderboard" style={{
-            fontFamily: "var(--font-pixel)", fontSize: 8,
-            color: '#39ff14', padding: '8px 12px', textDecoration: 'none',
-            border: '1px solid #39ff14',
-          }}>
-            📊 Board
-          </Link>
+          <div className="tab-spacer" />
+          <div className="quick-links">
+            <Link href="/skins" className="quick-link quick-link--gold">🎨 Paint</Link>
+            <Link href="/dashboard/battles" className="quick-link quick-link--orange">⚔️ Duels</Link>
+            <Link href="/dashboard/friends" className="quick-link quick-link--cyan">👥 Friends</Link>
+            <Link href="/guild" className="quick-link quick-link--purple">🏰 Squad</Link>
+            <Link href="/guild-wars" className="quick-link quick-link--pink">🏆 Squad Wars</Link>
+            <Link href="/leaderboard" className="quick-link quick-link--lime">📊 Board</Link>
+          </div>
         </div>
 
         {activeTab === 'overview' ? (
           <div className="dashboard-grid">
             {/* Left column: Pet + Actions */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+            <div className="col-stack">
               {/* Pet card */}
-              <div className="card-retro" style={{ padding: 24 }}>
+              <div className="card-glass card-entrance" style={{ padding: 24 }}>
                 {/* Pet name - clickable to rename */}
-                <div style={{
-                  fontFamily: "var(--font-pixel)",
-                  fontSize: 11, color: '#00ffd5',
-                  marginBottom: 4, textAlign: 'center',
-                  position: 'relative',
-                }}>
+                <div className="pet-name">
                   {editingName ? (
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                    <div className="rename-form">
                       <input
                         value={botName}
                         onChange={(e) => { setBotName(e.target.value); setRenameError(''); }}
                         onKeyDown={(e) => { if (e.key === 'Enter') handleRename(); if (e.key === 'Escape') setEditingName(false); }}
                         maxLength={20}
                         autoFocus
-                        style={{
-                          background: 'rgba(0,255,213,0.08)', border: '1px solid #00ffd5',
-                          color: '#00ffd5', padding: '4px 8px', borderRadius: 4,
-                          fontFamily: "var(--font-pixel)", fontSize: 11,
-                          width: 160, textAlign: 'center', outline: 'none',
-                        }}
+                        className="rename-input"
                       />
-                      <div style={{ display: 'flex', gap: 6 }}>
-                        <button onClick={handleRename} style={{
-                          background: '#00ffd5', color: '#0a0a0f', border: 'none',
-                          padding: '3px 10px', borderRadius: 4, cursor: 'pointer',
-                          fontFamily: "var(--font-pixel)", fontSize: 7,
-                        }}>OK</button>
-                        <button onClick={() => setEditingName(false)} style={{
-                          background: 'rgba(255,255,255,0.1)', color: '#888', border: 'none',
-                          padding: '3px 10px', borderRadius: 4, cursor: 'pointer',
-                          fontFamily: "var(--font-pixel)", fontSize: 7,
-                        }}>X</button>
+                      <div className="rename-actions">
+                        <button onClick={handleRename} className="rename-btn-ok">OK</button>
+                        <button onClick={() => setEditingName(false)} className="rename-btn-cancel">X</button>
                       </div>
-                      {renameError && <span style={{ color: '#ff2d78', fontSize: 7 }}>{renameError}</span>}
+                      {renameError && <span className="rename-error">{renameError}</span>}
                     </div>
                   ) : (
                     <span
                       onClick={() => { setBotName(pet.name); setEditingName(true); setRenameError(''); }}
-                      style={{ cursor: 'pointer', borderBottom: '1px dashed rgba(0,255,213,0.3)' }}
+                      className="pet-name-text"
                       title="Click to rename your bot"
                     >
                       {pet.name} ✏️
                     </span>
                   )}
                 </div>
-                <div style={{ marginBottom: 12, textAlign: 'center' }}>
+                <div className="mood-area">
                   <MoodBadge hunger={pet.hunger} happiness={pet.happiness} level={pet.level} />
                 </div>
 
                 {/* Pet display */}
-                <div style={{
-                  display: 'flex', justifyContent: 'center', alignItems: 'center',
-                  padding: '20px 0', position: 'relative',
-                }}>
+                <div className="pet-display">
                   <PixelPet stage={stage} mood={mood} level={pet.level} size="lg"
                     skin={pet.equippedSkin ? {
                       palette: pet.equippedSkin.palette as any,
@@ -419,31 +313,25 @@ export default function DashboardPage() {
 
                   {/* XP popup */}
                   {xpPopup && (
-                    <div style={{
-                      position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
-                      fontFamily: "var(--font-pixel)",
-                      fontSize: 12, color: '#39ff14',
-                      animation: 'float-up-fade 2s ease-out forwards',
-                      pointerEvents: 'none',
-                    }}>
+                    <div className="xp-popup">
                       {xpPopup}
                     </div>
                   )}
                 </div>
 
                 {/* XP Bar */}
-                <div style={{ marginTop: 16 }}>
+                <div className="xp-pulse-wrap" style={{ marginTop: 16 }}>
                   <XPBar current={xp.current} max={xp.max} level={pet.level} />
                 </div>
 
                 {/* Action buttons */}
-                <div style={{ display: 'flex', gap: 12, marginTop: 20 }}>
+                <div className="action-btns">
                   <button
                     className="btn-pixel btn-pixel-lime"
                     onClick={handleFeed}
                     disabled={feedCooldown}
                     style={{
-                      flex: 1, opacity: feedCooldown ? 0.4 : 1,
+                      opacity: feedCooldown ? 0.4 : 1,
                       cursor: feedCooldown ? 'not-allowed' : 'pointer',
                     }}
                   >
@@ -454,7 +342,7 @@ export default function DashboardPage() {
                     onClick={handlePet}
                     disabled={petCooldown}
                     style={{
-                      flex: 1, opacity: petCooldown ? 0.4 : 1,
+                      opacity: petCooldown ? 0.4 : 1,
                       cursor: petCooldown ? 'not-allowed' : 'pointer',
                     }}
                   >
@@ -464,21 +352,15 @@ export default function DashboardPage() {
               </div>
 
               {/* Stats */}
-              <div className="card-retro" style={{ padding: 20 }}>
-                <h3 style={{
-                  fontFamily: "var(--font-pixel)",
-                  fontSize: 9, color: '#00ffd5',
-                  marginBottom: 16, letterSpacing: 1,
-                }}>
-                  STATS
-                </h3>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+              <div className="card-glass card-entrance" style={{ padding: 20 }}>
+                <h3 className="section-title">STATS</h3>
+                <div className="stats-grid">
                   <StatCard label="HP" value={pet.hp} icon="❤️" color="#ff2d78" />
                   <StatCard label="ATK" value={pet.atk} icon="⚔️" color="#ffd700" />
                   <StatCard label="DEF" value={pet.def} icon="🛡️" color="#00ffd5" />
                   <StatCard label="SPD" value={pet.spd} icon="💨" color="#b44dff" />
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, marginTop: 8 }}>
+                <div className="stats-grid--wide" style={{ marginTop: 8 }}>
                   <StatCard label="Power" value={`${pet.hunger}%`} icon="⚡" color="#ff2d78" />
                   <StatCard label="Morale" value={`${pet.happiness}%`} icon="😊" color="#39ff14" />
                   <StatCard label="Commits" value={pet.totalCommits} icon="💻" color="#00ffd5" />
@@ -487,45 +369,29 @@ export default function DashboardPage() {
             </div>
 
             {/* Right column: Build Phase + Activity */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+            <div className="col-stack">
               {/* Evolution Timeline */}
-              <div className="card-retro" style={{ padding: 20 }}>
+              <div className="card-glass card-entrance" style={{ padding: 20 }}>
                 <EvolutionTimeline stage={stage} level={pet.level} />
               </div>
 
               {/* Activity Feed */}
-              <div className="card-retro" style={{ padding: 20, flex: 1 }}>
-                <h3 style={{
-                  fontFamily: "var(--font-pixel)",
-                  fontSize: 9, color: '#00ffd5',
-                  marginBottom: 16, letterSpacing: 1,
-                }}>
-                  ACTIVITY
-                </h3>
+              <div className="card-glass card-entrance" style={{ padding: 20, flex: 1 }}>
+                <h3 className="section-title">ACTIVITY</h3>
                 <ActivityFeed activities={activities} />
               </div>
             </div>
           </div>
         ) : activeTab === 'achievements' ? (
           /* Achievements tab */
-          <div className="card-retro" style={{ padding: 24 }}>
+          <div className="card-glass card-entrance" style={{ padding: 24 }}>
             <Achievements pet={petState} />
           </div>
         ) : activeTab === 'lab' ? (
           /* MiMo Lab tab */
-          <div className="card-retro" style={{ padding: 24 }}>
-            <h3 style={{
-              fontFamily: "var(--font-pixel)",
-              fontSize: 11, color: '#b44dff',
-              marginBottom: 4,
-            }}>
-              🧬 MiMo Fusion Lab
-            </h3>
-            <p style={{
-              fontFamily: "var(--font-pixel)",
-              fontSize: 8, color: '#666',
-              marginBottom: 20, lineHeight: 1.6,
-            }}>
+          <div className="card-glass card-entrance" style={{ padding: 24 }}>
+            <h3 className="lab-title">🧬 MiMo Fusion Lab</h3>
+            <p className="lab-desc">
               AI-powered bot upgrades. Mine tokens, train skills, unlock personality, fuse for power.
             </p>
             <MiMoLab
@@ -542,7 +408,7 @@ export default function DashboardPage() {
           </div>
         ) : (
           /* Challenge tab */
-          <div className="card-retro" style={{ padding: 24 }}>
+          <div className="card-glass card-entrance" style={{ padding: 24 }}>
             <Challenge
               level={pet.level}
               challengesCompleted={pet.challengesCompleted ?? 0}
