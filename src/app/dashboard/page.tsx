@@ -14,6 +14,8 @@ import dynamic from 'next/dynamic';
 const Achievements = dynamic(() => import('@/components/Achievements'), { ssr: false });
 const Challenge = dynamic(() => import('@/components/Challenge'), { ssr: false });
 const MiMoLab = dynamic(() => import('@/components/MiMoLab'), { ssr: false });
+const BotLore = dynamic(() => import('@/components/BotLore'), { ssr: false });
+const DailyChallenge = dynamic(() => import('@/components/DailyChallenge'), { ssr: false });
 import {
   calculateMood,
   xpProgress,
@@ -64,7 +66,7 @@ export default function DashboardPage() {
   const [feedCooldown, setFeedCooldown] = useState(false);
   const [petCooldown, setPetCooldown] = useState(false);
   const [xpPopup, setXpPopup] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'overview' | 'achievements' | 'challenge' | 'lab'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'achievements' | 'challenge' | 'lab' | 'lore'>('overview');
   const [editingName, setEditingName] = useState(false);
   const [botName, setBotName] = useState('');
   const [renameError, setRenameError] = useState('');
@@ -265,6 +267,12 @@ export default function DashboardPage() {
           >
             🧬 MiMo Lab
           </button>
+          <button
+            onClick={() => setActiveTab('lore')}
+            className={`tab-btn ${activeTab === 'lore' ? 'tab-btn--lab' : ''}`}
+          >
+            📜 Bot Lore
+          </button>
           <div className="tab-spacer" />
           <div className="quick-links">
             <Link href="/skins" className="quick-link quick-link--gold">🎨 Paint</Link>
@@ -395,6 +403,12 @@ export default function DashboardPage() {
                 <h3 className="section-title">ACTIVITY</h3>
                 <ActivityFeed activities={activities} />
               </div>
+
+              {/* Daily Challenge */}
+              <div className="card-glass card-entrance" style={{ padding: 20 }}>
+                <h3 className="section-title">🎯 DAILY CHALLENGE</h3>
+                <DailyChallenge />
+              </div>
             </div>
           </div>
         ) : activeTab === 'achievements' ? (
@@ -420,6 +434,15 @@ export default function DashboardPage() {
               activeSkills={pet.activeSkills ?? []}
               onUpdate={refreshData}
             />
+          </div>
+        ) : activeTab === 'lore' ? (
+          /* Bot Lore tab */
+          <div className="card-glass card-entrance" style={{ padding: 24 }}>
+            <h3 className="lab-title">📜 Mech Backstory</h3>
+            <p className="lab-desc">
+              AI-generated lore for your mech. Discover its origin, defining battles, and destiny.
+            </p>
+            <BotLore userId={user.id} />
           </div>
         ) : (
           /* Challenge tab */

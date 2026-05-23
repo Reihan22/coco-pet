@@ -31,6 +31,8 @@ model User {
   activities       Activity[]
   skins            UserSkin[]
 
+  challenges       Challenge[]
+
   @@map("users")
 }
 
@@ -232,6 +234,25 @@ model TokenTransaction {
 
   @@index([userId, createdAt])
   @@map("token_transactions")
+}
+
+model Challenge {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId      String   @map("user_id") @db.Uuid
+  title       String   @db.VarChar(255)
+  description String?  @db.Text
+  difficulty  String   @default("medium") @db.VarChar(20)
+  xpReward    Int      @default(100) @map("xp_reward")
+  tokenReward Int      @default(20) @map("token_reward")
+  type        String   @default("standard") @db.VarChar(20)
+  status      String   @default("active") @db.VarChar(20)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([userId, type, createdAt])
+  @@map("challenges")
 }
 
 model FusionLog {

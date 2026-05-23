@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function HomePage() {
   const [loaded, setLoaded] = useState(false);
-  const [stats, setStats] = useState({ users: 0, battles: 0, guilds: 0 });
+  const [stats, setStats] = useState({ users: 0, battles: 0, guilds: 0, tokens_today: 0, tokens_month: 0 });
 
   useEffect(() => {
     setLoaded(true);
@@ -158,6 +158,46 @@ export default function HomePage() {
           <span style={{ fontSize: 14 }}>⚡</span>
           Powered by Xiaomi MiMo V2.5 Pro
         </div>
+
+        {/* MiMo Token Usage */}
+        {stats.tokens_month > 0 && (
+          <div
+            style={{
+              marginTop: 20,
+              display: 'flex',
+              gap: 24,
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+              opacity: loaded ? 1 : 0,
+              transition: 'all 0.8s ease 0.8s',
+            }}
+          >
+            <div style={{
+              background: 'rgba(0,255,213,0.08)',
+              border: '1px solid rgba(0,255,213,0.2)',
+              borderRadius: 8,
+              padding: '12px 24px',
+              textAlign: 'center',
+            }}>
+              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 18, color: '#00ffd5', marginBottom: 4 }}>
+                {(stats.tokens_today / 1000).toFixed(0)}K
+              </div>
+              <div style={{ fontSize: 11, color: '#888' }}>Tokens Today</div>
+            </div>
+            <div style={{
+              background: 'rgba(180,77,255,0.08)',
+              border: '1px solid rgba(180,77,255,0.2)',
+              borderRadius: 8,
+              padding: '12px 24px',
+              textAlign: 'center',
+            }}>
+              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: 18, color: '#b44dff', marginBottom: 4 }}>
+                {(stats.tokens_month / 1000000).toFixed(1)}M
+              </div>
+              <div style={{ fontSize: 11, color: '#888' }}>Tokens This Month</div>
+            </div>
+          </div>
+        )}
 
         <p
           style={{
