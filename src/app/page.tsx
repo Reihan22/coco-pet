@@ -265,38 +265,68 @@ function HeroPet() {
       {/* Glow */}
       <div style={{
         position: 'absolute', inset: -20, borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(0,255,213,0.15) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(0,229,255,0.15) 0%, transparent 70%)',
         animation: 'pulse-glow 3s ease-in-out infinite',
       }} />
-      {/* Bot body */}
-      <div
-        style={{
-          width: 120, height: 100,
-          borderRadius: '45% 45% 50% 50%',
-          background: 'linear-gradient(180deg, #00ffd5, #00b89c)',
-          border: '4px solid #00ffd5',
-          position: 'relative',
-          animation: 'bounce-soft 2s ease-in-out infinite',
-          boxShadow: '0 10px 40px rgba(0,255,213,0.25)',
-        }}
-      >
-        {/* Eyes */}
-        <div style={{ position: 'absolute', top: 28, left: 24, width: 20, height: 20, borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div className="animate-blink" style={{ fontSize: 14, color: '#0a0a0f' }}>●</div>
-        </div>
-        <div style={{ position: 'absolute', top: 28, right: 24, width: 20, height: 20, borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div className="animate-blink" style={{ fontSize: 14, color: '#0a0a0f' }}>●</div>
-        </div>
-        {/* Happy mouth */}
-        <div style={{ position: 'absolute', bottom: 22, left: '50%', transform: 'translateX(-50%)', width: 30, height: 14, borderRadius: '0 0 50% 50%', background: '#0a0a0f' }} />
-        {/* Blush */}
-        <div style={{ position: 'absolute', top: 40, left: 8, width: 16, height: 8, borderRadius: '50%', background: 'rgba(255,45,120,0.3)' }} />
-        <div style={{ position: 'absolute', top: 40, right: 8, width: 16, height: 8, borderRadius: '50%', background: 'rgba(255,45,120,0.3)' }} />
-      </div>
-      {/* Feet */}
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 30, marginTop: -6 }}>
-        <div style={{ width: 28, height: 14, borderRadius: '50%', background: '#008a72' }} />
-        <div style={{ width: 28, height: 14, borderRadius: '50%', background: '#008a72' }} />
+      <div style={{ animation: 'bounce-soft 2s ease-in-out infinite' }}>
+        <svg width="180" height="180" viewBox="0 0 180 180" style={{ imageRendering: 'pixelated' }}>
+          {/* Antenna */}
+          <rect x="86" y="12" width="8" height="16" fill="#5a6080" />
+          <rect x="82" y="8" width="16" height="8" rx="2" fill="#ff3d00" />
+          <circle cx="90" cy="12" r="3" fill="#ff3d00" opacity="0.9">
+            <animate attributeName="opacity" values="0.9;0.3;0.9" dur="1.5s" repeatCount="indefinite" />
+          </circle>
+          {/* Head */}
+          <rect x="50" y="28" width="80" height="52" rx="6" fill="#3a3f5c" />
+          <rect x="54" y="32" width="72" height="44" rx="4" fill="#5a6080" />
+          <rect x="62" y="34" width="56" height="8" rx="2" fill="#4a5070" />
+          {/* Visor */}
+          <rect x="58" y="44" width="64" height="20" rx="4" fill="#0a0e1a" />
+          <rect x="60" y="46" width="60" height="16" rx="3" fill="#00e5ff" opacity="0.15" />
+          {/* Eyes */}
+          <rect x="66" y="50" width="16" height="12" rx="2" fill="#ff3d00">
+            <animate attributeName="opacity" values="1;0.7;1" dur="2s" repeatCount="indefinite" />
+          </rect>
+          <rect x="98" y="50" width="16" height="12" rx="2" fill="#ff3d00">
+            <animate attributeName="opacity" values="1;0.7;1" dur="2s" repeatCount="indefinite" begin="0.3s" />
+          </rect>
+          <rect x="62" y="47" width="20" height="3" rx="1" fill="white" opacity="0.25" />
+          {/* Mouth grill */}
+          <rect x="72" y="68" width="36" height="4" fill="#0a0e1a" />
+          <rect x="72" y="74" width="36" height="4" fill="#0a0e1a" />
+          {/* Neck */}
+          <rect x="78" y="80" width="24" height="8" fill="#1a1e30" />
+          {/* Torso */}
+          <rect x="42" y="88" width="96" height="52" rx="6" fill="#3a3f5c" />
+          <rect x="46" y="92" width="88" height="44" rx="4" fill="#5a6080" />
+          <rect x="62" y="96" width="56" height="24" rx="4" fill="#4a5070" />
+          <circle cx="90" cy="108" r="8" fill="#76ff03" opacity="0.8">
+            <animate attributeName="opacity" values="0.8;0.3;0.8" dur="1.8s" repeatCount="indefinite" />
+            <animate attributeName="r" values="8;6;8" dur="1.8s" repeatCount="indefinite" />
+          </circle>
+          <rect x="66" y="124" width="48" height="3" fill="#1a1e30" />
+          {/* Arms */}
+          <rect x="22" y="92" width="16" height="40" rx="4" fill="#3a3f5c" />
+          <rect x="24" y="94" width="12" height="36" rx="3" fill="#5a6080" />
+          <rect x="22" y="132" width="16" height="8" rx="3" fill="#1a1e30" />
+          <rect x="20" y="140" width="20" height="14" rx="4" fill="#3a3f5c" />
+          <rect x="142" y="92" width="16" height="40" rx="4" fill="#3a3f5c" />
+          <rect x="144" y="94" width="12" height="36" rx="3" fill="#5a6080" />
+          <rect x="142" y="132" width="16" height="8" rx="3" fill="#1a1e30" />
+          <rect x="140" y="140" width="20" height="14" rx="4" fill="#3a3f5c" />
+          {/* Shoulders */}
+          <rect x="36" y="86" width="22" height="12" rx="4" fill="#4a5070" />
+          <rect x="122" y="86" width="22" height="12" rx="4" fill="#4a5070" />
+          {/* Legs */}
+          <rect x="54" y="140" width="24" height="20" rx="4" fill="#3a3f5c" />
+          <rect x="46" y="160" width="32" height="10" rx="4" fill="#4a5070" />
+          <rect x="102" y="140" width="24" height="20" rx="4" fill="#3a3f5c" />
+          <rect x="102" y="160" width="32" height="10" rx="4" fill="#4a5070" />
+          {/* Visor glow */}
+          <rect x="58" y="44" width="64" height="20" rx="4" fill="#00e5ff" opacity="0.08">
+            <animate attributeName="opacity" values="0.08;0.2;0.08" dur="2s" repeatCount="indefinite" />
+          </rect>
+        </svg>
       </div>
       {/* Code symbol */}
       <div style={{
@@ -305,12 +335,12 @@ function HeroPet() {
       }}>
         {'</>'}
       </div>
-      {/* Heart */}
+      {/* Lightning */}
       <div style={{
         position: 'absolute', top: 0, left: -16,
         fontSize: 18, animation: 'sparkle 2s ease-in-out infinite',
       }}>
-        ❤️
+        ⚡
       </div>
     </div>
   );

@@ -63,8 +63,10 @@ export default function PixelPet({ stage, mood, level, size = 'lg', skin }: Pixe
           fontFamily: "var(--font-pixel)",
           fontSize: Math.max(7, 9 * scale),
           padding: `${2 * scale}px ${6 * scale}px`,
+          borderRadius: 4 * scale,
           fontWeight: 'bold',
-          zIndex: 10,
+          letterSpacing: 1,
+          boxShadow: '0 0 8px rgba(255,215,0,0.4)',
         }}
       >
         LV.{level}
@@ -117,60 +119,43 @@ function Accessory({ type }: { type: string }) {
           border: '1px solid #ff2d78',
         }} />
       );
-    case 'glasses':
-      return (
-        <div style={{ position: 'absolute', top: 22, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 4 }}>
-          <div style={{ width: 16, height: 12, borderRadius: 4, border: '2px solid #0a0a0f', background: 'rgba(0,0,0,0.2)' }} />
-          <div style={{ width: 4, height: 2, background: '#0a0a0f', alignSelf: 'center' }} />
-          <div style={{ width: 16, height: 12, borderRadius: 4, border: '2px solid #0a0a0f', background: 'rgba(0,0,0,0.2)' }} />
-        </div>
-      );
-    case 'hat':
-      return (
-        <div style={{ position: 'absolute', top: -18, left: '50%', transform: 'translateX(-50%)' }}>
-          <div style={{ width: 50, height: 4, background: '#39ff14', borderRadius: 2 }} />
-          <div style={{ width: 30, height: 20, background: '#39ff14', margin: '0 auto', borderRadius: '4px 4px 0 0' }} />
-        </div>
-      );
-    case 'wings':
-      return (
-        <>
-          <div style={{ position: 'absolute', top: 0, left: -35, zIndex: -1 }}>
-            <div style={{
-              width: 30, height: 45,
-              background: 'linear-gradient(135deg, #00ffd5, #b44dff)',
-              borderRadius: '50% 0 0 50%',
-              opacity: 0.7,
-              animation: 'wing-flap 0.6s ease-in-out infinite',
-              transformOrigin: 'right center',
-            }} />
-          </div>
-          <div style={{ position: 'absolute', top: 0, right: -35, zIndex: -1 }}>
-            <div style={{
-              width: 30, height: 45,
-              background: 'linear-gradient(225deg, #39ff14, #ff2d78)',
-              borderRadius: '0 50% 50% 0',
-              opacity: 0.7,
-              animation: 'wing-flap 0.6s ease-in-out infinite 0.3s',
-              transformOrigin: 'left center',
-            }} />
-          </div>
-        </>
-      );
-    case 'aura':
-      return (
-        <div style={{
-          position: 'absolute', inset: -20, borderRadius: '50%',
-          background: 'conic-gradient(from 0deg, #00ffd5, #39ff14, #ffd700, #ff2d78, #b44dff, #00ffd5)',
-          opacity: 0.15, animation: 'rainbow 3s linear infinite', filter: 'blur(12px)',
-          pointerEvents: 'none',
-        }} />
-      );
     default:
       return null;
   }
 }
 
+function Particles({ scale }: { scale: number }) {
+  const particles = Array.from({ length: 8 }, (_, i) => ({
+    x: Math.cos((i * Math.PI * 2) / 8) * 60,
+    y: Math.sin((i * Math.PI * 2) / 8) * 60,
+    delay: i * 0.15,
+    color: ['#00e5ff', '#76ff03', '#ffd700', '#ff3d00'][i % 4],
+  }));
+
+  return (
+    <>
+      {particles.map((p, i) => (
+        <div
+          key={i}
+          style={{
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            width: 6 * scale,
+            height: 6 * scale,
+            borderRadius: '50%',
+            background: p.color,
+            transform: `translate(${p.x}px, ${p.y}px)`,
+            animation: `legendParticle 1.5s ease-in-out ${p.delay}s infinite`,
+            boxShadow: `0 0 8px ${p.color}`,
+          }}
+        />
+      ))}
+    </>
+  );
+}
+
+/* ──────────────────── EGG = ROBOT CAPSULE ──────────────────── */
 function EggPet({ mood, level, skin }: { mood: PetMood; level: number; skin?: SkinData }) {
   const isHatching = level >= 4;
   const isHeavyHatch = level >= 5;
@@ -183,297 +168,361 @@ function EggPet({ mood, level, skin }: { mood: PetMood; level: number; skin?: Sk
       : { animation: 'egg-rock 1.5s ease-in-out infinite' };
 
   const glowIntensity = isHeavyHatch ? 0.6 : isHatching ? 0.3 : 0.15;
-  const glowColor = isHeavyHatch ? '255,215,0' : '0,255,213';
-  const bodyGrad = skin?.palette?.body
-    ? `linear-gradient(135deg, ${skin.palette.body}, ${skin.palette.body}99)`
-    : isHeavyHatch
-      ? 'linear-gradient(135deg, #3d3d6b, #5a4a2a)'
-      : isHatching
-        ? 'linear-gradient(135deg, #2a2a4a, #4a3a5a)'
-        : 'linear-gradient(135deg, #2a2a4a, #3d3d6b)';
-  const borderColor = skin?.palette?.accent ?? (isHeavyHatch ? '#ffd700' : '#555580');
-  const glowVar = skin?.palette?.glow ?? `rgba(${glowColor}, ${glowIntensity})`;
-  const spot1 = skin?.palette?.accent ?? '#00ffd5';
-  const spot2 = skin?.palette?.glow ?? '#ff2d78';
+  const glowColor = isHeavyHatch ? '255,215,0' : '0,229,255';
+
+  const body = skin?.palette?.body ?? '#3a3f5c';
+  const accent = skin?.palette?.accent ?? '#5a6080';
+  const visor = skin?.palette?.glow ?? '#00e5ff';
 
   return (
-    <div
-      style={{
-        width: 80, height: 100,
-        borderRadius: '50% 50% 50% 50% / 60% 60% 40% 40%',
-        background: bodyGrad,
-        border: `3px solid ${borderColor}`,
-        position: 'relative',
-        ...shakeStyle,
-        boxShadow: `0 0 ${20 + level * 10}px ${glowVar}, 0 0 ${40 + level * 15}px ${glowVar}`,
-        overflow: 'visible',
-      }}
-    >
-      <div style={{ position: 'absolute', top: 20, left: 15, width: 12, height: 12, borderRadius: '50%', background: spot1, opacity: 0.5 }} />
-      <div style={{ position: 'absolute', top: 40, right: 18, width: 8, height: 8, borderRadius: '50%', background: spot2, opacity: 0.5 }} />
-      <div style={{ position: 'absolute', bottom: 30, left: 25, width: 10, height: 10, borderRadius: '50%', background: skin?.palette?.accent ?? '#39ff14', opacity: 0.4 }} />
-
-      {isHatching && (
-        <>
-          <div style={{ position: 'absolute', top: '25%', left: '30%', width: isHeavyHatch ? 30 : 18, height: 2, background: isHeavyHatch ? '#ffd700' : '#aaa', transform: 'rotate(35deg)', opacity: crackIntensity, boxShadow: isHeavyHatch ? '0 0 8px #ffd700' : 'none', animation: isHeavyHatch ? 'crack-glow 0.5s ease-in-out infinite' : 'none' }} />
-          <div style={{ position: 'absolute', top: '45%', left: '20%', width: isHeavyHatch ? 35 : 15, height: 2, background: isHeavyHatch ? '#ffd700' : '#999', transform: 'rotate(-15deg)', opacity: crackIntensity, boxShadow: isHeavyHatch ? '0 0 8px #ffd700' : 'none', animation: isHeavyHatch ? 'crack-glow 0.5s ease-in-out infinite 0.2s' : 'none' }} />
-          <div style={{ position: 'absolute', top: '35%', right: '25%', width: 2, height: isHeavyHatch ? 25 : 12, background: isHeavyHatch ? '#ffd700' : '#aaa', opacity: crackIntensity * 0.8, boxShadow: isHeavyHatch ? '0 0 8px #ffd700' : 'none' }} />
-        </>
-      )}
-
-      {isHeavyHatch && (
-        <>
-          <div style={{ position: 'absolute', top: '55%', left: '35%', width: 25, height: 2, background: '#ffd700', transform: 'rotate(60deg)', boxShadow: '0 0 10px #ffd700', animation: 'crack-glow 0.4s ease-in-out infinite 0.3s' }} />
-          <div style={{ position: 'absolute', top: '20%', right: '30%', width: 20, height: 2, background: '#ffd700', transform: 'rotate(-45deg)', boxShadow: '0 0 10px #ffd700', animation: 'crack-glow 0.4s ease-in-out infinite 0.1s' }} />
-          <div style={{ position: 'absolute', top: '30%', left: '40%', width: 6, height: 6, borderRadius: '50%', background: '#ffd700', boxShadow: '0 0 12px #ffd700', animation: 'sparkle 1s ease-in-out infinite' }} />
-          <div style={{ position: 'absolute', top: '50%', left: '55%', width: 4, height: 4, borderRadius: '50%', background: '#ffd700', boxShadow: '0 0 8px #ffd700', animation: 'sparkle 1s ease-in-out infinite 0.5s' }} />
-        </>
-      )}
-
-      {mood === 'happy' && !isHatching && (
-        <div style={{ position: 'absolute', top: '30%', left: '35%', color: '#ffd700', fontSize: 24, animation: 'sparkle 2s ease-in-out infinite' }}>✨</div>
-      )}
-
-      {isHeavyHatch && (
-        <div style={{ position: 'absolute', inset: -10, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,215,0,0.2) 0%, transparent 70%)', animation: 'pulse-glow 1s ease-in-out infinite', pointerEvents: 'none' }} />
-      )}
+    <div style={{ position: 'relative', ...shakeStyle }}>
+      <svg width="140" height="170" viewBox="0 0 140 170" style={{ imageRendering: 'pixelated' }}>
+        {/* Base capsule */}
+        <rect x="30" y="30" width="80" height="110" rx="20" fill={body} />
+        <rect x="36" y="36" width="68" height="98" rx="16" fill={accent} />
+        {/* Visor slit */}
+        <rect x="45" y="70" width="50" height="16" rx="4" fill={visor} opacity="0.3">
+          <animate attributeName="opacity" values="0.3;0.6;0.3" dur="2s" repeatCount="indefinite" />
+        </rect>
+        {/* Panel lines */}
+        <rect x="50" y="50" width="40" height="4" rx="2" fill={body} opacity="0.6" />
+        <rect x="50" y="120" width="40" height="4" rx="2" fill={body} opacity="0.6" />
+        {/* Antenna nub */}
+        <rect x="64" y="18" width="12" height="16" rx="3" fill={accent} />
+        <circle cx="70" cy="18" r="5" fill={visor} opacity="0.5">
+          <animate attributeName="opacity" values="0.5;1;0.5" dur="1.2s" repeatCount="indefinite" />
+        </circle>
+        {/* Cracks */}
+        {isHatching && (
+          <g opacity={crackIntensity}>
+            <line x1="38" y1="60" x2="55" y2="80" stroke={visor} strokeWidth="2" />
+            <line x1="55" y1="80" x2="48" y2="100" stroke={visor} strokeWidth="2" />
+            {isHeavyHatch && (
+              <>
+                <line x1="90" y1="55" x2="78" y2="75" stroke={visor} strokeWidth="2" />
+                <line x1="78" y1="75" x2="88" y2="95" stroke={visor} strokeWidth="2" />
+              </>
+            )}
+          </g>
+        )}
+        {/* Glow */}
+        <rect x="30" y="30" width="80" height="110" rx="20" fill={visor} opacity={glowIntensity}>
+          <animate attributeName="opacity" values={`${glowIntensity};${glowIntensity * 0.5};${glowIntensity}`} dur="2s" repeatCount="indefinite" />
+        </rect>
+      </svg>
     </div>
   );
 }
 
+/* ──────────────────── BABY = SMALL ROBOT ──────────────────── */
 function BabyPet({ mood, skin }: { mood: PetMood; skin?: SkinData }) {
   const eyes = mood === 'sleepy' ? '−' : '●';
-  const bodyTop = skin?.palette?.body ?? '#00ffd5';
-  const bodyBottom = skin?.palette?.accent ?? '#00b89c';
-  const mouthColor = mood === 'happy' ? '#39ff14' : (skin?.palette?.glow ?? '#ffd700');
-  const blush = skin?.palette?.glow ?? 'rgba(255,45,120,0.3)';
-  const feetColor = skin?.palette?.accent ?? '#008a72';
+  const body = skin?.palette?.body ?? '#3a3f5c';
+  const accent = skin?.palette?.accent ?? '#5a6080';
+  const visor = skin?.palette?.glow ?? '#00e5ff';
+  const eyeColor = skin?.palette?.eye ?? '#ff3d00';
 
   return (
-    <div style={{ position: 'relative', animation: 'bounce-soft 2s ease-in-out infinite' }}>
-      <div
-        style={{
-          width: 80, height: 70,
-          borderRadius: '40% 40% 50% 50%',
-          background: `linear-gradient(180deg, ${bodyTop}, ${bodyBottom})`,
-          border: `3px solid ${bodyTop}`,
-          position: 'relative',
-          boxShadow: `0 8px 25px ${bodyTop}40`,
-        }}
-      >
-        <div style={{ position: 'absolute', top: 18, left: 16, width: 14, height: 14, borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10 }}>
-          <div className="animate-blink" style={{ color: skin?.palette?.eye ?? '#0a0a0f' }}>{eyes}</div>
-        </div>
-        <div style={{ position: 'absolute', top: 18, right: 16, width: 14, height: 14, borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10 }}>
-          <div className="animate-blink" style={{ color: skin?.palette?.eye ?? '#0a0a0f' }}>{eyes}</div>
-        </div>
-        <div style={{ position: 'absolute', bottom: 16, left: '50%', transform: 'translateX(-50%)', width: mood === 'happy' ? 20 : 10, height: mood === 'happy' ? 10 : 4, borderRadius: mood === 'happy' ? '0 0 50% 50%' : '0', background: mouthColor }} />
-        <div style={{ position: 'absolute', top: 28, left: 6, width: 12, height: 6, borderRadius: '50%', background: blush }} />
-        <div style={{ position: 'absolute', top: 28, right: 6, width: 12, height: 6, borderRadius: '50%', background: blush }} />
-      </div>
-      <div style={{ position: 'absolute', bottom: -8, left: 12, width: 20, height: 10, borderRadius: '50%', background: feetColor }} />
-      <div style={{ position: 'absolute', bottom: -8, right: 12, width: 20, height: 10, borderRadius: '50%', background: feetColor }} />
+    <div style={{
+      animation: mood === 'happy' ? 'float 2s ease-in-out infinite' : undefined,
+    }}>
+      <svg width="140" height="170" viewBox="0 0 140 170" style={{ imageRendering: 'pixelated' }}>
+        {/* Antenna */}
+        <rect x="64" y="14" width="12" height="14" rx="3" fill={accent} />
+        <circle cx="70" cy="14" r="5" fill={visor}>
+          <animate attributeName="opacity" values="1;0.4;1" dur="1.5s" repeatCount="indefinite" />
+        </circle>
+        {/* Head */}
+        <rect x="38" y="28" width="64" height="48" rx="10" fill={body} />
+        <rect x="42" y="32" width="56" height="40" rx="8" fill={accent} />
+        {/* Visor */}
+        <rect x="46" y="40" width="48" height="18" rx="4" fill="#0a0e1a" />
+        {/* Eyes */}
+        <text x="58" y="55" fill={eyeColor} fontSize="14" fontFamily="monospace" textAnchor="middle">{eyes}</text>
+        <text x="82" y="55" fill={eyeColor} fontSize="14" fontFamily="monospace" textAnchor="middle">{eyes}</text>
+        {/* Mouth grill */}
+        <rect x="56" y="62" width="28" height="3" fill="#0a0e1a" />
+        <rect x="56" y="67" width="28" height="3" fill="#0a0e1a" />
+        {/* Body */}
+        <rect x="42" y="80" width="56" height="44" rx="8" fill={body} />
+        <rect x="46" y="84" width="48" height="36" rx="6" fill={accent} />
+        {/* Chest light */}
+        <circle cx="70" cy="102" r="6" fill="#76ff03" opacity="0.8">
+          <animate attributeName="opacity" values="0.8;0.3;0.8" dur="1.8s" repeatCount="indefinite" />
+        </circle>
+        {/* Arms */}
+        <rect x="24" y="84" width="14" height="32" rx="4" fill={body} />
+        <rect x="26" y="86" width="10" height="28" rx="3" fill={accent} />
+        <rect x="102" y="84" width="14" height="32" rx="4" fill={body} />
+        <rect x="104" y="86" width="10" height="28" rx="3" fill={accent} />
+        {/* Legs */}
+        <rect x="48" y="124" width="18" height="24" rx="4" fill={body} />
+        <rect x="50" y="126" width="14" height="20" rx="3" fill={accent} />
+        <rect x="74" y="124" width="18" height="24" rx="4" fill={body} />
+        <rect x="76" y="126" width="14" height="20" rx="3" fill={accent} />
+        {/* Feet */}
+        <rect x="44" y="148" width="26" height="10" rx="4" fill={accent} />
+        <rect x="70" y="148" width="26" height="10" rx="4" fill={accent} />
+      </svg>
     </div>
   );
 }
 
+/* ──────────────────── JUNIOR = MEDIUM MECH ──────────────────── */
 function JuniorPet({ mood, skin }: { mood: PetMood; skin?: SkinData }) {
   const eyes = mood === 'sleepy' ? '−' : '★';
-  const bodyColor = skin?.palette?.body ?? '#b44dff';
-  const bodyDark = skin?.palette?.accent ?? '#7a2db8';
+  const body = skin?.palette?.body ?? '#4a2f8c';
+  const accent = skin?.palette?.accent ?? '#6b42b8';
+  const visor = skin?.palette?.glow ?? '#00e5ff';
+  const eyeColor = skin?.palette?.eye ?? '#76ff03';
 
   return (
-    <div style={{ position: 'relative', animation: 'walk 1.5s ease-in-out infinite' }}>
-      <div style={{ position: 'absolute', top: 35, left: -18, width: 20, height: 8, borderRadius: 4, background: bodyColor, transform: 'rotate(-20deg)', transformOrigin: 'right center', animation: 'wiggle 0.8s ease-in-out infinite' }} />
-      <div style={{ position: 'absolute', top: 35, right: -18, width: 20, height: 8, borderRadius: 4, background: bodyColor, transform: 'rotate(20deg)', transformOrigin: 'left center', animation: 'wiggle 0.8s ease-in-out infinite 0.4s' }} />
-      <div
-        style={{
-          width: 100, height: 90,
-          borderRadius: '45% 45% 40% 40%',
-          background: `linear-gradient(180deg, ${bodyColor}, ${bodyDark})`,
-          border: `3px solid ${bodyColor}`,
-          position: 'relative',
-          boxShadow: `0 8px 30px ${bodyColor}33`,
-        }}
-      >
-        <div style={{ position: 'absolute', top: 22, left: 20, width: 18, height: 18, borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}>
-          <div className="animate-blink" style={{ color: skin?.palette?.eye ?? '#0a0a0f', fontWeight: 'bold' }}>{eyes}</div>
-        </div>
-        <div style={{ position: 'absolute', top: 22, right: 20, width: 18, height: 18, borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}>
-          <div className="animate-blink" style={{ color: skin?.palette?.eye ?? '#0a0a0f', fontWeight: 'bold' }}>{eyes}</div>
-        </div>
-        <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)' }}>
-          {mood === 'happy' ? (
-            <div style={{ width: 24, height: 12, borderRadius: '0 0 50% 50%', background: skin?.palette?.eye ?? '#0a0a0f', border: `2px solid ${bodyColor}` }} />
-          ) : (
-            <div style={{ width: 20, height: 3, background: skin?.palette?.eye ?? '#0a0a0f', borderRadius: 2 }} />
-          )}
-        </div>
-        <div style={{ position: 'absolute', top: -14, left: '20%', width: 0, height: 0, borderLeft: '8px solid transparent', borderRight: '8px solid transparent', borderBottom: `16px solid ${bodyColor}` }} />
-        <div style={{ position: 'absolute', top: -20, left: '42%', width: 0, height: 0, borderLeft: '10px solid transparent', borderRight: '10px solid transparent', borderBottom: `22px solid ${bodyColor}` }} />
-        <div style={{ position: 'absolute', top: -14, right: '20%', width: 0, height: 0, borderLeft: '8px solid transparent', borderRight: '8px solid transparent', borderBottom: `16px solid ${bodyColor}` }} />
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 20, marginTop: -4 }}>
-        <div style={{ width: 22, height: 12, borderRadius: '50%', background: bodyDark }} />
-        <div style={{ width: 22, height: 12, borderRadius: '50%', background: bodyDark }} />
-      </div>
+    <div style={{
+      animation: mood === 'happy' ? 'float 2s ease-in-out infinite' : undefined,
+    }}>
+      <svg width="160" height="180" viewBox="0 0 160 180" style={{ imageRendering: 'pixelated' }}>
+        {/* Antenna array */}
+        <rect x="72" y="6" width="4" height="18" fill={accent} />
+        <rect x="84" y="6" width="4" height="18" fill={accent} />
+        <rect x="74" y="2" width="12" height="8" rx="2" fill={eyeColor} opacity="0.8">
+          <animate attributeName="opacity" values="0.8;0.3;0.8" dur="1.2s" repeatCount="indefinite" />
+        </rect>
+        {/* Head — angular */}
+        <polygon points="80,20 120,36 120,68 40,68 40,36" fill={body} />
+        <polygon points="80,24 114,38 114,64 46,64 46,38" fill={accent} />
+        {/* Visor */}
+        <rect x="48" y="40" width="64" height="16" rx="3" fill="#0a0e1a" />
+        <rect x="50" y="42" width="60" height="12" rx="2" fill={visor} opacity="0.12" />
+        {/* Eyes — wider */}
+        <rect x="54" y="44" width="18" height="8" rx="2" fill={eyeColor}>
+          <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite" />
+        </rect>
+        <rect x="88" y="44" width="18" height="8" rx="2" fill={eyeColor}>
+          <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite" begin="0.3s" />
+        </rect>
+        {/* Jaw grill */}
+        <rect x="56" y="60" width="48" height="3" fill="#0a0e1a" />
+        <rect x="60" y="64" width="40" height="2" fill="#0a0e1a" />
+        {/* Neck */}
+        <rect x="70" y="68" width="20" height="8" fill="#1a1e30" />
+        {/* Torso */}
+        <rect x="36" y="76" width="88" height="50" rx="6" fill={body} />
+        <rect x="40" y="80" width="80" height="42" rx="4" fill={accent} />
+        {/* Chest plate */}
+        <rect x="54" y="84" width="52" height="20" rx="4" fill={body} />
+        <circle cx="80" cy="94" r="7" fill="#76ff03" opacity="0.8">
+          <animate attributeName="opacity" values="0.8;0.3;0.8" dur="1.8s" repeatCount="indefinite" />
+          <animate attributeName="r" values="7;5;7" dur="1.8s" repeatCount="indefinite" />
+        </circle>
+        {/* Chest detail */}
+        <rect x="58" y="108" width="44" height="3" fill="#1a1e30" />
+        {/* Shoulder pads */}
+        <rect x="20" y="74" width="22" height="14" rx="4" fill={accent} />
+        <rect x="118" y="74" width="22" height="14" rx="4" fill={accent} />
+        <circle cx="26" cy="81" r="3" fill="#1a1e30" />
+        <circle cx="134" cy="81" r="3" fill="#1a1e30" />
+        {/* Arms */}
+        <rect x="16" y="88" width="18" height="36" rx="4" fill={body} />
+        <rect x="18" y="90" width="14" height="32" rx="3" fill={accent} />
+        <rect x="126" y="88" width="18" height="36" rx="4" fill={body} />
+        <rect x="128" y="90" width="14" height="32" rx="3" fill={accent} />
+        {/* Hands */}
+        <rect x="14" y="124" width="22" height="12" rx="4" fill={body} />
+        <rect x="124" y="124" width="22" height="12" rx="4" fill={body} />
+        {/* Legs */}
+        <rect x="46" y="126" width="24" height="28" rx="4" fill={body} />
+        <rect x="48" y="128" width="20" height="24" rx="3" fill={accent} />
+        <rect x="90" y="126" width="24" height="28" rx="4" fill={body} />
+        <rect x="92" y="128" width="20" height="24" rx="3" fill={accent} />
+        {/* Feet */}
+        <rect x="40" y="154" width="34" height="12" rx="4" fill={accent} />
+        <rect x="86" y="154" width="34" height="12" rx="4" fill={accent} />
+      </svg>
     </div>
   );
 }
 
+/* ──────────────────── SENIOR = ADVANCED MECH ──────────────────── */
 function SeniorPet({ mood, skin }: { mood: PetMood; skin?: SkinData }) {
   const eyes = mood === 'sleepy' ? '−' : '◆';
-  const bodyTop = skin?.palette?.body ?? '#ff2d78';
-  const bodyBottom = skin?.palette?.accent ?? '#cc1155';
-  const glow = skin?.palette?.glow ?? '#ff2d78';
+  const body = skin?.palette?.body ?? '#8b1a1a';
+  const accent = skin?.palette?.accent ?? '#cc2244';
+  const visor = skin?.palette?.glow ?? '#ff3d00';
+  const eyeColor = skin?.palette?.eye ?? '#00e5ff';
 
   return (
-    <div style={{ position: 'relative', animation: 'float 3s ease-in-out infinite' }}>
-      <div style={{
-        position: 'absolute', top: 10, left: -10, width: 130, height: 120,
-        background: `linear-gradient(180deg, ${bodyTop}, ${skin?.palette?.accent ?? '#b44dff'})`,
-        borderRadius: '30% 30% 50% 50%', opacity: 0.7,
-        clipPath: 'polygon(10% 0%, 90% 0%, 100% 100%, 80% 90%, 60% 100%, 40% 90%, 20% 100%, 0% 90%)',
-      }} />
-      <div
-        style={{
-          width: 110, height: 100,
-          borderRadius: '45% 45% 42% 42%',
-          background: `linear-gradient(180deg, ${bodyTop}, ${bodyBottom})`,
-          border: `3px solid ${bodyTop}`,
-          position: 'relative', zIndex: 2,
-          boxShadow: `0 0 30px ${glow}44, 0 0 60px ${glow}22`,
-        }}
-      >
-        <div style={{ position: 'absolute', top: -20, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 2 }}>
-          <div style={{ width: 0, height: 0, borderLeft: '8px solid transparent', borderRight: '8px solid transparent', borderBottom: `18px solid ${skin?.palette?.accent ?? '#ffd700'}` }} />
-          <div style={{ width: 0, height: 0, borderLeft: '10px solid transparent', borderRight: '10px solid transparent', borderBottom: `24px solid ${skin?.palette?.accent ?? '#ffd700'}`, marginTop: -6 }} />
-          <div style={{ width: 0, height: 0, borderLeft: '8px solid transparent', borderRight: '8px solid transparent', borderBottom: `18px solid ${skin?.palette?.accent ?? '#ffd700'}` }} />
-        </div>
-        <div style={{ position: 'absolute', top: 26, left: 22, width: 22, height: 22, borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>
-          <div className="animate-blink" style={{ color: skin?.palette?.eye ?? '#0a0a0f', fontWeight: 'bold' }}>{eyes}</div>
-        </div>
-        <div style={{ position: 'absolute', top: 26, right: 22, width: 22, height: 22, borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>
-          <div className="animate-blink" style={{ color: skin?.palette?.eye ?? '#0a0a0f', fontWeight: 'bold' }}>{eyes}</div>
-        </div>
-        <div style={{ position: 'absolute', bottom: 22, left: '50%', transform: 'translateX(-50%)' }}>
-          <div style={{
-            width: mood === 'happy' ? 30 : 20,
-            height: mood === 'happy' ? 14 : 4,
-            borderRadius: mood === 'happy' ? '0 0 50% 50%' : 2,
-            background: skin?.palette?.eye ?? '#0a0a0f', border: `2px solid ${skin?.palette?.accent ?? '#ffd700'}`,
-          }} />
-        </div>
-        <div style={{ position: 'absolute', top: 40, left: -16, width: 18, height: 30, borderRadius: 8, background: bodyBottom, border: `2px solid ${bodyTop}`, transform: 'rotate(-15deg)' }} />
-        <div style={{ position: 'absolute', top: 40, right: -16, width: 18, height: 30, borderRadius: 8, background: bodyBottom, border: `2px solid ${bodyTop}`, transform: 'rotate(15deg)' }} />
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 24, marginTop: -4, position: 'relative', zIndex: 2 }}>
-        <div style={{ width: 26, height: 14, borderRadius: '50%', background: bodyBottom, border: `2px solid ${bodyTop}` }} />
-        <div style={{ width: 26, height: 14, borderRadius: '50%', background: bodyBottom, border: `2px solid ${bodyTop}` }} />
-      </div>
+    <div style={{
+      animation: mood === 'happy' ? 'float 2s ease-in-out infinite' : undefined,
+    }}>
+      <svg width="170" height="185" viewBox="0 0 170 185" style={{ imageRendering: 'pixelated' }}>
+        {/* Horns / antenna */}
+        <polygon points="50,30 44,8 58,22" fill={accent} />
+        <polygon points="120,30 126,8 112,22" fill={accent} />
+        {/* Central antenna */}
+        <rect x="82" y="4" width="6" height="20" fill={body} />
+        <circle cx="85" cy="4" r="4" fill={visor}>
+          <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite" />
+        </circle>
+        {/* Head — V-shaped */}
+        <polygon points="85,22 130,40 130,72 40,72 40,40" fill={body} />
+        <polygon points="85,26 126,42 126,68 44,68 44,42" fill={accent} />
+        {/* Face plate */}
+        <rect x="48" y="42" width="74" height="22" rx="3" fill="#0a0e1a" />
+        <rect x="50" y="44" width="70" height="18" rx="2" fill={visor} opacity="0.1" />
+        {/* Eyes — sharp diamonds */}
+        <polygon points="62,53 70,45 78,53 70,61" fill={eyeColor}>
+          <animate attributeName="opacity" values="1;0.5;1" dur="1.5s" repeatCount="indefinite" />
+        </polygon>
+        <polygon points="92,53 100,45 108,53 100,61" fill={eyeColor}>
+          <animate attributeName="opacity" values="1;0.5;1" dur="1.5s" repeatCount="indefinite" begin="0.2s" />
+        </polygon>
+        {/* Jaw */}
+        <rect x="52" y="66" width="66" height="4" fill="#0a0e1a" />
+        {/* Neck — thick */}
+        <rect x="70" y="72" width="30" height="10" fill="#1a1e30" />
+        {/* Torso — wide */}
+        <polygon points="30,82 140,82 148,136 22,136" fill={body} />
+        <polygon points="34,86 136,86 142,132 28,132" fill={accent} />
+        {/* Core reactor */}
+        <circle cx="85" cy="106" r="10" fill={visor} opacity="0.7">
+          <animate attributeName="opacity" values="0.7;0.3;0.7" dur="1.5s" repeatCount="indefinite" />
+          <animate attributeName="r" values="10;7;10" dur="1.5s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="85" cy="106" r="5" fill="white" opacity="0.4" />
+        {/* Chest lines */}
+        <rect x="50" y="90" width="30" height="3" fill="#1a1e30" />
+        <rect x="90" y="90" width="30" height="3" fill="#1a1e30" />
+        <rect x="55" y="122" width="60" height="3" fill="#1a1e30" />
+        {/* Shoulder armor — large */}
+        <polygon points="8,76 36,76 40,98 12,94" fill={accent} />
+        <polygon points="134,76 162,76 158,98 128,94" fill={accent} />
+        <circle cx="20" cy="86" r="4" fill="#1a1e30" />
+        <circle cx="150" cy="86" r="4" fill="#1a1e30" />
+        {/* Arms — segmented */}
+        <rect x="10" y="98" width="20" height="18" rx="3" fill={body} />
+        <rect x="12" y="100" width="16" height="14" rx="2" fill={accent} />
+        <rect x="140" y="98" width="20" height="18" rx="3" fill={body} />
+        <rect x="142" y="100" width="16" height="14" rx="2" fill={accent} />
+        <rect x="8" y="116" width="24" height="14" rx="3" fill={body} />
+        <rect x="138" y="116" width="24" height="14" rx="3" fill={body} />
+        {/* Fists */}
+        <rect x="6" y="130" width="28" height="16" rx="5" fill={accent} />
+        <rect x="136" y="130" width="28" height="16" rx="5" fill={accent} />
+        {/* Legs — thick */}
+        <rect x="38" y="136" width="28" height="24" rx="4" fill={body} />
+        <rect x="40" y="138" width="24" height="20" rx="3" fill={accent} />
+        <rect x="104" y="136" width="28" height="24" rx="4" fill={body} />
+        <rect x="106" y="138" width="24" height="20" rx="3" fill={accent} />
+        {/* Knee joints */}
+        <circle cx="52" cy="160" r="4" fill="#1a1e30" />
+        <circle cx="118" cy="160" r="4" fill="#1a1e30" />
+        {/* Feet — armored */}
+        <rect x="32" y="160" width="40" height="14" rx="5" fill={accent} />
+        <rect x="98" y="160" width="40" height="14" rx="5" fill={accent} />
+        {/* Foot glow */}
+        <rect x="36" y="170" width="32" height="3" rx="1" fill={visor} opacity="0.3">
+          <animate attributeName="opacity" values="0.3;0.1;0.3" dur="1s" repeatCount="indefinite" />
+        </rect>
+        <rect x="102" y="170" width="32" height="3" rx="1" fill={visor} opacity="0.3">
+          <animate attributeName="opacity" values="0.3;0.1;0.3" dur="1s" repeatCount="indefinite" />
+        </rect>
+      </svg>
     </div>
   );
 }
 
+/* ──────────────────── LEGEND = EPIC TITAN MECH ──────────────────── */
 function LegendPet({ mood, skin }: { mood: PetMood; skin?: SkinData }) {
-  const bodyTop = skin?.palette?.body ?? '#ffd700';
-  const bodyBottom = skin?.palette?.accent ?? '#ff9500';
+  const body = skin?.palette?.body ?? '#1a1a2e';
+  const accent = skin?.palette?.accent ?? '#ffd700';
+  const visor = skin?.palette?.glow ?? '#00e5ff';
+  const eyeColor = skin?.palette?.eye ?? '#ff3d00';
 
   return (
-    <div style={{ position: 'relative', animation: 'float 3s ease-in-out infinite' }}>
-      <div style={{ position: 'absolute', top: -10, left: -40, zIndex: 0 }}>
-        <div style={{
-          width: 40, height: 60,
-          background: `linear-gradient(135deg, ${skin?.palette?.body ?? '#00ffd5'}, ${skin?.palette?.accent ?? '#b44dff'})`,
-          borderRadius: '50% 0 0 50%', opacity: 0.7,
-          animation: 'wing-flap 0.6s ease-in-out infinite',
-          transformOrigin: 'right center',
-        }} />
-      </div>
-      <div style={{ position: 'absolute', top: -10, right: -40, zIndex: 0 }}>
-        <div style={{
-          width: 40, height: 60,
-          background: `linear-gradient(225deg, ${skin?.palette?.accent ?? '#39ff14'}, ${skin?.palette?.glow ?? '#ff2d78'})`,
-          borderRadius: '0 50% 50% 0', opacity: 0.7,
-          animation: 'wing-flap 0.6s ease-in-out infinite 0.3s',
-          transformOrigin: 'left center',
-        }} />
-      </div>
-      <div style={{
-        position: 'absolute', inset: -15, borderRadius: '50%',
-        background: 'conic-gradient(from 0deg, #00ffd5, #39ff14, #ffd700, #ff2d78, #b44dff, #00ffd5)',
-        opacity: 0.2, animation: 'rainbow 3s linear infinite', filter: 'blur(8px)',
-      }} />
-      <div
-        style={{
-          width: 120, height: 110,
-          borderRadius: '45% 45% 42% 42%',
-          background: `linear-gradient(135deg, ${bodyTop}, ${bodyBottom})`,
-          border: `3px solid ${bodyTop}`,
-          position: 'relative', zIndex: 2,
-          boxShadow: `0 0 40px ${bodyTop}66, 0 0 80px ${bodyTop}33`,
-        }}
-      >
-        <div style={{
-          position: 'absolute', top: -30, left: '50%', transform: 'translateX(-50%)',
-          width: 60, height: 20, borderRadius: '50%',
-          border: `3px solid ${bodyTop}`,
-          boxShadow: `0 0 15px ${bodyTop}80`,
-          animation: 'float 2s ease-in-out infinite',
-        }} />
-        <div style={{ position: 'absolute', top: 28, left: 24, fontSize: 24, animation: 'blink 4s ease-in-out infinite' }}>
-          {mood === 'sleepy' ? '−' : '★'}
-        </div>
-        <div style={{ position: 'absolute', top: 28, right: 24, fontSize: 24, animation: 'blink 4s ease-in-out infinite 0.1s' }}>
-          {mood === 'sleepy' ? '−' : '★'}
-        </div>
-        <div style={{ position: 'absolute', bottom: 24, left: '50%', transform: 'translateX(-50%)' }}>
-          <div style={{
-            width: mood === 'happy' ? 36 : 24,
-            height: mood === 'happy' ? 16 : 5,
-            borderRadius: mood === 'happy' ? '0 0 50% 50%' : 3,
-            background: skin?.palette?.eye ?? '#0a0a0f',
-          }} />
-        </div>
-        <div style={{ position: 'absolute', top: 42, left: -20, width: 22, height: 34, borderRadius: 10, background: bodyBottom, border: `2px solid ${bodyTop}`, transform: 'rotate(-20deg)' }} />
-        <div style={{ position: 'absolute', top: 42, right: -20, width: 22, height: 34, borderRadius: 10, background: bodyBottom, border: `2px solid ${bodyTop}`, transform: 'rotate(20deg)' }} />
-        <div style={{ position: 'absolute', top: '55%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: 20 }}>⚡</div>
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 28, marginTop: -4, position: 'relative', zIndex: 2 }}>
-        <div style={{ width: 28, height: 16, borderRadius: '50%', background: bodyBottom, border: `2px solid ${bodyTop}` }} />
-        <div style={{ width: 28, height: 16, borderRadius: '50%', background: bodyBottom, border: `2px solid ${bodyTop}` }} />
-      </div>
+    <div style={{
+      animation: 'float 2s ease-in-out infinite',
+    }}>
+      <svg width="180" height="190" viewBox="0 0 180 190" style={{ imageRendering: 'pixelated' }}>
+        {/* Crown / crest */}
+        <polygon points="90,0 100,16 80,16" fill={accent} />
+        <polygon points="70,8 80,20 60,20" fill={accent} />
+        <polygon points="110,8 120,20 100,20" fill={accent} />
+        <rect x="56" y="16" width="68" height="6" rx="2" fill={accent} />
+
+        {/* Head — wide angular */}
+        <polygon points="90,22 140,42 140,76 40,76 40,42" fill={body} />
+        <polygon points="90,26 136,44 136,72 44,72 44,44" fill="#2a2e45" />
+        {/* Visor — full width */}
+        <rect x="44" y="44" width="92" height="20" rx="4" fill="#0a0e1a" />
+        <rect x="46" y="46" width="88" height="16" rx="3" fill={visor} opacity="0.15" />
+        {/* Eyes — glowing bars */}
+        <rect x="52" y="50" width="28" height="10" rx="2" fill={eyeColor}>
+          <animate attributeName="opacity" values="1;0.4;1" dur="1.2s" repeatCount="indefinite" />
+        </rect>
+        <rect x="100" y="50" width="28" height="10" rx="2" fill={eyeColor}>
+          <animate attributeName="opacity" values="1;0.4;1" dur="1.2s" repeatCount="indefinite" begin="0.2s" />
+        </rect>
+        {/* Visor reflection */}
+        <rect x="48" y="47" width="40" height="4" rx="2" fill="white" opacity="0.15" />
+        {/* Jaw grill */}
+        <rect x="56" y="68" width="68" height="3" fill="#0a0e1a" />
+        <rect x="60" y="73" width="60" height="2" fill="#0a0e1a" />
+
+        {/* Neck */}
+        <rect x="72" y="76" width="36" height="10" fill="#1a1e30" />
+
+        {/* Torso — massive */}
+        <polygon points="24,86 156,86 164,148 16,148" fill={body} />
+        <polygon points="28,90 152,90 158,144 22,144" fill="#2a2e45" />
+        {/* Core — double reactor */}
+        <circle cx="70" cy="114" r="10" fill={accent} opacity="0.7">
+          <animate attributeName="opacity" values="0.7;0.3;0.7" dur="1.2s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="110" cy="114" r="10" fill={visor} opacity="0.7">
+          <animate attributeName="opacity" values="0.7;0.3;0.7" dur="1.2s" repeatCount="indefinite" begin="0.3s" />
+        </circle>
+        <rect x="78" y="110" width="24" height="8" rx="2" fill="white" opacity="0.2" />
+        {/* Chest insignia */}
+        <polygon points="90,96 96,106 84,106" fill={accent} opacity="0.6" />
+        {/* Chest lines */}
+        <rect x="36" y="94" width="28" height="3" fill="#1a1e30" />
+        <rect x="116" y="94" width="28" height="3" fill="#1a1e30" />
+        <rect x="30" y="134" width="120" height="3" fill="#1a1e30" />
+
+        {/* Shoulder armor — massive with glow */}
+        <polygon points="2,78 32,78 38,106 6,100" fill={accent} />
+        <polygon points="148,78 178,78 174,100 142,106" fill={accent} />
+        <circle cx="16" cy="90" r="5" fill={visor} opacity="0.6">
+          <animate attributeName="opacity" values="0.6;0.2;0.6" dur="1.5s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="164" cy="90" r="5" fill={visor} opacity="0.6">
+          <animate attributeName="opacity" values="0.6;0.2;0.6" dur="1.5s" repeatCount="indefinite" begin="0.5s" />
+        </circle>
+
+        {/* Arms — armored */}
+        <rect x="4" y="106" width="24" height="20" rx="4" fill={body} />
+        <rect x="152" y="106" width="24" height="20" rx="4" fill={body} />
+        <rect x="2" y="126" width="28" height="16" rx="4" fill={body} />
+        <rect x="150" y="126" width="28" height="16" rx="4" fill={body} />
+        {/* Fists with glow */}
+        <rect x="0" y="142" width="32" height="18" rx="6" fill={accent} />
+        <rect x="148" y="142" width="32" height="18" rx="6" fill={accent} />
+        <rect x="4" y="152" width="24" height="4" rx="2" fill={visor} opacity="0.3" />
+        <rect x="152" y="152" width="24" height="4" rx="2" fill={visor} opacity="0.3" />
+
+        {/* Legs — heavy */}
+        <rect x="32" y="148" width="32" height="18" rx="4" fill={body} />
+        <rect x="116" y="148" width="32" height="18" rx="4" fill={body} />
+        <rect x="28" y="166" width="36" height="14" rx="5" fill={accent} />
+        <rect x="116" y="166" width="36" height="14" rx="5" fill={accent} />
+        {/* Foot thrusters */}
+        <rect x="32" y="178" width="28" height="6" rx="2" fill={visor} opacity="0.4">
+          <animate attributeName="opacity" values="0.4;0.15;0.4" dur="0.8s" repeatCount="indefinite" />
+        </rect>
+        <rect x="120" y="178" width="28" height="6" rx="2" fill={visor} opacity="0.4">
+          <animate attributeName="opacity" values="0.4;0.15;0.4" dur="0.8s" repeatCount="indefinite" begin="0.2s" />
+        </rect>
+      </svg>
     </div>
-  );
-}
-
-function Particles({ scale }: { scale: number }) {
-  const particles = Array.from({ length: 8 }, (_, i) => ({
-    delay: i * 0.4,
-    x: Math.cos((i / 8) * Math.PI * 2) * 60,
-    y: Math.sin((i / 8) * Math.PI * 2) * 60,
-    color: ['#00ffd5', '#39ff14', '#ffd700', '#ff2d78', '#b44dff'][i % 5],
-  }));
-
-  return (
-    <>
-      {particles.map((p, i) => (
-        <div
-          key={i}
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            width: 6,
-            height: 6,
-            borderRadius: '50%',
-            background: p.color,
-            boxShadow: `0 0 8px ${p.color}`,
-            transform: `translate(${p.x * scale}px, ${p.y * scale}px)`,
-            animation: `sparkle 2s ease-in-out infinite ${p.delay}s`,
-          }}
-        />
-      ))}
-    </>
   );
 }
