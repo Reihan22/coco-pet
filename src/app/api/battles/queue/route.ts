@@ -58,11 +58,23 @@ export async function POST(request: Request) {
   try {
     const user = await requireUser();
 
-    // BUG FIX 3: Real matchmaking — find another user already in queue (waiting battle)
+    // Clean up stale waiting battles (>2 min old)
+    const twoMinAgo = new Date(Date.now() - 2 * 60 * 1000);
+    await prisma.battle.deleteMany({
+      where: { status: 'waiting', createdAt: { lt: twoMinAgo } },
+    });
+
+    // Remove any existing waiting battle by this user (prevent double-queue)
+    await prisma.battle.deleteMany({
+      where: { challengerId: user.id, status: 'waiting' },
+    });
+
+    // Real matchmaking — find another user already in queue (recent waiting battle)
     const queuedBattle = await prisma.battle.findFirst({
       where: {
         status: 'waiting',
         challengerId: { not: user.id },
+        createdAt: { gte: twoMinAgo },
       },
       include: {
         challenger: { select: { id: true, username: true } },

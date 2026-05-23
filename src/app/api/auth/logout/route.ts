@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
+import { clearSessionCookie } from '@/lib/auth';
 
 export async function POST() {
-  const cookieStore = await cookies();
-  cookieStore.delete('codepet_session');
-  return NextResponse.json({ success: true });
+  const response = NextResponse.json({ success: true });
+  response.headers.set('Set-Cookie', clearSessionCookie());
+  return response;
 }
