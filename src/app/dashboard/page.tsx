@@ -242,6 +242,13 @@ export default function DashboardPage() {
           ))}
           <div style={{ flex: 1 }} />
           {/* Future nav links */}
+          <Link href="/skins" style={{
+            fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+            color: '#ffd700', padding: '8px 12px', textDecoration: 'none',
+            border: '1px solid #ffd700',
+          }}>
+            🎨 Skins
+          </Link>
           <Link href="/dashboard/battles" style={{
             fontFamily: "'Press Start 2P', monospace", fontSize: 8,
             color: '#ff6b35', padding: '8px 12px', textDecoration: 'none',
@@ -262,6 +269,20 @@ export default function DashboardPage() {
             border: '1px solid #b44dff',
           }}>
             🏰 Guild
+          </Link>
+          <Link href="/guild-wars" style={{
+            fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+            color: '#ff2d78', padding: '8px 12px', textDecoration: 'none',
+            border: '1px solid #ff2d78',
+          }}>
+            🏆 Wars
+          </Link>
+          <Link href="/leaderboard" style={{
+            fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+            color: '#39ff14', padding: '8px 12px', textDecoration: 'none',
+            border: '1px solid #39ff14',
+          }}>
+            📊 Board
           </Link>
         </div>
 
