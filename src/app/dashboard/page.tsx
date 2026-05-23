@@ -10,6 +10,7 @@ import StatCard from '@/components/StatCard';
 import ActivityFeed from '@/components/ActivityFeed';
 import EvolutionTimeline from '@/components/EvolutionTimeline';
 import Achievements from '@/components/Achievements';
+import Challenge from '@/components/Challenge';
 import {
   calculateMood,
   xpProgress,
@@ -221,7 +222,7 @@ export default function DashboardPage() {
       }}>
         {/* Tab navigation */}
         <div style={{ display: 'flex', gap: 8, marginBottom: 24 }}>
-          {(['overview', 'achievements'] as const).map(tab => (
+          {(['overview', 'achievements', 'challenge'] as const).map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -237,7 +238,7 @@ export default function DashboardPage() {
                 transition: 'all 0.2s',
               }}
             >
-              {tab === 'overview' ? '🏠 Overview' : '🏆 Achievements'}
+              {tab === 'overview' ? '🏠 Overview' : tab === 'achievements' ? '🏆 Achievements' : '🎮 Challenge'}
             </button>
           ))}
           <div style={{ flex: 1 }} />
@@ -400,10 +401,21 @@ export default function DashboardPage() {
               </div>
             </div>
           </div>
-        ) : (
+        ) : activeTab === 'achievements' ? (
           /* Achievements tab */
           <div className="card-retro" style={{ padding: 24 }}>
             <Achievements pet={petState} />
+          </div>
+        ) : (
+          /* Challenge tab */
+          <div className="card-retro" style={{ padding: 24 }}>
+            <Challenge
+              level={pet.level}
+              challengesCompleted={pet.challengesCompleted ?? 0}
+              onComplete={() => {
+                setPet((prev) => prev ? { ...prev, xp: prev.xp + 50, challengesCompleted: (prev.challengesCompleted ?? 0) + 1 } : prev);
+              }}
+            />
           </div>
         )}
       </main>

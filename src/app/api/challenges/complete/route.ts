@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { requireUser } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { calculateLevel, calculateStage, calculateStats } from '@/lib/pet';
 
 export async function POST() {
   try {
@@ -11,53 +10,28 @@ export async function POST() {
       return NextResponse.json({ error: 'Pet not found' }, { status: 404 });
     }
 
-    const xpGain = 50;
-    const newXp = pet.xp + xpGain;
-    const newLevel = calculateLevel(newXp);
-    const newStage = calculateStage(newLevel);
-    const stats = calculateStats(newLevel, newStage);
-    const oldStage = pet.stage;
+    const XP_REWARD = 50;
+    const newTotalXp = pet.xp + XP_REWARD;
+    const newLevel = Math.floor(1 + Math.sqrt(newTotalXp / 50));
+    const challengesCompleted = (pet.challengesCompleted ?? 0) + 1;
 
-    const result = await prisma.$transaction(async (tx) => {
-      const updated = await tx.pet.update({
-        where: { userId: user.id },
-        data: {
-          xp: newXp,
-          level: newLevel,
-          stage: newStage,
-          challengesCompleted: pet.challengesCompleted + 1,
-          happiness: Math.min(100, pet.happiness + 10),
-          hp: stats.hp,
-          atk: stats.atk,
-          def: stats.def,
-          spd: stats.spd,
-        },
-      });
-
-      await tx.activity.create({
-        data: {
-          userId: user.id,
-          type: 'challenge',
-          description: `${pet.name} completed a coding challenge!`,
-          xpEarned: xpGain,
-        },
-      });
-
-      if (oldStage !== newStage) {
-        await tx.activity.create({
-          data: {
-            userId: user.id,
-            type: 'evolution',
-            description: `${pet.name} evolved to ${newStage}!`,
-            xpEarned: 0,
-          },
-        });
-      }
-
-      return updated;
+    const updated = await prisma.pet.update({
+      where: { userId: user.id },
+      data: {
+        xp: { increment: XP_REWARD },
+        level: newLevel,
+        challengesCompleted,
+        lastActiveAt: new Date(),
+      },
     });
 
-    return NextResponse.json({ pet: result, xpGained: xpGain });
+    return NextResponse.json({
+      message: 'Challenge completed!',
+      xpEarned: XP_REWARD,
+      totalXp: updated.xp,
+      level: updated.level,
+      challengesCompleted: updated.challengesCompleted,
+    });
   } catch {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
