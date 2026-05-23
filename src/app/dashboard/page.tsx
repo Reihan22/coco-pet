@@ -59,6 +59,9 @@ export default function DashboardPage() {
   const [petCooldown, setPetCooldown] = useState(false);
   const [xpPopup, setXpPopup] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'overview' | 'achievements' | 'challenge' | 'lab'>('overview');
+  const [editingName, setEditingName] = useState(false);
+  const [botName, setBotName] = useState('');
+  const [renameError, setRenameError] = useState('');
 
   const fetchData = useCallback(async () => {
     try {
@@ -120,6 +123,31 @@ export default function DashboardPage() {
       }
     } finally {
       setTimeout(() => setPetCooldown(false), 15000);
+    }
+  }
+
+  async function handleRename() {
+    const name = botName.trim();
+    if (name.length < 2 || name.length > 20) {
+      setRenameError('2-20 characters');
+      return;
+    }
+    setRenameError('');
+    try {
+      const res = await fetch('/api/pet/rename', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setPet((prev) => prev ? { ...prev, name: data.name } : prev);
+        setEditingName(false);
+      } else {
+        setRenameError(data.error || 'Failed');
+      }
+    } catch {
+      setRenameError('Network error');
     }
   }
 
@@ -320,13 +348,51 @@ export default function DashboardPage() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
               {/* Pet card */}
               <div className="card-retro" style={{ padding: 24 }}>
-                {/* Pet name */}
+                {/* Pet name - clickable to rename */}
                 <div style={{
                   fontFamily: "'Press Start 2P', monospace",
                   fontSize: 11, color: '#00ffd5',
                   marginBottom: 4, textAlign: 'center',
+                  position: 'relative',
                 }}>
-                  {pet.name}
+                  {editingName ? (
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                      <input
+                        value={botName}
+                        onChange={(e) => { setBotName(e.target.value); setRenameError(''); }}
+                        onKeyDown={(e) => { if (e.key === 'Enter') handleRename(); if (e.key === 'Escape') setEditingName(false); }}
+                        maxLength={20}
+                        autoFocus
+                        style={{
+                          background: 'rgba(0,255,213,0.08)', border: '1px solid #00ffd5',
+                          color: '#00ffd5', padding: '4px 8px', borderRadius: 4,
+                          fontFamily: "'Press Start 2P', monospace", fontSize: 11,
+                          width: 160, textAlign: 'center', outline: 'none',
+                        }}
+                      />
+                      <div style={{ display: 'flex', gap: 6 }}>
+                        <button onClick={handleRename} style={{
+                          background: '#00ffd5', color: '#0a0a0f', border: 'none',
+                          padding: '3px 10px', borderRadius: 4, cursor: 'pointer',
+                          fontFamily: "'Press Start 2P'", fontSize: 7,
+                        }}>OK</button>
+                        <button onClick={() => setEditingName(false)} style={{
+                          background: 'rgba(255,255,255,0.1)', color: '#888', border: 'none',
+                          padding: '3px 10px', borderRadius: 4, cursor: 'pointer',
+                          fontFamily: "'Press Start 2P'", fontSize: 7,
+                        }}>X</button>
+                      </div>
+                      {renameError && <span style={{ color: '#ff2d78', fontSize: 7 }}>{renameError}</span>}
+                    </div>
+                  ) : (
+                    <span
+                      onClick={() => { setBotName(pet.name); setEditingName(true); setRenameError(''); }}
+                      style={{ cursor: 'pointer', borderBottom: '1px dashed rgba(0,255,213,0.3)' }}
+                      title="Click to rename your bot"
+                    >
+                      {pet.name} ✏️
+                    </span>
+                  )}
                 </div>
                 <div style={{ marginBottom: 12, textAlign: 'center' }}>
                   <MoodBadge hunger={pet.hunger} happiness={pet.happiness} level={pet.level} />
