@@ -47,6 +47,14 @@ function applyModifiers(baseStats: { hp: number; atk: number; def: number; spd: 
   return { hp, atk, def, spd };
 }
 
+function pickAIAction(): BattleAction {
+  const r = Math.random();
+  if (r < 0.55) return 'attack';
+  if (r < 0.80) return 'defend';
+  if (r < 0.95) return 'special';
+  return 'attack';
+}
+
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
@@ -85,6 +93,122 @@ export async function POST(
     const turnNumber = turns.length + 1;
     if (turnNumber > MAX_TURNS) {
       return NextResponse.json({ error: 'Battle has already ended (turn limit)' }, { status: 400 });
+    }
+
+    // Check if opponent is AI bot — resolve immediately, no pending system
+    const AI_EMAIL = 'ai@codebot.internal';
+    const isAIBattle = battle.opponent?.email === AI_EMAIL;
+
+    if (isAIBattle) {
+      // AI picks action and resolve immediately
+      const challengerAction = action as BattleAction;
+      const opponentAction = pickAIAction();
+
+      const cStage = battle.challenger.pet.stage;
+      const oStage = battle.opponent.pet.stage;
+      const challengerStats = applyModifiers(calculateStats(battle.challenger.pet.level, cStage), battle.challenger.pet);
+      const opponentStats = applyModifiers(calculateStats(battle.opponent.pet.level, oStage), battle.opponent.pet);
+
+      let cState: FighterState = initFighterState(challengerStats.hp);
+      let oState: FighterState = initFighterState(opponentStats.hp);
+      for (const turn of turns) {
+        if (turn.challengerState) cState = turn.challengerState;
+        if (turn.opponentState) oState = turn.opponentState;
+      }
+
+      const result: TurnResult = resolveTurn({
+        challengerStats,
+        opponentStats,
+        challengerAction,
+        opponentAction,
+        challengerState: cState,
+        opponentState: oState,
+        turn: turnNumber,
+      });
+
+      const turnRecord = {
+        turn: turnNumber,
+        challengerAction,
+        opponentAction,
+        events: result.events,
+        challengerState: result.challengerState,
+        opponentState: result.opponentState,
+        ended: result.ended,
+      };
+
+      const newTurns = [...turns, turnRecord];
+
+      if (result.ended) {
+        let winnerId: string | null = null;
+        let xpAwarded = 0;
+
+        if (result.winnerId === 'challenger') winnerId = battle.challengerId;
+        else if (result.winnerId === 'opponent') winnerId = battle.opponentId;
+        else if (result.winnerId === 'draw') winnerId = null;
+
+        if (result.fleeSuccess) {
+          const fleerEvent = result.events.find(e => e.action === 'flee' && e.success);
+          if (fleerEvent?.actor === 'challenger') winnerId = battle.opponentId;
+          else winnerId = battle.challengerId;
+        }
+
+        await prisma.$transaction(async (tx) => {
+          if (winnerId) {
+            const loserId = winnerId === battle.challengerId ? battle.opponentId : battle.challengerId;
+
+            // Only award XP to human players
+            if (winnerId !== battle.opponentId) {
+              const winnerPet = await tx.pet.findUnique({ where: { userId: winnerId } });
+              if (winnerPet) {
+                const newLevel = calculateLevel(winnerPet.xp + 50);
+                const newStage = calculateStage(newLevel);
+                const stats = calculateStats(newLevel, newStage);
+                await tx.pet.update({
+                  where: { userId: winnerId },
+                  data: { xp: { increment: 50 }, level: newLevel, stage: newStage, hp: stats.hp, atk: stats.atk, def: stats.def, spd: stats.spd },
+                });
+                await tx.activity.create({ data: { userId: winnerId, type: 'battle', description: 'Won a duel vs MiMo Bot!', xpEarned: 50 } });
+              }
+            }
+            if (loserId && loserId !== battle.opponentId) {
+              const loserPet = await tx.pet.findUnique({ where: { userId: loserId } });
+              if (loserPet) {
+                const newLevel = calculateLevel(loserPet.xp + 20);
+                const newStage = calculateStage(newLevel);
+                const stats = calculateStats(newLevel, newStage);
+                await tx.pet.update({
+                  where: { userId: loserId },
+                  data: { xp: { increment: 20 }, level: newLevel, stage: newStage, hp: stats.hp, atk: stats.atk, def: stats.def, spd: stats.spd },
+                });
+                await tx.activity.create({ data: { userId: loserId, type: 'battle', description: 'Lost to MiMo Bot. +20 XP!', xpEarned: 20 } });
+              }
+            }
+            xpAwarded = 70;
+          }
+
+          await tx.battle.update({
+            where: { id },
+            data: { turns: newTurns, status: 'finished', winnerId, xpAwarded, finishedAt: new Date(), pendingActions: {} },
+          });
+        });
+
+        return NextResponse.json({
+          turn: turnRecord,
+          battle: { status: 'finished', winnerId, xpAwarded },
+          result: { ended: true, winnerId },
+        });
+      }
+
+      // Not ended — save turns
+      await prisma.battle.update({
+        where: { id },
+        data: { turns: newTurns },
+      });
+
+      return NextResponse.json({
+        turn: turnRecord,
+        result: { ended: false, winnerId: null },
+      });
     }
 
     // --- PvP: pending action system ---

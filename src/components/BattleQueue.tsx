@@ -160,6 +160,24 @@ export default function BattleQueue() {
     }
   }
 
+  async function handleFightAI() {
+    setChallenging(true);
+    setError('');
+    try {
+      const res = await fetch('/api/battles/ai', { method: 'POST' });
+      const data = await res.json();
+      if (res.ok) {
+        router.push(`/battle/${data.battle.id}`);
+      } else {
+        setError(data.error || 'Failed to start AI battle');
+      }
+    } catch {
+      setError('Network error');
+    } finally {
+      setChallenging(false);
+    }
+  }
+
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', padding: 40 }}>
@@ -195,6 +213,17 @@ export default function BattleQueue() {
           }}
         >
           🎲 Random Match
+        </button>
+        <button
+          onClick={handleFightAI}
+          disabled={challenging}
+          style={{
+            fontFamily: "var(--font-pixel)", fontSize: 9, padding: '10px 16px',
+            border: '2px solid #ffd700', background: 'rgba(255,215,0,0.1)',
+            color: '#ffd700', cursor: 'pointer', opacity: challenging ? 0.5 : 1,
+          }}
+        >
+          🤖 Fight AI
         </button>
       </div>
 
