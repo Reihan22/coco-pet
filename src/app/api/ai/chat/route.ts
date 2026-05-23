@@ -17,11 +17,11 @@ export async function POST(request: Request) {
     // Fetch pet info for context
     const pet = await prisma.pet.findUnique({
       where: { userId: user.id },
-      select: { name: true, level: true, stage: true, xp: true, streak: true },
+      select: { name: true, level: true, stage: true, xp: true, streakDays: true },
     });
 
     const petContext = pet
-      ? `The user's pet is named ${pet.name}, level ${pet.level}, stage ${pet.stage}, XP ${pet.xp}, streak ${pet.streak} days.`
+      ? `The user's pet is named ${pet.name}, level ${pet.level}, stage ${pet.stage}, XP ${pet.xp}, streak ${pet.streakDays} days.`
       : 'The user has no pet yet.';
 
     const systemPrompt = `You are a CodePet — a cute, encouraging coding companion pet in a gamified coding platform. ${petContext}
