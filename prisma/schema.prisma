@@ -15,9 +15,11 @@ model User {
   githubUsername    String?   @map("github_username") @db.VarChar(39)
   githubConnectedAt DateTime? @map("github_connected_at")
   createdAt         DateTime  @default(now()) @map("created_at")
+  tokens             Int       @default(0)
   updatedAt         DateTime  @default(now()) @map("updated_at")
 
   pet            Pet?
+  tokenTransactions TokenTransaction[]
   battlesChallenged Battle[] @relation("Challenger")
   battlesOpponent   Battle[] @relation("Opponent")
   battlesWon        Battle[] @relation("Winner")
@@ -53,6 +55,14 @@ model Pet {
   createdAt            DateTime  @default(now()) @map("created_at")
   equippedSkinId       String?   @map("equipped_skin_id") @db.Uuid
   equippedAccessoryId  String?   @map("equipped_accessory_id") @db.Uuid
+
+  // AI/Token system fields
+  personality     String?   @db.VarChar(20) // aggressive, defensive, balanced, chaotic
+  personalityUnlocked Boolean @default(false) @map("personality_unlocked")
+  miningRate      Float     @default(1.0) @map("mining_rate")
+  lastMinedAt     DateTime? @map("last_mined_at")
+  skills          Json      @default("[]") // BotSkill[] array
+  activeSkills    Json      @default("[]") // skill IDs currently active in battle
 
   user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   equippedSkin       Skin?     @relation("EquippedSkin", fields: [equippedSkinId], references: [id])
@@ -207,4 +217,30 @@ model Activity {
   user        User     @relation(fields: [userId], references: [id])
 
   @@map("activities")
+}
+
+model TokenTransaction {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId      String   @map("user_id") @db.Uuid
+  amount      Int      // positive = earned, negative = spent
+  type        String   @db.VarChar(20) // mining, challenge, battle, training, personality, fusion
+  description String?  @db.VarChar(255)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("token_transactions")
+}
+
+model FusionLog {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user1Id       String   @map("user1_id") @db.Uuid
+  user2Id       String?  @map("user2_id") @db.Uuid // null if self-fusion
+  resultPetId   String   @map("result_pet_id") @db.Uuid
+  tokensSpent   Int      @map("tokens_spent")
+  fusionType    String   @map("fusion_type") @db.VarChar(20) // standard, rare, epic
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@map("fusion_logs")
 }

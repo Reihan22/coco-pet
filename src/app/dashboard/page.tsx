@@ -11,6 +11,7 @@ import ActivityFeed from '@/components/ActivityFeed';
 import EvolutionTimeline from '@/components/EvolutionTimeline';
 import Achievements from '@/components/Achievements';
 import Challenge from '@/components/Challenge';
+import MiMoLab from '@/components/MiMoLab';
 import {
   calculateMood,
   xpProgress,
@@ -35,12 +36,17 @@ interface PetData {
   atk: number;
   def: number;
   spd: number;
+  personality?: string | null;
+  personalityUnlocked?: boolean;
+  skills?: any[];
+  activeSkills?: string[];
 }
 
 interface UserData {
   id: string;
   username: string;
   email: string;
+  tokens?: number;
 }
 
 export default function DashboardPage() {
@@ -52,7 +58,7 @@ export default function DashboardPage() {
   const [feedCooldown, setFeedCooldown] = useState(false);
   const [petCooldown, setPetCooldown] = useState(false);
   const [xpPopup, setXpPopup] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'overview' | 'achievements' | 'challenge'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'achievements' | 'challenge' | 'lab'>('overview');
 
   const fetchData = useCallback(async () => {
     try {
@@ -202,6 +208,14 @@ export default function DashboardPage() {
           </div>
         </Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <span style={{
+            fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+            color: '#ffd700', background: 'rgba(255,215,0,0.1)',
+            padding: '4px 10px', borderRadius: 4,
+            border: '1px solid rgba(255,215,0,0.3)',
+          }}>
+            🪙 {user.tokens ?? 0}
+          </span>
           <span style={{ fontSize: 12, color: '#666' }}>@{user.username}</span>
           <button
             onClick={handleLogout}
@@ -241,6 +255,19 @@ export default function DashboardPage() {
               {tab === 'overview' ? '🏠 Overview' : tab === 'achievements' ? '🏆 Achievements' : '🎮 Challenge'}
             </button>
           ))}
+          <button
+            onClick={() => setActiveTab('lab')}
+            style={{
+              fontFamily: "'Press Start 2P', monospace",
+              fontSize: 9, padding: '8px 16px',
+              border: `2px solid ${activeTab === 'lab' ? '#b44dff' : '#333'}`,
+              background: activeTab === 'lab' ? 'rgba(180,77,255,0.12)' : 'transparent',
+              color: activeTab === 'lab' ? '#b44dff' : '#666',
+              cursor: 'pointer', textTransform: 'uppercase', transition: 'all 0.2s',
+            }}
+          >
+            🧬 MiMo Lab
+          </button>
           <div style={{ flex: 1 }} />
           {/* Future nav links */}
           <Link href="/skins" style={{
@@ -405,6 +432,35 @@ export default function DashboardPage() {
           /* Achievements tab */
           <div className="card-retro" style={{ padding: 24 }}>
             <Achievements pet={petState} />
+          </div>
+        ) : activeTab === 'lab' ? (
+          /* MiMo Lab tab */
+          <div className="card-retro" style={{ padding: 24 }}>
+            <h3 style={{
+              fontFamily: "'Press Start 2P', monospace",
+              fontSize: 11, color: '#b44dff',
+              marginBottom: 4,
+            }}>
+              🧬 MiMo Fusion Lab
+            </h3>
+            <p style={{
+              fontFamily: "'Press Start 2P', monospace",
+              fontSize: 8, color: '#666',
+              marginBottom: 20, lineHeight: 1.6,
+            }}>
+              AI-powered bot upgrades. Mine tokens, train skills, unlock personality, fuse for power.
+            </p>
+            <MiMoLab
+              tokens={user.tokens ?? 0}
+              level={pet.level}
+              stage={pet.stage}
+              stats={{ hp: pet.hp, atk: pet.atk, def: pet.def, spd: pet.spd }}
+              personality={pet.personality ?? null}
+              personalityUnlocked={pet.personalityUnlocked ?? false}
+              skills={pet.skills ?? []}
+              activeSkills={pet.activeSkills ?? []}
+              onUpdate={refreshData}
+            />
           </div>
         ) : (
           /* Challenge tab */

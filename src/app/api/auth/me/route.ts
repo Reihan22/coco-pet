@@ -11,7 +11,7 @@ export async function GET() {
   const pet = await prisma.pet.findUnique({ where: { userId: user.id } });
 
   return NextResponse.json({
-    user: { id: user.id, username: user.username, email: user.email, githubUsername: user.githubUsername },
+    user: { id: user.id, username: user.username, email: user.email, githubUsername: user.githubUsername, tokens: user.tokens },
     pet,
   });
 }
