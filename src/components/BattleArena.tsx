@@ -59,6 +59,7 @@ const battleAnimations = `
 import { useRouter } from 'next/navigation';
 import { calculateStats } from '@/lib/pet';
 import PixelPet from '@/components/PixelPet';
+import RobotPet from '@/components/RobotPet';
 
 interface BattlePet {
   name: string;
@@ -569,7 +570,7 @@ function FighterCard({ username, petName, stage, level, currentHp, maxHp, hpPct,
       </div>
       <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: '#aaa', marginBottom: 8 }}>{username}</div>
       <div style={{ marginBottom: 4 }}>
-        <PixelPet stage={stageToEvolution(stage)} mood="happy" level={level} size="sm" />
+        {username === 'MiMo Bot' ? <RobotPet /> : <PixelPet stage={stageToEvolution(stage)} mood="happy" level={level} size="sm" />}
       </div>
       <div style={{ fontFamily: "var(--font-pixel)", fontSize: 10, color: '#fff', marginBottom: 4 }}>
         {petName}
