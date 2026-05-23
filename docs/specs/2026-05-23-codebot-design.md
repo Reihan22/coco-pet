@@ -74,7 +74,7 @@ CodeBot is a coding education platform where users build and upgrade robots thro
 - **App Name:** CodeBot
 - **AI Assistant:** MiMo Engineer (powered by Xiaomi MiMo V2.5 Pro)
 - **Tagline:** "Build. Code. Battle."
-- **URL:** codebot.reihan.site (or coco-pet.vercel.app → codebot.vercel.app)
+- **URL:** codebot.vercel.app
 
 ## Technical Stack
 - Next.js 16 + React 19 + TypeScript 5

@@ -79,8 +79,8 @@
 
 ```bash
 # Clone
-git clone https://github.com/Reihan22/coco-pet.git
-cd coco-pet
+git clone https://github.com/Reihan22/codebot.git
+cd codebot
 
 # Install
 npm install
