@@ -123,20 +123,20 @@ export default function GuildList() {
               border: '2px solid #b44dff', color: '#b44dff',
             }}
           >
-            🏰 CREATE GUILD
+            🏰 CREATE SQUAD
           </button>
         </div>
 
         {showCreate && (
           <form onSubmit={handleCreate} style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 10 }}>
             <p style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#ffd700', marginBottom: 4 }}>
-              ⚠ Costs 500 XP from your pet
+              ⚠ Costs 500 XP from your bot
             </p>
             <input
               type="text"
               value={createName}
               onChange={e => setCreateName(e.target.value)}
-              placeholder="Guild name (2-50 chars)"
+              placeholder="Squad name (2-50 chars)"
               maxLength={50}
               required
               style={{

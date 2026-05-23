@@ -39,8 +39,8 @@ function unlockLabel(skin: Skin): string {
     case 'level': return `Reach level ${skin.unlockValue}`;
     case 'streak': return `${skin.unlockValue}-day streak`;
     case 'achievement': return `${skin.unlockValue} challenges`;
-    case 'battle': return `${skin.unlockValue} battle wins`;
-    case 'guild_war': return `${skin.unlockValue} guild wars`;
+    case 'battle': return `${skin.unlockValue} duel wins`;
+    case 'guild_war': return `${skin.unlockValue} squad wars`;
     case 'special': return 'Special unlock';
     default: return skin.unlockType;
   }

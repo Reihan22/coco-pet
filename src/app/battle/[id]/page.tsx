@@ -75,7 +75,7 @@ export default function BattlePage({ params }: { params: Promise<{ id: string }>
       }}>
         <Link href="/" style={{ textDecoration: 'none' }}>
           <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 12, color: '#00ffd5' }}>
-            🐣 CodePet
+            🤖 CodeBot
           </div>
         </Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>

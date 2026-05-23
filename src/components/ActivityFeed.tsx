@@ -50,7 +50,7 @@ export default function ActivityFeed({ activities }: ActivityFeedProps) {
     return (
       <div style={{ textAlign: 'center', padding: 20, color: '#555', fontSize: 13 }}>
         <p style={{ marginBottom: 8 }}>No activities yet</p>
-        <p style={{ fontSize: 11 }}>Feed or pet your companion to get started!</p>
+        <p style={{ fontSize: 11 }}>Charge or boost your bot to get started!</p>
       </div>
     );
   }

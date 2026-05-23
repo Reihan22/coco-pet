@@ -42,7 +42,7 @@ export default function HomePage() {
         zIndex: 100,
       }}>
         <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 14, color: '#00ffd5' }}>
-          🐣 CodePet
+          🤖 CodeBot
         </div>
         <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
           <Link href="/leaderboard" style={{
@@ -80,7 +80,7 @@ export default function HomePage() {
         position: 'relative', zIndex: 1,
         textAlign: 'center',
       }}>
-        {/* Animated pixel pet hero */}
+        {/* Animated pixel bot hero */}
         <div
           style={{
             opacity: loaded ? 1 : 0,
@@ -103,7 +103,7 @@ export default function HomePage() {
           }}
           className="text-gradient-rainbow"
         >
-          CodePet
+          CodeBot
         </h1>
 
         <p
@@ -117,7 +117,7 @@ export default function HomePage() {
             transition: 'all 0.8s ease 0.4s',
           }}
         >
-          Your AI-Powered Developer Companion
+          Your AI-Powered Mech Builder
         </p>
 
         <p
@@ -144,8 +144,8 @@ export default function HomePage() {
             transition: 'all 0.8s ease 0.6s',
           }}
         >
-          A virtual pet that grows with your coding activity. Chat with your pet using AI,
-          battle friends in turn-based PvP, and join guild wars. Watch it evolve from Egg to Legend.
+          A robot that grows with your coding activity. Train your bot with AI-powered challenges,
+          duel friends in turn-based mech combat, and join squad wars. Build it from Frame to Legend.
         </p>
 
         <div style={{
@@ -159,7 +159,7 @@ export default function HomePage() {
         }}>
           <Link href="/register" style={{ textDecoration: 'none' }}>
             <button className="btn-pixel" style={{ fontSize: 11, padding: '16px 40px' }}>
-              🥚 Hatch Your Pet
+              🤖 Create Your Bot
             </button>
           </Link>
           <Link href="/leaderboard" style={{ textDecoration: 'none' }}>
@@ -205,20 +205,20 @@ export default function HomePage() {
         }}>
           <FeatureCard
             icon="🤖"
-            title="AI Pet Chat"
-            description="Have real conversations with your pet, powered by Xiaomi MiMo V2.5 Pro. Ask for coding advice, share progress, or just chat. Your pet's personality evolves with your interactions!"
+            title="MiMo Engineer"
+            description="Chat with your bot's AI-powered engineer, powered by Xiaomi MiMo V2.5 Pro. Get coding advice, debug help, and personalized training recommendations. Your bot learns from your coding style!"
             color="#00ffd5"
           />
           <FeatureCard
             icon="⚔️"
-            title="Battle Friends"
-            description="Challenge other developers to turn-based pet battles! Use your pet's ATK, DEF, and SPD stats. Win battles to climb the leaderboard and earn XP rewards."
+            title="Mech Duels"
+            description="Challenge other developers to turn-based mech combat! Use your bot's ATK, DEF, and SPD stats. Win duels to climb the leaderboard and earn Parts + Tokens."
             color="#ff2d78"
           />
           <FeatureCard
             icon="🏰"
-            title="Guild Wars"
-            description="Join or create a guild with fellow developers. Compete in team-based guild wars. Coordinate strategies with guild chat and climb the guild leaderboard together!"
+            title="Squad Wars"
+            description="Join or create a squad with fellow developers. Compete in team-based squad wars. Coordinate strategies with squad chat and climb the leaderboard together!"
             color="#b44dff"
           />
         </div>
@@ -234,9 +234,9 @@ export default function HomePage() {
           display: 'flex', justifyContent: 'center', gap: 40, flexWrap: 'wrap',
           maxWidth: 700, margin: '0 auto',
         }}>
-          <StatBox label={stats.users === 1 ? 'Developer' : 'Developers'} value={stats.users} color="#00ffd5" />
-          <StatBox label={stats.battles === 1 ? 'Battle' : 'Battles'} value={stats.battles} color="#ff2d78" />
-          <StatBox label={stats.guilds === 1 ? 'Guild' : 'Guilds'} value={stats.guilds} color="#b44dff" />
+          <StatBox label={stats.users === 1 ? 'Builder' : 'Builders'} value={stats.users} color="#00ffd5" />
+          <StatBox label={stats.battles === 1 ? 'Duel' : 'Duels'} value={stats.battles} color="#ff2d78" />
+          <StatBox label={stats.guilds === 1 ? 'Squad' : 'Squads'} value={stats.guilds} color="#b44dff" />
         </div>
       </section>
 
@@ -250,15 +250,15 @@ export default function HomePage() {
         position: 'relative', zIndex: 1,
       }}>
         <p style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 9, color: '#00ffd5', marginBottom: 8 }}>
-          🐣 CodePet
+          🤖 CodeBot
         </p>
-        <p>Built with Next.js + MiMo AI • Powered by developer activity</p>
+        <p>Build. Code. Battle. • Powered by Xiaomi MiMo V2.5 Pro</p>
       </footer>
     </main>
   );
 }
 
-/* Hero animated pet */
+/* Hero animated bot */
 function HeroPet() {
   return (
     <div style={{ position: 'relative', display: 'inline-block' }}>
@@ -268,7 +268,7 @@ function HeroPet() {
         background: 'radial-gradient(circle, rgba(0,255,213,0.15) 0%, transparent 70%)',
         animation: 'pulse-glow 3s ease-in-out infinite',
       }} />
-      {/* Pet body */}
+      {/* Bot body */}
       <div
         style={{
           width: 120, height: 100,

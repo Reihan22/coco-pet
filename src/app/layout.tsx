@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "CodePet — Your Dev Pet",
-  description: "A virtual pet that grows with your GitHub activity. Track commits, complete AI challenges, and watch your pet evolve!",
+  title: "CodeBot — Your Dev Bot",
+  description: "A virtual bot that grows with your GitHub activity. Track commits, complete AI challenges, and watch your bot evolve!",
 };
 
 export default function RootLayout({

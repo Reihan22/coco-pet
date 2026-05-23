@@ -83,7 +83,7 @@ export default function GuildChat({ guildId }: { guildId: string }) {
         fontFamily: "'Press Start 2P', monospace", fontSize: 10,
         color: '#b44dff', marginBottom: 12, letterSpacing: 1,
       }}>
-        💬 GUILD CHAT
+        💬 SQUAD CHAT
       </h3>
 
       {/* Messages */}

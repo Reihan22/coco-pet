@@ -33,7 +33,7 @@ export default function LeaderboardPage() {
             fontSize: 14,
             color: '#00ffd5',
           }}>
-            🐣 CodePet
+            🤖 CodeBot
           </span>
         </Link>
         <div style={{ display: 'flex', gap: 8 }}>

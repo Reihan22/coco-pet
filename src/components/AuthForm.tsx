@@ -57,7 +57,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
             className="text-4xl text-cyan-400 mb-2"
             style={{ fontFamily: "'Press Start 2P', cursive" }}
           >
-            CodePet
+            CodeBot
           </h1>
           <p className="text-zinc-400 text-sm font-mono">
             {isRegister ? 'Create your account' : 'Welcome back, coder'}
@@ -149,7 +149,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
               </>
             ) : (
               <>
-                New to CodePet?{' '}
+                New to CodeBot?{' '}
                 <Link href="/register" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-2">
                   Register
                 </Link>

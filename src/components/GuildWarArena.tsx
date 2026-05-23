@@ -132,7 +132,7 @@ export default function GuildWarArena({ warId }: { warId: string }) {
   const isFinished = war.status === 'finished';
   const isCancelled = war.status === 'cancelled';
 
-  const stageEmoji: Record<string, string> = { egg: '🥚', baby: '🐣', junior: '🧒', senior: '🦸', legend: '⭐' };
+  const stageEmoji: Record<string, string> = { egg: '🔧', baby: '⚙️', junior: '🛡️', senior: '🤖', legend: '⭐' };
 
   function statusColor(s: string) {
     if (s === 'active') return '#39ff14';
@@ -394,7 +394,7 @@ export default function GuildWarArena({ warId }: { warId: string }) {
         fontFamily: "'Press Start 2P', monospace", fontSize: 8,
         color: '#666', textDecoration: 'none', textAlign: 'center',
       }}>
-        ← BACK TO GUILD WARS
+        ← BACK TO SQUAD WARS
       </Link>
     </div>
   );

@@ -244,7 +244,7 @@ export default function Challenge({
         >
           <p style={{ marginBottom: 8 }}>🎮 Generate a challenge to begin!</p>
           <p style={{ fontSize: 11 }}>
-            Complete challenges to earn XP and level up your pet.
+            Complete challenges to earn XP and level up your bot.
           </p>
         </div>
       )}

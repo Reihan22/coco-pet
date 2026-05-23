@@ -96,18 +96,18 @@ export default function GuildWarScheduler({ onCreated }: { onCreated?: () => voi
     }
   }
 
-  const stageEmoji: Record<string, string> = { egg: '🥚', baby: '🐣', junior: '🧒', senior: '🦸', legend: '⭐' };
+  const stageEmoji: Record<string, string> = { egg: '🔧', baby: '⚙️', junior: '🛡️', senior: '🤖', legend: '⭐' };
 
   return (
     <div className="card-retro" style={{ padding: 24 }}>
       <h3 style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 12, color: '#ff6b35', marginBottom: 20 }}>
-        ⚔️ SCHEDULE GUILD WAR
+        ⚔️ SCHEDULE SQUAD WAR
       </h3>
 
       {/* Defender guild */}
       <div style={{ marginBottom: 16 }}>
         <label style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#888', display: 'block', marginBottom: 6 }}>
-          OPPONENT GUILD
+          OPPONENT SQUAD
         </label>
         <select
           value={selectedGuild}
@@ -117,7 +117,7 @@ export default function GuildWarScheduler({ onCreated }: { onCreated?: () => voi
             background: '#111', border: '1px solid #333', color: '#fff',
           }}
         >
-          <option value="">Select guild...</option>
+          <option value="">Select squad...</option>
           {guilds.map(g => (
             <option key={g.id} value={g.id}>{g.name} (Lv.{g.level})</option>
           ))}

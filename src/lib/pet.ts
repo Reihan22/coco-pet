@@ -1,4 +1,4 @@
-// Pet utility functions for DB-backed CodePet system
+// Pet utility functions for DB-backed CodeBot system
 
 export type EvolutionStage = 'egg' | 'baby' | 'junior' | 'senior' | 'legend';
 export type PetMood = 'happy' | 'neutral' | 'sad' | 'sleepy';
@@ -38,10 +38,10 @@ export interface StageInfo {
 }
 
 export const STAGES: StageInfo[] = [
-  { name: 'egg', label: 'Egg', minLevel: 1, icon: '🥚', color: '#b44dff' },
-  { name: 'baby', label: 'Baby', minLevel: 5, icon: '🐣', color: '#00ffd5' },
-  { name: 'junior', label: 'Junior', minLevel: 15, icon: '🧒', color: '#39ff14' },
-  { name: 'senior', label: 'Senior', minLevel: 30, icon: '🦸', color: '#ff2d78' },
+  { name: 'egg', label: 'Frame', minLevel: 1, icon: '🔧', color: '#b44dff' },
+  { name: 'baby', label: 'Chassis', minLevel: 5, icon: '⚙️', color: '#00ffd5' },
+  { name: 'junior', label: 'Armor', minLevel: 15, icon: '🛡️', color: '#39ff14' },
+  { name: 'senior', label: 'Full Mech', minLevel: 30, icon: '🤖', color: '#ff2d78' },
   { name: 'legend', label: 'Legend', minLevel: 50, icon: '⭐', color: '#ffd700' },
 ];
 

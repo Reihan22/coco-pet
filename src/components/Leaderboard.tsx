@@ -32,18 +32,18 @@ interface BattleEntry {
 }
 
 const STAGE_EMOJI: Record<string, string> = {
-  egg: '🥚',
-  baby: '🐣',
-  junior: '🧒',
-  senior: '🦸',
+  egg: '🔧',
+  baby: '⚙️',
+  junior: '🛡️',
+  senior: '🤖',
   legend: '⭐',
 };
 
 const STAGE_LABELS: Record<string, string> = {
-  egg: 'Egg',
-  baby: 'Baby',
-  junior: 'Junior',
-  senior: 'Senior',
+  egg: 'Frame',
+  baby: 'Chassis',
+  junior: 'Armor',
+  senior: 'Full Mech',
   legend: 'Legend',
 };
 
@@ -97,7 +97,7 @@ export default function Leaderboard({ currentUsername }: LeaderboardProps) {
   const tabs: { key: Tab; label: string; icon: string }[] = [
     { key: 'players', label: 'Players', icon: '🏆' },
     { key: 'guilds', label: 'Guilds', icon: '⚔️' },
-    { key: 'battles', label: 'Battles', icon: '🥊' },
+    { key: 'battles', label: 'Duels', icon: '🥊' },
   ];
 
   return (

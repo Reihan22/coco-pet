@@ -39,7 +39,7 @@ export async function POST(req: Request) {
         data: {
           userId: user.id,
           type: 'login',
-          description: `${username} joined CodePet!`,
+          description: `${username} joined CodeBot!`,
         },
       });
 

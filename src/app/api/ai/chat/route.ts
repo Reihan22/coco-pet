@@ -24,7 +24,7 @@ export async function POST(request: Request) {
       ? `The user's pet is named ${pet.name}, level ${pet.level}, stage ${pet.stage}, XP ${pet.xp}, streak ${pet.streakDays} days.`
       : 'The user has no pet yet.';
 
-    const systemPrompt = `You are CodePet, a cute coding companion. ${petContext} Keep responses SHORT (2-3 sentences). Use 1-2 emojis. Be friendly and helpful about coding.`;
+    const systemPrompt = `You are CodeBot, a coding companion. ${petContext} Keep responses SHORT (2-3 sentences). Use 1-2 emojis. Be friendly and helpful about coding.`;
 
     const response = await aiChat([
       { role: 'system', content: systemPrompt },

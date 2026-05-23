@@ -7,14 +7,14 @@ interface AchievementsProps {
 }
 
 const ACHIEVEMENTS = [
-  { id: 'first_feed', name: 'First Feed', icon: '🍕', desc: 'Feed your pet for the first time', check: (p: PetState) => p.activities.some(a => a.type === 'feed'), color: '#ff2d78', goal: 1, getVal: (p: PetState) => p.activities.filter(a => a.type === 'feed').length },
+  { id: 'first_feed', name: 'First Charge', icon: '⚡', desc: 'Charge your bot for the first time', check: (p: PetState) => p.activities.some(a => a.type === 'feed'), color: '#ff2d78', goal: 1, getVal: (p: PetState) => p.activities.filter(a => a.type === 'feed').length },
   { id: 'level_5', name: 'Level 5', icon: '🐣', desc: 'Reach level 5', check: (p: PetState) => p.level >= 5, color: '#00ffd5', goal: 5, getVal: (p: PetState) => p.level },
   { id: 'level_10', name: 'Level 10', icon: '⭐', desc: 'Reach level 10', check: (p: PetState) => p.level >= 10, color: '#00ffd5', goal: 10, getVal: (p: PetState) => p.level },
   { id: 'level_50', name: 'Half Century', icon: '💯', desc: 'Reach level 50', check: (p: PetState) => p.level >= 50, color: '#ffd700', goal: 50, getVal: (p: PetState) => p.level },
-  { id: 'legend', name: 'Legend!', icon: '👑', desc: 'Reach Legend stage', check: (p: PetState) => p.stage === 'legend', color: '#ffd700', goal: 51, getVal: (p: PetState) => p.level },
-  { id: 'well_fed', name: 'Well Fed', icon: '🍕', desc: 'Hunger above 80%', check: (p: PetState) => p.hunger >= 80, color: '#ff2d78', goal: 80, getVal: (p: PetState) => p.hunger },
-  { id: 'happy_pet', name: 'Happy Pet', icon: '😊', desc: 'Happiness above 90%', check: (p: PetState) => p.happiness >= 90, color: '#39ff14', goal: 90, getVal: (p: PetState) => p.happiness },
-  { id: 'first_evo', name: 'Evolution!', icon: '🦋', desc: 'Witness first evolution', check: (p: PetState) => p.activities.some(a => a.type === 'evolution'), color: '#b44dff', goal: 1, getVal: (p: PetState) => p.activities.filter(a => a.type === 'evolution').length },
+  { id: 'legend', name: 'Legend!', icon: '👑', desc: 'Reach Legend build phase', check: (p: PetState) => p.stage === 'legend', color: '#ffd700', goal: 51, getVal: (p: PetState) => p.level },
+  { id: 'well_fed', name: 'Fully Charged', icon: '⚡', desc: 'Power above 80%', check: (p: PetState) => p.hunger >= 80, color: '#ff2d78', goal: 80, getVal: (p: PetState) => p.hunger },
+  { id: 'happy_pet', name: 'High Morale', icon: '😊', desc: 'Morale above 90%', check: (p: PetState) => p.happiness >= 90, color: '#39ff14', goal: 90, getVal: (p: PetState) => p.happiness },
+  { id: 'first_evo', name: 'Upgrade!', icon: '🔧', desc: 'Witness first build phase upgrade', check: (p: PetState) => p.activities.some(a => a.type === 'evolution'), color: '#b44dff', goal: 1, getVal: (p: PetState) => p.activities.filter(a => a.type === 'evolution').length },
   { id: 'battle_vet', name: 'Battle Veteran', icon: '⚔️', desc: 'Win a battle', check: (p: PetState) => p.activities.some(a => a.type === 'battle'), color: '#ff9500', goal: 1, getVal: (p: PetState) => p.activities.filter(a => a.type === 'battle').length },
   { id: 'guild_warrior', name: 'Guild Warrior', icon: '🏰', desc: 'Participate in a guild war', check: (p: PetState) => p.activities.some(a => a.type === 'guild_war'), color: '#ffd700', goal: 1, getVal: (p: PetState) => p.activities.filter(a => a.type === 'guild_war').length },
 ];

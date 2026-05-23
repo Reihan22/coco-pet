@@ -327,7 +327,7 @@ export default function BattleArena({ battleId }: { battleId: string }) {
           <div style={{
             display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: 16, alignItems: 'center',
           }}>
-            {/* My Pet */}
+            {/* My Bot */}
             <FighterCard
               username={`@${myUser.username}`}
               petName={myUser.pet?.name || '???'}

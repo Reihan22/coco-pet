@@ -30,8 +30,8 @@ function isOnline(pet?: FriendUser['pet']): boolean {
 
 function stageEmoji(stage: string): string {
   const map: Record<string, string> = {
-    egg: '🥚',
-    baby: '🐣',
+egg: '🔧',
+  baby: '⚙️',
     teen: '🐥',
     adult: '🦅',
     legendary: '🐉',

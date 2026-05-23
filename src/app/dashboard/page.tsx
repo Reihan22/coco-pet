@@ -198,7 +198,7 @@ export default function DashboardPage() {
       }}>
         <Link href="/" style={{ textDecoration: 'none' }}>
           <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 12, color: '#00ffd5' }}>
-            🐣 CodePet
+            🤖 CodeBot
           </div>
         </Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
@@ -248,14 +248,14 @@ export default function DashboardPage() {
             color: '#ffd700', padding: '8px 12px', textDecoration: 'none',
             border: '1px solid #ffd700',
           }}>
-            🎨 Skins
+            🎨 Paint
           </Link>
           <Link href="/dashboard/battles" style={{
             fontFamily: "'Press Start 2P', monospace", fontSize: 8,
             color: '#ff6b35', padding: '8px 12px', textDecoration: 'none',
             border: '1px solid #ff6b35',
           }}>
-            ⚔️ Battles
+            ⚔️ Duels
           </Link>
           <Link href="/dashboard/friends" style={{
             fontFamily: "'Press Start 2P', monospace", fontSize: 8,
@@ -269,14 +269,14 @@ export default function DashboardPage() {
             color: '#b44dff', padding: '8px 12px', textDecoration: 'none',
             border: '1px solid #b44dff',
           }}>
-            🏰 Guild
+            🏰 Squad
           </Link>
           <Link href="/guild-wars" style={{
             fontFamily: "'Press Start 2P', monospace", fontSize: 8,
             color: '#ff2d78', padding: '8px 12px', textDecoration: 'none',
             border: '1px solid #ff2d78',
           }}>
-            🏆 Wars
+            🏆 Squad Wars
           </Link>
           <Link href="/leaderboard" style={{
             fontFamily: "'Press Start 2P', monospace", fontSize: 8,
@@ -342,7 +342,7 @@ export default function DashboardPage() {
                       cursor: feedCooldown ? 'not-allowed' : 'pointer',
                     }}
                   >
-                    🍕 Feed {feedCooldown && '(30s)'}
+                    ⚡ Charge {feedCooldown && '(30s)'}
                   </button>
                   <button
                     className="btn-pixel btn-pixel-pink"
@@ -353,7 +353,7 @@ export default function DashboardPage() {
                       cursor: petCooldown ? 'not-allowed' : 'pointer',
                     }}
                   >
-                    💖 Pet {petCooldown && '(15s)'}
+                    🔧 Boost {petCooldown && '(15s)'}
                   </button>
                 </div>
               </div>
@@ -374,14 +374,14 @@ export default function DashboardPage() {
                   <StatCard label="SPD" value={pet.spd} icon="💨" color="#b44dff" />
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, marginTop: 8 }}>
-                  <StatCard label="Hunger" value={`${pet.hunger}%`} icon="🍕" color="#ff2d78" />
-                  <StatCard label="Happy" value={`${pet.happiness}%`} icon="😊" color="#39ff14" />
+                  <StatCard label="Power" value={`${pet.hunger}%`} icon="⚡" color="#ff2d78" />
+                  <StatCard label="Morale" value={`${pet.happiness}%`} icon="😊" color="#39ff14" />
                   <StatCard label="Commits" value={pet.totalCommits} icon="💻" color="#00ffd5" />
                 </div>
               </div>
             </div>
 
-            {/* Right column: Evolution + Activity */}
+            {/* Right column: Build Phase + Activity */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
               {/* Evolution Timeline */}
               <div className="card-retro" style={{ padding: 20 }}>

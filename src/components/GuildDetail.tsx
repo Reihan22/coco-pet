@@ -43,7 +43,7 @@ function roleColor(role: string) {
 }
 
 function stageEmoji(stage: string) {
-  const map: Record<string, string> = { egg: '🥚', baby: '🐣', teen: '🐥', adult: '🦅', legendary: '🐉' };
+  const map: Record<string, string> = { egg: '🔧', baby: '⚙️', junior: '🛡️', senior: '🤖', legendary: '🐉' };
   return map[stage] || '🐣';
 }
 
@@ -136,7 +136,7 @@ export default function GuildDetail({ guildId, currentUserId }: { guildId: strin
   if (loading) {
     return (
       <div style={{ textAlign: 'center', padding: 60, color: '#b44dff', fontFamily: "'Press Start 2P', monospace", fontSize: 12 }}>
-        Loading guild...
+        Loading squad...
       </div>
     );
   }
@@ -144,7 +144,7 @@ export default function GuildDetail({ guildId, currentUserId }: { guildId: strin
   if (!guild) {
     return (
       <div style={{ textAlign: 'center', padding: 60, color: '#ff2d78', fontFamily: "'Press Start 2P', monospace", fontSize: 10 }}>
-        Guild not found
+        Squad not found
       </div>
     );
   }
@@ -185,7 +185,7 @@ export default function GuildDetail({ guildId, currentUserId }: { guildId: strin
                 color: '#ff2d78',
               }}
             >
-              LEAVE GUILD
+              LEAVE SQUAD
             </button>
           )}
         </div>
@@ -193,7 +193,7 @@ export default function GuildDetail({ guildId, currentUserId }: { guildId: strin
         {/* XP Bar */}
         <div style={{ marginTop: 16 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 8, color: '#555', fontFamily: "'Press Start 2P', monospace", marginBottom: 4 }}>
-            <span>GUILD XP</span>
+            <span>SQUAD XP</span>
             <span>{levelProgress}/{xpForNext}</span>
           </div>
           <div style={{ height: 8, background: 'rgba(255,255,255,0.05)', border: '1px solid #333', overflow: 'hidden' }}>
