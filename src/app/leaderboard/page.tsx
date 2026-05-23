@@ -29,7 +29,7 @@ export default function LeaderboardPage() {
       }}>
         <Link href="/" style={{ textDecoration: 'none' }}>
           <span style={{
-            fontFamily: "'Press Start 2P', monospace",
+            fontFamily: "var(--font-pixel)",
             fontSize: 14,
             color: '#00ffd5',
           }}>
@@ -39,7 +39,7 @@ export default function LeaderboardPage() {
         <div style={{ display: 'flex', gap: 8 }}>
           {username ? (
             <Link href="/dashboard" style={{
-              fontFamily: "'Press Start 2P', monospace",
+              fontFamily: "var(--font-pixel)",
               fontSize: 9,
               color: '#00ffd5',
               textDecoration: 'none',
@@ -51,7 +51,7 @@ export default function LeaderboardPage() {
           ) : (
             <>
               <Link href="/login" style={{
-                fontFamily: "'Press Start 2P', monospace",
+                fontFamily: "var(--font-pixel)",
                 fontSize: 9,
                 color: '#666',
                 textDecoration: 'none',
@@ -61,7 +61,7 @@ export default function LeaderboardPage() {
                 Login
               </Link>
               <Link href="/register" style={{
-                fontFamily: "'Press Start 2P', monospace",
+                fontFamily: "var(--font-pixel)",
                 fontSize: 9,
                 color: '#00ffd5',
                 textDecoration: 'none',
@@ -77,7 +77,7 @@ export default function LeaderboardPage() {
 
       {/* Title */}
       <h1 style={{
-        fontFamily: "'Press Start 2P', monospace",
+        fontFamily: "var(--font-pixel)",
         fontSize: 'clamp(16px, 3vw, 24px)',
         color: '#ffd700',
         marginBottom: 8,
@@ -107,7 +107,7 @@ export default function LeaderboardPage() {
           textAlign: 'center',
         }}>
           <p style={{
-            fontFamily: "'Press Start 2P', monospace",
+            fontFamily: "var(--font-pixel)",
             fontSize: 10,
             color: '#00ffd5',
             marginBottom: 12,
@@ -116,7 +116,7 @@ export default function LeaderboardPage() {
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 12 }}>
             <Link href="/register" style={{
-              fontFamily: "'Press Start 2P', monospace",
+              fontFamily: "var(--font-pixel)",
               fontSize: 9,
               color: '#00ffd5',
               textDecoration: 'none',
@@ -126,7 +126,7 @@ export default function LeaderboardPage() {
               Get Started
             </Link>
             <Link href="/login" style={{
-              fontFamily: "'Press Start 2P', monospace",
+              fontFamily: "var(--font-pixel)",
               fontSize: 9,
               color: '#666',
               textDecoration: 'none',

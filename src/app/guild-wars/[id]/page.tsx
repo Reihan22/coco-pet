@@ -40,7 +40,7 @@ export default function GuildWarDetailPage() {
   if (loading) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 12, color: '#ff6b35', animation: 'pulse-glow 2s ease-in-out infinite' }}>
+        <div style={{ fontFamily: "var(--font-pixel)", fontSize: 12, color: '#ff6b35', animation: 'pulse-glow 2s ease-in-out infinite' }}>
           Loading...
         </div>
       </div>
@@ -68,14 +68,14 @@ export default function GuildWarDetailPage() {
         zIndex: 100,
       }}>
         <Link href="/" style={{ textDecoration: 'none' }}>
-          <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 12, color: '#00ffd5' }}>
+          <div style={{ fontFamily: "var(--font-pixel)", fontSize: 12, color: '#00ffd5' }}>
             🤖 CodeBot
           </div>
         </Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <span style={{ fontSize: 12, color: '#666' }}>@{user.username}</span>
           <Link href="/guild-wars" style={{
-            fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+            fontFamily: "var(--font-pixel)", fontSize: 8,
             color: '#ff6b35', textDecoration: 'none', padding: '6px 12px',
             border: '1px solid #ff6b35',
           }}>

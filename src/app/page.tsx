@@ -41,12 +41,12 @@ export default function HomePage() {
         borderBottom: '1px solid rgba(255,255,255,0.05)',
         zIndex: 100,
       }}>
-        <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 14, color: '#00ffd5' }}>
+        <div style={{ fontFamily: "var(--font-pixel)", fontSize: 14, color: '#00ffd5' }}>
           🤖 CodeBot
         </div>
         <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
           <Link href="/leaderboard" style={{
-            fontFamily: "'Press Start 2P', monospace", fontSize: 9,
+            fontFamily: "var(--font-pixel)", fontSize: 9,
             color: '#ffd700', textDecoration: 'none',
             border: '2px solid #ffd700', padding: '8px 16px',
             transition: 'all 0.2s',
@@ -54,7 +54,7 @@ export default function HomePage() {
             🏆 Leaderboard
           </Link>
           <Link href="/login" style={{
-            fontFamily: "'Press Start 2P', monospace", fontSize: 9,
+            fontFamily: "var(--font-pixel)", fontSize: 9,
             color: '#666', textDecoration: 'none',
             border: '2px solid #333', padding: '8px 16px',
             transition: 'all 0.2s',
@@ -62,7 +62,7 @@ export default function HomePage() {
             Login
           </Link>
           <Link href="/register" style={{
-            fontFamily: "'Press Start 2P', monospace", fontSize: 9,
+            fontFamily: "var(--font-pixel)", fontSize: 9,
             color: '#00ffd5', textDecoration: 'none',
             border: '2px solid #00ffd5', padding: '8px 16px',
             transition: 'all 0.2s',
@@ -93,7 +93,7 @@ export default function HomePage() {
 
         <h1
           style={{
-            fontFamily: "'Press Start 2P', monospace",
+            fontFamily: "var(--font-pixel)",
             fontSize: 'clamp(20px, 4vw, 36px)',
             lineHeight: 1.4,
             marginTop: 32,
@@ -108,7 +108,7 @@ export default function HomePage() {
 
         <p
           style={{
-            fontFamily: "'Press Start 2P', monospace",
+            fontFamily: "var(--font-pixel)",
             fontSize: 'clamp(8px, 1.5vw, 12px)',
             color: '#888',
             marginTop: 16,
@@ -122,7 +122,7 @@ export default function HomePage() {
 
         <p
           style={{
-            fontFamily: "'Press Start 2P', monospace",
+            fontFamily: "var(--font-pixel)",
             fontSize: 'clamp(7px, 1.2vw, 10px)',
             color: '#ffd700',
             marginTop: 8,
@@ -187,7 +187,7 @@ export default function HomePage() {
         position: 'relative', zIndex: 1,
       }}>
         <h2 style={{
-          fontFamily: "'Press Start 2P', monospace",
+          fontFamily: "var(--font-pixel)",
           fontSize: 'clamp(14px, 2.5vw, 20px)',
           textAlign: 'center',
           marginBottom: 60,
@@ -249,7 +249,7 @@ export default function HomePage() {
         color: '#444',
         position: 'relative', zIndex: 1,
       }}>
-        <p style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 9, color: '#00ffd5', marginBottom: 8 }}>
+        <p style={{ fontFamily: "var(--font-pixel)", fontSize: 9, color: '#00ffd5', marginBottom: 8 }}>
           🤖 CodeBot
         </p>
         <p>Build. Code. Battle. • Powered by Xiaomi MiMo V2.5 Pro</p>
@@ -327,7 +327,7 @@ function FeatureCard({ icon, title, description, color }: {
     }}>
       <div style={{ fontSize: 36, marginBottom: 16 }}>{icon}</div>
       <h3 style={{
-        fontFamily: "'Press Start 2P', monospace",
+        fontFamily: "var(--font-pixel)",
         fontSize: 11,
         color,
         marginBottom: 14,
@@ -344,7 +344,7 @@ function StatBox({ label, value, color }: { label: string; value: number; color:
   return (
     <div>
       <div style={{
-        fontFamily: "'Press Start 2P', monospace",
+        fontFamily: "var(--font-pixel)",
         fontSize: 28,
         color,
         textShadow: `0 0 20px ${color}44`,

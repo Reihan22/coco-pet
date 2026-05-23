@@ -26,7 +26,7 @@ export default function Achievements({ pet }: AchievementsProps) {
     <div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
         <h3 style={{
-          fontFamily: "'Press Start 2P', monospace",
+          fontFamily: "var(--font-pixel)",
           fontSize: 9, color: '#ffd700',
           letterSpacing: 1,
         }}>
@@ -37,7 +37,7 @@ export default function Achievements({ pet }: AchievementsProps) {
           background: 'rgba(255,215,0,0.1)',
           border: '1px solid rgba(255,215,0,0.2)',
           padding: '2px 8px',
-          fontFamily: "'Press Start 2P', monospace",
+          fontFamily: "var(--font-pixel)",
         }}>
           {unlocked}/{ACHIEVEMENTS.length}
         </span>
@@ -73,7 +73,7 @@ export default function Achievements({ pet }: AchievementsProps) {
                 </span>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{
-                    fontFamily: "'Press Start 2P', monospace",
+                    fontFamily: "var(--font-pixel)",
                     fontSize: 8,
                     color: isUnlocked ? ach.color : '#555',
                     marginBottom: 6,

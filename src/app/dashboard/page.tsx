@@ -9,9 +9,11 @@ import MoodBadge from '@/components/MoodBadge';
 import StatCard from '@/components/StatCard';
 import ActivityFeed from '@/components/ActivityFeed';
 import EvolutionTimeline from '@/components/EvolutionTimeline';
-import Achievements from '@/components/Achievements';
-import Challenge from '@/components/Challenge';
-import MiMoLab from '@/components/MiMoLab';
+import dynamic from 'next/dynamic';
+
+const Achievements = dynamic(() => import('@/components/Achievements'), { ssr: false });
+const Challenge = dynamic(() => import('@/components/Challenge'), { ssr: false });
+const MiMoLab = dynamic(() => import('@/components/MiMoLab'), { ssr: false });
 import {
   calculateMood,
   xpProgress,
@@ -65,17 +67,17 @@ export default function DashboardPage() {
 
   const fetchData = useCallback(async () => {
     try {
-      const res = await fetch('/api/auth/me');
-      if (!res.ok) {
+      const [meRes, actRes] = await Promise.all([
+        fetch('/api/auth/me'),
+        fetch('/api/pet/activities'),
+      ]);
+      if (!meRes.ok) {
         router.push('/login');
         return;
       }
-      const data = await res.json();
+      const data = await meRes.json();
       setUser(data.user);
       setPet(data.pet);
-
-      // Fetch activities
-      const actRes = await fetch('/api/pet/activities');
       if (actRes.ok) {
         const actData = await actRes.json();
         setActivities(actData.activities);
@@ -176,7 +178,7 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 12, color: '#00ffd5', animation: 'pulse-glow 2s ease-in-out infinite' }}>
+        <div style={{ fontFamily: "var(--font-pixel)", fontSize: 12, color: '#00ffd5', animation: 'pulse-glow 2s ease-in-out infinite' }}>
           Loading...
         </div>
       </div>
@@ -231,13 +233,13 @@ export default function DashboardPage() {
         zIndex: 100,
       }}>
         <Link href="/" style={{ textDecoration: 'none' }}>
-          <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 12, color: '#00ffd5' }}>
+          <div style={{ fontFamily: "var(--font-pixel)", fontSize: 12, color: '#00ffd5' }}>
             🤖 CodeBot
           </div>
         </Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <span style={{
-            fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+            fontFamily: "var(--font-pixel)", fontSize: 8,
             color: '#ffd700', background: 'rgba(255,215,0,0.1)',
             padding: '4px 10px', borderRadius: 4,
             border: '1px solid rgba(255,215,0,0.3)',
@@ -269,7 +271,7 @@ export default function DashboardPage() {
               key={tab}
               onClick={() => setActiveTab(tab)}
               style={{
-                fontFamily: "'Press Start 2P', monospace",
+                fontFamily: "var(--font-pixel)",
                 fontSize: 9,
                 padding: '8px 16px',
                 border: `2px solid ${activeTab === tab ? '#00ffd5' : '#333'}`,
@@ -286,7 +288,7 @@ export default function DashboardPage() {
           <button
             onClick={() => setActiveTab('lab')}
             style={{
-              fontFamily: "'Press Start 2P', monospace",
+              fontFamily: "var(--font-pixel)",
               fontSize: 9, padding: '8px 16px',
               border: `2px solid ${activeTab === 'lab' ? '#b44dff' : '#333'}`,
               background: activeTab === 'lab' ? 'rgba(180,77,255,0.12)' : 'transparent',
@@ -299,42 +301,42 @@ export default function DashboardPage() {
           <div style={{ flex: 1 }} />
           {/* Future nav links */}
           <Link href="/skins" style={{
-            fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+            fontFamily: "var(--font-pixel)", fontSize: 8,
             color: '#ffd700', padding: '8px 12px', textDecoration: 'none',
             border: '1px solid #ffd700',
           }}>
             🎨 Paint
           </Link>
           <Link href="/dashboard/battles" style={{
-            fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+            fontFamily: "var(--font-pixel)", fontSize: 8,
             color: '#ff6b35', padding: '8px 12px', textDecoration: 'none',
             border: '1px solid #ff6b35',
           }}>
             ⚔️ Duels
           </Link>
           <Link href="/dashboard/friends" style={{
-            fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+            fontFamily: "var(--font-pixel)", fontSize: 8,
             color: '#00ffd5', padding: '8px 12px', textDecoration: 'none',
             border: '1px solid #00ffd5',
           }}>
             👥 Friends
           </Link>
           <Link href="/guild" style={{
-            fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+            fontFamily: "var(--font-pixel)", fontSize: 8,
             color: '#b44dff', padding: '8px 12px', textDecoration: 'none',
             border: '1px solid #b44dff',
           }}>
             🏰 Squad
           </Link>
           <Link href="/guild-wars" style={{
-            fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+            fontFamily: "var(--font-pixel)", fontSize: 8,
             color: '#ff2d78', padding: '8px 12px', textDecoration: 'none',
             border: '1px solid #ff2d78',
           }}>
             🏆 Squad Wars
           </Link>
           <Link href="/leaderboard" style={{
-            fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+            fontFamily: "var(--font-pixel)", fontSize: 8,
             color: '#39ff14', padding: '8px 12px', textDecoration: 'none',
             border: '1px solid #39ff14',
           }}>
@@ -350,7 +352,7 @@ export default function DashboardPage() {
               <div className="card-retro" style={{ padding: 24 }}>
                 {/* Pet name - clickable to rename */}
                 <div style={{
-                  fontFamily: "'Press Start 2P', monospace",
+                  fontFamily: "var(--font-pixel)",
                   fontSize: 11, color: '#00ffd5',
                   marginBottom: 4, textAlign: 'center',
                   position: 'relative',
@@ -366,7 +368,7 @@ export default function DashboardPage() {
                         style={{
                           background: 'rgba(0,255,213,0.08)', border: '1px solid #00ffd5',
                           color: '#00ffd5', padding: '4px 8px', borderRadius: 4,
-                          fontFamily: "'Press Start 2P', monospace", fontSize: 11,
+                          fontFamily: "var(--font-pixel)", fontSize: 11,
                           width: 160, textAlign: 'center', outline: 'none',
                         }}
                       />
@@ -374,12 +376,12 @@ export default function DashboardPage() {
                         <button onClick={handleRename} style={{
                           background: '#00ffd5', color: '#0a0a0f', border: 'none',
                           padding: '3px 10px', borderRadius: 4, cursor: 'pointer',
-                          fontFamily: "'Press Start 2P'", fontSize: 7,
+                          fontFamily: "var(--font-pixel)", fontSize: 7,
                         }}>OK</button>
                         <button onClick={() => setEditingName(false)} style={{
                           background: 'rgba(255,255,255,0.1)', color: '#888', border: 'none',
                           padding: '3px 10px', borderRadius: 4, cursor: 'pointer',
-                          fontFamily: "'Press Start 2P'", fontSize: 7,
+                          fontFamily: "var(--font-pixel)", fontSize: 7,
                         }}>X</button>
                       </div>
                       {renameError && <span style={{ color: '#ff2d78', fontSize: 7 }}>{renameError}</span>}
@@ -409,7 +411,7 @@ export default function DashboardPage() {
                   {xpPopup && (
                     <div style={{
                       position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
-                      fontFamily: "'Press Start 2P', monospace",
+                      fontFamily: "var(--font-pixel)",
                       fontSize: 12, color: '#39ff14',
                       animation: 'float-up-fade 2s ease-out forwards',
                       pointerEvents: 'none',
@@ -454,7 +456,7 @@ export default function DashboardPage() {
               {/* Stats */}
               <div className="card-retro" style={{ padding: 20 }}>
                 <h3 style={{
-                  fontFamily: "'Press Start 2P', monospace",
+                  fontFamily: "var(--font-pixel)",
                   fontSize: 9, color: '#00ffd5',
                   marginBottom: 16, letterSpacing: 1,
                 }}>
@@ -484,7 +486,7 @@ export default function DashboardPage() {
               {/* Activity Feed */}
               <div className="card-retro" style={{ padding: 20, flex: 1 }}>
                 <h3 style={{
-                  fontFamily: "'Press Start 2P', monospace",
+                  fontFamily: "var(--font-pixel)",
                   fontSize: 9, color: '#00ffd5',
                   marginBottom: 16, letterSpacing: 1,
                 }}>
@@ -503,14 +505,14 @@ export default function DashboardPage() {
           /* MiMo Lab tab */
           <div className="card-retro" style={{ padding: 24 }}>
             <h3 style={{
-              fontFamily: "'Press Start 2P', monospace",
+              fontFamily: "var(--font-pixel)",
               fontSize: 11, color: '#b44dff',
               marginBottom: 4,
             }}>
               🧬 MiMo Fusion Lab
             </h3>
             <p style={{
-              fontFamily: "'Press Start 2P', monospace",
+              fontFamily: "var(--font-pixel)",
               fontSize: 8, color: '#666',
               marginBottom: 20, lineHeight: 1.6,
             }}>

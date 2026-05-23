@@ -40,7 +40,7 @@ export default function GuildWarsPage() {
   if (loading) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 12, color: '#ff6b35', animation: 'pulse-glow 2s ease-in-out infinite' }}>
+        <div style={{ fontFamily: "var(--font-pixel)", fontSize: 12, color: '#ff6b35', animation: 'pulse-glow 2s ease-in-out infinite' }}>
           Loading...
         </div>
       </div>
@@ -68,14 +68,14 @@ export default function GuildWarsPage() {
         zIndex: 100,
       }}>
         <Link href="/" style={{ textDecoration: 'none' }}>
-          <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 12, color: '#00ffd5' }}>
+          <div style={{ fontFamily: "var(--font-pixel)", fontSize: 12, color: '#00ffd5' }}>
             🤖 CodeBot
           </div>
         </Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <span style={{ fontSize: 12, color: '#666' }}>@{user.username}</span>
           <Link href="/dashboard" style={{
-            fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+            fontFamily: "var(--font-pixel)", fontSize: 8,
             color: '#00ffd5', textDecoration: 'none', padding: '6px 12px',
             border: '1px solid #00ffd5',
           }}>
@@ -91,7 +91,7 @@ export default function GuildWarsPage() {
         position: 'relative', zIndex: 1,
       }}>
         <h1 style={{
-          fontFamily: "'Press Start 2P', monospace", fontSize: 14,
+          fontFamily: "var(--font-pixel)", fontSize: 14,
           color: '#ff6b35', marginBottom: 24,
         }}>
           ⚔️ GUILD WARS
@@ -104,7 +104,7 @@ export default function GuildWarsPage() {
               key={tab}
               onClick={() => setActiveTab(tab)}
               style={{
-                fontFamily: "'Press Start 2P', monospace",
+                fontFamily: "var(--font-pixel)",
                 fontSize: 9, padding: '8px 16px',
                 border: `2px solid ${activeTab === tab ? '#ff6b35' : '#333'}`,
                 background: activeTab === tab ? 'rgba(255,107,53,0.1)' : 'transparent',

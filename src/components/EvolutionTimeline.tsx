@@ -29,7 +29,7 @@ export default function EvolutionTimeline({ stage, level }: EvolutionTimelinePro
   return (
     <div style={{ padding: '12px 0' }}>
       <h3 style={{
-        fontFamily: "'Press Start 2P', monospace",
+        fontFamily: "var(--font-pixel)",
         fontSize: 8, color: '#b44dff',
         marginBottom: 16, letterSpacing: 1,
       }}>
@@ -86,7 +86,7 @@ export default function EvolutionTimeline({ stage, level }: EvolutionTimelinePro
               </div>
 
               <span style={{
-                fontFamily: "'Press Start 2P', monospace",
+                fontFamily: "var(--font-pixel)",
                 fontSize: isCurrent ? 7 : 6,
                 color: isCurrent ? color : isCompleted ? '#888' : '#444',
                 whiteSpace: 'nowrap',
@@ -96,7 +96,7 @@ export default function EvolutionTimeline({ stage, level }: EvolutionTimelinePro
 
               {isCurrent && (
                 <span style={{
-                  fontFamily: "'Press Start 2P', monospace",
+                  fontFamily: "var(--font-pixel)",
                   fontSize: 6, color: '#666',
                 }}>
                   LV.{level}

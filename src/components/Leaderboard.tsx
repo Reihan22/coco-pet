@@ -110,7 +110,7 @@ export default function Leaderboard({ currentUsername }: LeaderboardProps) {
               key={t.key}
               onClick={() => setTab(t.key)}
               style={{
-                fontFamily: "'Press Start 2P', monospace",
+                fontFamily: "var(--font-pixel)",
                 fontSize: 9,
                 padding: '10px 16px',
                 border: tab === t.key ? '2px solid #ffd700' : '2px solid #333',
@@ -128,7 +128,7 @@ export default function Leaderboard({ currentUsername }: LeaderboardProps) {
           onClick={fetchData}
           disabled={loading}
           style={{
-            fontFamily: "'Press Start 2P', monospace",
+            fontFamily: "var(--font-pixel)",
             fontSize: 8,
             padding: '8px 14px',
             border: '2px solid #00ffd5',
@@ -192,7 +192,7 @@ export default function Leaderboard({ currentUsername }: LeaderboardProps) {
                 }}
               >
                 <span style={{
-                  fontFamily: "'Press Start 2P', monospace",
+                  fontFamily: "var(--font-pixel)",
                   fontSize: entry.rank <= 3 ? 14 : 10,
                   color: entry.rank <= 3 ? rankColors[entry.rank - 1] : '#555',
                   width: 28,
@@ -219,7 +219,7 @@ export default function Leaderboard({ currentUsername }: LeaderboardProps) {
                 </span>
 
                 <span style={{
-                  fontFamily: "'Press Start 2P', monospace",
+                  fontFamily: "var(--font-pixel)",
                   fontSize: 8,
                   color: '#ffd700',
                   background: 'rgba(255,215,0,0.1)',
@@ -277,7 +277,7 @@ export default function Leaderboard({ currentUsername }: LeaderboardProps) {
                 }}
               >
                 <span style={{
-                  fontFamily: "'Press Start 2P', monospace",
+                  fontFamily: "var(--font-pixel)",
                   fontSize: entry.rank <= 3 ? 14 : 10,
                   color: entry.rank <= 3 ? rankColors[entry.rank - 1] : '#555',
                   width: 28,
@@ -301,7 +301,7 @@ export default function Leaderboard({ currentUsername }: LeaderboardProps) {
                 </span>
 
                 <span style={{
-                  fontFamily: "'Press Start 2P', monospace",
+                  fontFamily: "var(--font-pixel)",
                   fontSize: 7,
                   color: '#b44dff',
                   background: 'rgba(180,77,255,0.1)',
@@ -313,7 +313,7 @@ export default function Leaderboard({ currentUsername }: LeaderboardProps) {
                 </span>
 
                 <span style={{
-                  fontFamily: "'Press Start 2P', monospace",
+                  fontFamily: "var(--font-pixel)",
                   fontSize: 8,
                   color: '#ffd700',
                   background: 'rgba(255,215,0,0.1)',
@@ -370,7 +370,7 @@ export default function Leaderboard({ currentUsername }: LeaderboardProps) {
                 }}
               >
                 <span style={{
-                  fontFamily: "'Press Start 2P', monospace",
+                  fontFamily: "var(--font-pixel)",
                   fontSize: entry.rank <= 3 ? 14 : 10,
                   color: entry.rank <= 3 ? rankColors[entry.rank - 1] : '#555',
                   width: 28,
@@ -399,7 +399,7 @@ export default function Leaderboard({ currentUsername }: LeaderboardProps) {
                 <span style={{ fontSize: 16, flexShrink: 0 }}>{emoji}</span>
 
                 <span style={{
-                  fontFamily: "'Press Start 2P', monospace",
+                  fontFamily: "var(--font-pixel)",
                   fontSize: 8,
                   color: '#ff2d78',
                   background: 'rgba(255,45,120,0.1)',

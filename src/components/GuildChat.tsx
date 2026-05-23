@@ -80,7 +80,7 @@ export default function GuildChat({ guildId }: { guildId: string }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 400 }}>
       <h3 style={{
-        fontFamily: "'Press Start 2P', monospace", fontSize: 10,
+        fontFamily: "var(--font-pixel)", fontSize: 10,
         color: '#b44dff', marginBottom: 12, letterSpacing: 1,
       }}>
         💬 SQUAD CHAT
@@ -99,7 +99,7 @@ export default function GuildChat({ guildId }: { guildId: string }) {
         {messages.length === 0 ? (
           <p style={{
             textAlign: 'center', color: '#444',
-            fontFamily: "'Press Start 2P', monospace", fontSize: 8, padding: 20,
+            fontFamily: "var(--font-pixel)", fontSize: 8, padding: 20,
           }}>
             No messages yet. Say hello!
           </p>
@@ -108,7 +108,7 @@ export default function GuildChat({ guildId }: { guildId: string }) {
             <div key={msg.id} style={{ marginBottom: 10 }}>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
                 <span style={{
-                  fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+                  fontFamily: "var(--font-pixel)", fontSize: 8,
                   color: '#b44dff',
                 }}>
                   {msg.user.username}
@@ -139,7 +139,7 @@ export default function GuildChat({ guildId }: { guildId: string }) {
           style={{
             flex: 1, padding: '10px 14px',
             background: 'rgba(255,255,255,0.05)', border: '2px solid #333',
-            color: '#fff', fontFamily: "'Press Start 2P', monospace", fontSize: 9,
+            color: '#fff', fontFamily: "var(--font-pixel)", fontSize: 9,
             outline: 'none', borderRadius: 0,
           }}
         />
@@ -147,7 +147,7 @@ export default function GuildChat({ guildId }: { guildId: string }) {
           type="submit"
           disabled={sending || !input.trim()}
           style={{
-            fontFamily: "'Press Start 2P', monospace", fontSize: 9,
+            fontFamily: "var(--font-pixel)", fontSize: 9,
             padding: '10px 20px', cursor: 'pointer',
             background: 'rgba(180,77,255,0.2)', border: '2px solid #b44dff',
             color: '#b44dff', opacity: sending ? 0.5 : 1,
@@ -159,7 +159,7 @@ export default function GuildChat({ guildId }: { guildId: string }) {
 
       {error && (
         <p style={{
-          color: '#ff2d78', fontFamily: "'Press Start 2P', monospace",
+          color: '#ff2d78', fontFamily: "var(--font-pixel)",
           fontSize: 8, marginTop: 6,
         }}>
           ⚠ {error}

@@ -38,7 +38,7 @@ export default function BattlesPage() {
   if (loading) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 12, color: '#ff6b35', animation: 'pulse-glow 2s ease-in-out infinite' }}>
+        <div style={{ fontFamily: "var(--font-pixel)", fontSize: 12, color: '#ff6b35', animation: 'pulse-glow 2s ease-in-out infinite' }}>
           Loading...
         </div>
       </div>
@@ -67,14 +67,14 @@ export default function BattlesPage() {
         zIndex: 100,
       }}>
         <Link href="/" style={{ textDecoration: 'none' }}>
-          <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 12, color: '#00ffd5' }}>
+          <div style={{ fontFamily: "var(--font-pixel)", fontSize: 12, color: '#00ffd5' }}>
             🤖 CodeBot
           </div>
         </Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <span style={{ fontSize: 12, color: '#666' }}>@{user.username}</span>
           <Link href="/dashboard" style={{
-            fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+            fontFamily: "var(--font-pixel)", fontSize: 8,
             color: '#00ffd5', textDecoration: 'none', padding: '6px 12px',
             border: '1px solid #00ffd5',
           }}>
@@ -92,7 +92,7 @@ export default function BattlesPage() {
         zIndex: 1,
       }}>
         <h1 style={{
-          fontFamily: "'Press Start 2P', monospace", fontSize: 14,
+          fontFamily: "var(--font-pixel)", fontSize: 14,
           color: '#ff6b35', marginBottom: 24,
           textShadow: '0 0 20px rgba(255,107,53,0.3)',
         }}>

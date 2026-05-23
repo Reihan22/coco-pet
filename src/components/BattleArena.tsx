@@ -245,7 +245,7 @@ export default function BattleArena({ battleId }: { battleId: string }) {
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', padding: 60 }}>
-        <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 12, color: '#ff6b35', animation: 'pulse-glow 2s ease-in-out infinite' }}>
+        <div style={{ fontFamily: "var(--font-pixel)", fontSize: 12, color: '#ff6b35', animation: 'pulse-glow 2s ease-in-out infinite' }}>
           ⚔️ Loading Battle...
         </div>
       </div>
@@ -254,7 +254,7 @@ export default function BattleArena({ battleId }: { battleId: string }) {
 
   if (error && !battle) {
     return (
-      <div style={{ textAlign: 'center', padding: 60, color: '#ff4444', fontFamily: "'Press Start 2P', monospace", fontSize: 11 }}>
+      <div style={{ textAlign: 'center', padding: 60, color: '#ff4444', fontFamily: "var(--font-pixel)", fontSize: 11 }}>
         {error}
       </div>
     );
@@ -266,19 +266,19 @@ export default function BattleArena({ battleId }: { battleId: string }) {
   if (battle.status === 'waiting' && !battle.opponent) {
     return (
       <div style={{ textAlign: 'center', padding: 60 }}>
-        <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 18, color: '#ffd700', marginBottom: 16, animation: 'pulse-glow 2s ease-in-out infinite' }}>
+        <div style={{ fontFamily: "var(--font-pixel)", fontSize: 18, color: '#ffd700', marginBottom: 16, animation: 'pulse-glow 2s ease-in-out infinite' }}>
           ⏳ Waiting for opponent...
         </div>
-        <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 10, color: '#666', marginBottom: 24 }}>
+        <div style={{ fontFamily: "var(--font-pixel)", fontSize: 10, color: '#666', marginBottom: 24 }}>
           Share your challenge link or wait for someone to join
         </div>
-        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#888' }}>
+        <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: '#888' }}>
           Battle ID: {battle.id}
         </div>
         <button
           onClick={() => router.push('/dashboard/battles')}
           style={{
-            marginTop: 24, fontFamily: "'Press Start 2P', monospace", fontSize: 9, padding: '10px 20px',
+            marginTop: 24, fontFamily: "var(--font-pixel)", fontSize: 9, padding: '10px 20px',
             border: '2px solid #ff6b35', background: 'rgba(255,107,53,0.1)', color: '#ff6b35', cursor: 'pointer',
           }}
         >
@@ -330,7 +330,7 @@ export default function BattleArena({ battleId }: { battleId: string }) {
           background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)',
         }}>
           <div style={{
-            fontFamily: "'Press Start 2P', monospace", fontSize: 28,
+            fontFamily: "var(--font-pixel)", fontSize: 28,
             color: battle.winnerId === currentUserId ? '#39ff14' : (battle.winnerId ? '#ff4444' : '#ffd700'),
             textShadow: `0 0 30px ${battle.winnerId === currentUserId ? '#39ff14' : '#ff4444'}`,
             marginBottom: 16,
@@ -338,7 +338,7 @@ export default function BattleArena({ battleId }: { battleId: string }) {
             {battle.winnerId === currentUserId ? '🏆 VICTORY!' : (battle.winnerId ? '💀 DEFEAT' : '🤝 DRAW')}
           </div>
           <div style={{
-            fontFamily: "'Press Start 2P', monospace", fontSize: 10, color: '#aaa', marginBottom: 8,
+            fontFamily: "var(--font-pixel)", fontSize: 10, color: '#aaa', marginBottom: 8,
           }}>
             {battle.winnerId === currentUserId ? '+50 XP' : '+20 XP'}
           </div>
@@ -346,7 +346,7 @@ export default function BattleArena({ battleId }: { battleId: string }) {
             <button
               onClick={() => setShowVictory(false)}
               style={{
-                fontFamily: "'Press Start 2P', monospace", fontSize: 9, padding: '10px 20px',
+                fontFamily: "var(--font-pixel)", fontSize: 9, padding: '10px 20px',
                 border: '2px solid #00ffd5', background: 'rgba(0,255,213,0.1)', color: '#00ffd5',
                 cursor: 'pointer',
               }}
@@ -356,7 +356,7 @@ export default function BattleArena({ battleId }: { battleId: string }) {
             <button
               onClick={() => router.push('/dashboard/battles')}
               style={{
-                fontFamily: "'Press Start 2P', monospace", fontSize: 9, padding: '10px 20px',
+                fontFamily: "var(--font-pixel)", fontSize: 9, padding: '10px 20px',
                 border: '2px solid #ff6b35', background: 'rgba(255,107,53,0.1)', color: '#ff6b35',
                 cursor: 'pointer',
               }}
@@ -373,10 +373,10 @@ export default function BattleArena({ battleId }: { battleId: string }) {
           textAlign: 'center', padding: 40,
           border: '2px solid #333', background: 'rgba(255,107,53,0.05)',
         }}>
-          <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 12, color: '#ff6b35', marginBottom: 16 }}>
+          <div style={{ fontFamily: "var(--font-pixel)", fontSize: 12, color: '#ff6b35', marginBottom: 16 }}>
             ⏳ WAITING FOR OPPONENT
           </div>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 14, color: '#aaa', marginBottom: 24 }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 14, color: '#aaa', marginBottom: 24 }}>
             Challenge sent to <strong style={{ color: '#fff' }}>@{oppUser.username}</strong>
           </div>
           {!isChallenger && (
@@ -384,7 +384,7 @@ export default function BattleArena({ battleId }: { battleId: string }) {
               onClick={handleAccept}
               disabled={actionLoading}
               style={{
-                fontFamily: "'Press Start 2P', monospace", fontSize: 10, padding: '12px 24px',
+                fontFamily: "var(--font-pixel)", fontSize: 10, padding: '12px 24px',
                 border: '2px solid #39ff14', background: 'rgba(57,255,20,0.1)', color: '#39ff14',
                 cursor: 'pointer', opacity: actionLoading ? 0.5 : 1,
               }}
@@ -393,7 +393,7 @@ export default function BattleArena({ battleId }: { battleId: string }) {
             </button>
           )}
           {isChallenger && (
-            <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 9, color: '#666', animation: 'pulse-glow 2s ease-in-out infinite' }}>
+            <div style={{ fontFamily: "var(--font-pixel)", fontSize: 9, color: '#666', animation: 'pulse-glow 2s ease-in-out infinite' }}>
               Waiting for @{oppUser.username} to accept...
             </div>
           )}
@@ -423,7 +423,7 @@ export default function BattleArena({ battleId }: { battleId: string }) {
 
             {/* VS */}
             <div style={{
-              fontFamily: "'Press Start 2P', monospace", fontSize: 16,
+              fontFamily: "var(--font-pixel)", fontSize: 16,
               color: '#ff6b35', textShadow: '0 0 10px rgba(255,107,53,0.5)',
             }}>
               VS
@@ -449,7 +449,7 @@ export default function BattleArena({ battleId }: { battleId: string }) {
             <>
               {waitingForOpponent && (
                 <div style={{
-                  fontFamily: "'Press Start 2P', monospace", fontSize: 10, color: '#00ffd5',
+                  fontFamily: "var(--font-pixel)", fontSize: 10, color: '#00ffd5',
                   textAlign: 'center', padding: 16,
                   border: '2px dashed #00ffd5', background: 'rgba(0,255,213,0.08)',
                   animation: 'pulse 2s ease-in-out infinite',
@@ -473,7 +473,7 @@ export default function BattleArena({ battleId }: { battleId: string }) {
                   onClick={() => handleAction(a.key)}
                   disabled={actionLoading}
                   style={{
-                    fontFamily: "'Press Start 2P', monospace", fontSize: 9,
+                    fontFamily: "var(--font-pixel)", fontSize: 9,
                     padding: '14px 8px', textAlign: 'center',
                     border: `2px solid ${a.color}`,
                     background: `rgba(${hexToRgb(a.color)},0.08)`,
@@ -485,7 +485,7 @@ export default function BattleArena({ battleId }: { battleId: string }) {
                   onMouseLeave={(e) => { (e.target as HTMLElement).style.background = `rgba(${hexToRgb(a.color)},0.08)`; }}
                 >
                   <div>{a.label}</div>
-                  <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 7, color: '#666', marginTop: 4 }}>{a.desc}</div>
+                  <div style={{ fontFamily: "var(--font-mono)", fontSize: 7, color: '#666', marginTop: 4 }}>{a.desc}</div>
                 </button>
               ))}
             </div>
@@ -495,7 +495,7 @@ export default function BattleArena({ battleId }: { battleId: string }) {
           {/* Error */}
           {error && (
             <div style={{
-              fontFamily: "'Press Start 2P', monospace", fontSize: 9, color: '#ff4444',
+              fontFamily: "var(--font-pixel)", fontSize: 9, color: '#ff4444',
               padding: 10, border: '1px solid #ff4444', background: 'rgba(255,68,68,0.1)',
               textAlign: 'center',
             }}>
@@ -508,24 +508,24 @@ export default function BattleArena({ battleId }: { battleId: string }) {
             border: '1px solid #222', background: 'rgba(0,0,0,0.4)',
             padding: 16, maxHeight: 300, overflowY: 'auto',
           }} ref={logRef}>
-            <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 9, color: '#ff6b35', marginBottom: 12 }}>
+            <div style={{ fontFamily: "var(--font-pixel)", fontSize: 9, color: '#ff6b35', marginBottom: 12 }}>
               ⚔️ BATTLE LOG
             </div>
             {turns.length === 0 && (
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", color: '#555', fontSize: 12, fontStyle: 'italic' }}>No turns yet...</div>
+              <div style={{ fontFamily: "var(--font-mono)", color: '#555', fontSize: 12, fontStyle: 'italic' }}>No turns yet...</div>
             )}
             {turns.map((t, i) => (
               <div key={i} style={{ marginBottom: 10, paddingBottom: 10, borderBottom: '1px solid #111' }}>
-                <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#666', marginBottom: 4 }}>
+                <div style={{ fontFamily: "var(--font-pixel)", fontSize: 8, color: '#666', marginBottom: 4 }}>
                   TURN {t.turn}
                 </div>
                 {t.events.map((evt, j) => (
                   <div key={j} style={{
-                    fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: evt.critical ? '#ffd700' : (evt.action === 'flee' && evt.success ? '#ffd700' : '#ccc'),
+                    fontFamily: "var(--font-mono)", fontSize: 12, color: evt.critical ? '#ffd700' : (evt.action === 'flee' && evt.success ? '#ffd700' : '#ccc'),
                     marginBottom: 2,
                     textShadow: evt.critical ? '0 0 8px rgba(255,215,0,0.5)' : 'none',
                   }} className={evt.critical ? 'crit-text' : ''}>
-                    {evt.critical && <span style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#ffd700' }}>💥 CRITICAL! </span>}
+                    {evt.critical && <span style={{ fontFamily: "var(--font-pixel)", fontSize: 8, color: '#ffd700' }}>💥 CRITICAL! </span>}
                     {evt.action === 'attack' && <span style={{ color: '#ff6b35' }}>⚔️ </span>}
                     {evt.action === 'defend' && <span style={{ color: '#00ffd5' }}>🛡️ </span>}
                     {evt.action === 'special' && <span style={{ color: '#ff2d78' }}>💥 </span>}
@@ -538,7 +538,7 @@ export default function BattleArena({ battleId }: { battleId: string }) {
 
           {/* Turn count */}
           <div style={{
-            fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#555',
+            fontFamily: "var(--font-pixel)", fontSize: 8, color: '#555',
             textAlign: 'center',
           }}>
             TURN {turns.length} / 20
@@ -564,17 +564,17 @@ function FighterCard({ username, petName, stage, level, currentHp, maxHp, hpPct,
       background: `rgba(${isYou ? '0,255,213' : '255,107,53'},0.05)`,
       padding: 16, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center',
     }}>
-      <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 9, color: isYou ? '#00ffd5' : '#ff6b35', marginBottom: 4 }}>
+      <div style={{ fontFamily: "var(--font-pixel)", fontSize: 9, color: isYou ? '#00ffd5' : '#ff6b35', marginBottom: 4 }}>
         {isYou ? '(YOU)' : '(OPP)'}
       </div>
-      <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: '#aaa', marginBottom: 8 }}>{username}</div>
+      <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: '#aaa', marginBottom: 8 }}>{username}</div>
       <div style={{ marginBottom: 4 }}>
         <PixelPet stage={stageToEvolution(stage)} mood="happy" level={level} size="sm" />
       </div>
-      <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 10, color: '#fff', marginBottom: 4 }}>
+      <div style={{ fontFamily: "var(--font-pixel)", fontSize: 10, color: '#fff', marginBottom: 4 }}>
         {petName}
       </div>
-      <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#888', marginBottom: 8 }}>Lv.{level} {stage}</div>
+      <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: '#888', marginBottom: 8 }}>Lv.{level} {stage}</div>
       {/* HP Bar */}
       <div style={{ width: '100%', minWidth: 120, background: '#1a1a1a', height: 18, borderRadius: 4, overflow: 'hidden', position: 'relative', border: '1px solid #333', boxShadow: `0 0 8px rgba(${hpPct > 50 ? '57,255,20' : hpPct > 25 ? '255,215,0' : '255,68,68'},0.3)` }}>
         <div style={{
@@ -586,7 +586,7 @@ function FighterCard({ username, petName, stage, level, currentHp, maxHp, hpPct,
         <div style={{
           position: 'absolute', inset: 0,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#fff',
+          fontFamily: "var(--font-pixel)", fontSize: 8, color: '#fff',
           textShadow: '0 0 6px #000, 0 1px 2px #000',
         }}>
           {currentHp} / {maxHp}

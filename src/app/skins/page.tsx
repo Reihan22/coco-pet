@@ -111,7 +111,7 @@ export default function SkinsPage() {
   if (loading) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 12, color: '#00ffd5', animation: 'pulse-glow 2s ease-in-out infinite' }}>
+        <div style={{ fontFamily: "var(--font-pixel)", fontSize: 12, color: '#00ffd5', animation: 'pulse-glow 2s ease-in-out infinite' }}>
           Loading Skins...
         </div>
       </div>
@@ -133,7 +133,7 @@ export default function SkinsPage() {
   } : undefined;
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0a0a0f', color: '#e0e0e0', fontFamily: "'Press Start 2P', monospace" }}>
+    <div style={{ minHeight: '100vh', background: '#0a0a0f', color: '#e0e0e0', fontFamily: "var(--font-pixel)" }}>
       {/* Header */}
       <div style={{ padding: '20px 32px', borderBottom: '1px solid #1a1a2e', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/dashboard" style={{ color: '#00ffd5', textDecoration: 'none', fontSize: 10 }}>

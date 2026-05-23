@@ -60,7 +60,7 @@ export default function PixelPet({ stage, mood, level, size = 'lg', skin }: Pixe
           right: 4 * scale,
           background: 'linear-gradient(135deg, #ffd700, #ff9500)',
           color: '#0a0a0f',
-          fontFamily: "'Press Start 2P', monospace",
+          fontFamily: "var(--font-pixel)",
           fontSize: Math.max(7, 9 * scale),
           padding: `${2 * scale}px ${6 * scale}px`,
           fontWeight: 'bold',

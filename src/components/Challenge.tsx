@@ -85,7 +85,7 @@ export default function Challenge({
         <span
           style={{
             fontSize: 10,
-            fontFamily: "'Press Start 2P', monospace",
+            fontFamily: "var(--font-pixel)",
             padding: '4px 8px',
             background:
               level <= 10
@@ -112,7 +112,7 @@ export default function Challenge({
         style={{
           padding: '12px 20px',
           fontSize: 12,
-          fontFamily: "'Press Start 2P', monospace",
+          fontFamily: "var(--font-pixel)",
           background: isGenerating ? '#222' : 'rgba(0,255,213,0.13)',
           border: `2px solid ${isGenerating ? '#333' : '#00ffd5'}`,
           color: isGenerating ? '#555' : '#00ffd5',
@@ -136,7 +136,7 @@ export default function Challenge({
         >
           <h3
             style={{
-              fontFamily: "'Press Start 2P', monospace",
+              fontFamily: "var(--font-pixel)",
               fontSize: 13,
               color: '#00ffd5',
               marginBottom: 12,
@@ -157,7 +157,7 @@ export default function Challenge({
               color: '#888',
               padding: '6px 12px',
               fontSize: 11,
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "var(--font-mono)",
               cursor: 'pointer',
               marginBottom: 12,
             }}
@@ -189,7 +189,7 @@ export default function Challenge({
                   style={{
                     padding: '8px 16px',
                     fontSize: 10,
-                    fontFamily: "'Press Start 2P', monospace",
+                    fontFamily: "var(--font-pixel)",
                     background: 'rgba(57,255,20,0.13)',
                     border: '2px solid #39ff14',
                     color: '#39ff14',
@@ -204,7 +204,7 @@ export default function Challenge({
                   style={{
                     padding: '8px 14px',
                     fontSize: 9,
-                    fontFamily: "'Press Start 2P', monospace",
+                    fontFamily: "var(--font-pixel)",
                     background: 'transparent',
                     border: '2px solid #333',
                     color: '#888',
@@ -222,7 +222,7 @@ export default function Challenge({
                   border: '1px solid rgba(57,255,20,0.27)',
                   color: '#39ff14',
                   fontSize: 10,
-                  fontFamily: "'Press Start 2P', monospace",
+                  fontFamily: "var(--font-pixel)",
                 }}
               >
                 ✓ +50 XP Earned!

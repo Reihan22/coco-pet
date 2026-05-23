@@ -113,7 +113,7 @@ export default function FriendList() {
 
   if (loading) {
     return (
-      <div style={{ textAlign: 'center', padding: 40, color: '#00ffd5', fontFamily: "'Press Start 2P', monospace", fontSize: 12 }}>
+      <div style={{ textAlign: 'center', padding: 40, color: '#00ffd5', fontFamily: "var(--font-pixel)", fontSize: 12 }}>
         Loading friends...
       </div>
     );
@@ -121,7 +121,7 @@ export default function FriendList() {
 
   if (!data) {
     return (
-      <div style={{ textAlign: 'center', padding: 40, color: '#ff2d78', fontFamily: "'Press Start 2P', monospace", fontSize: 10 }}>
+      <div style={{ textAlign: 'center', padding: 40, color: '#ff2d78', fontFamily: "var(--font-pixel)", fontSize: 10 }}>
         Failed to load friends
       </div>
     );
@@ -132,7 +132,7 @@ export default function FriendList() {
       {/* Add Friend */}
       <div className="card-retro" style={{ padding: 20 }}>
         <h3 style={{
-          fontFamily: "'Press Start 2P', monospace", fontSize: 10,
+          fontFamily: "var(--font-pixel)", fontSize: 10,
           color: '#00ffd5', marginBottom: 12, letterSpacing: 1,
         }}>
           ➕ ADD FRIEND
@@ -146,7 +146,7 @@ export default function FriendList() {
             style={{
               flex: 1, padding: '10px 14px',
               background: 'rgba(255,255,255,0.05)', border: '2px solid #333',
-              color: '#fff', fontFamily: "'Press Start 2P', monospace", fontSize: 9,
+              color: '#fff', fontFamily: "var(--font-pixel)", fontSize: 9,
               outline: 'none', borderRadius: 0,
             }}
           />
@@ -160,12 +160,12 @@ export default function FriendList() {
           </button>
         </form>
         {addError && (
-          <p style={{ color: '#ff2d78', fontFamily: "'Press Start 2P', monospace", fontSize: 8, marginTop: 8 }}>
+          <p style={{ color: '#ff2d78', fontFamily: "var(--font-pixel)", fontSize: 8, marginTop: 8 }}>
             ⚠ {addError}
           </p>
         )}
         {addSuccess && (
-          <p style={{ color: '#39ff14', fontFamily: "'Press Start 2P', monospace", fontSize: 8, marginTop: 8 }}>
+          <p style={{ color: '#39ff14', fontFamily: "var(--font-pixel)", fontSize: 8, marginTop: 8 }}>
             ✓ {addSuccess}
           </p>
         )}
@@ -175,7 +175,7 @@ export default function FriendList() {
       {data.received.length > 0 && (
         <div className="card-retro" style={{ padding: 20 }}>
           <h3 style={{
-            fontFamily: "'Press Start 2P', monospace", fontSize: 10,
+            fontFamily: "var(--font-pixel)", fontSize: 10,
             color: '#ffd700', marginBottom: 16, letterSpacing: 1,
           }}>
             📨 INCOMING REQUESTS ({data.received.length})
@@ -189,7 +189,7 @@ export default function FriendList() {
               }}>
                 <div>
                   <span style={{
-                    fontFamily: "'Press Start 2P', monospace", fontSize: 10,
+                    fontFamily: "var(--font-pixel)", fontSize: 10,
                     color: '#fff',
                   }}>
                     @{req.user.username}
@@ -228,7 +228,7 @@ export default function FriendList() {
       {data.sent.length > 0 && (
         <div className="card-retro" style={{ padding: 20 }}>
           <h3 style={{
-            fontFamily: "'Press Start 2P', monospace", fontSize: 10,
+            fontFamily: "var(--font-pixel)", fontSize: 10,
             color: '#666', marginBottom: 16, letterSpacing: 1,
           }}>
             📤 SENT REQUESTS ({data.sent.length})
@@ -242,13 +242,13 @@ export default function FriendList() {
               }}>
                 <div>
                   <span style={{
-                    fontFamily: "'Press Start 2P', monospace", fontSize: 10,
+                    fontFamily: "var(--font-pixel)", fontSize: 10,
                     color: '#888',
                   }}>
                     @{req.user.username}
                   </span>
                   <span style={{
-                    fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+                    fontFamily: "var(--font-pixel)", fontSize: 8,
                     color: '#555', marginLeft: 8,
                   }}>
                     (pending)
@@ -258,7 +258,7 @@ export default function FriendList() {
                   onClick={() => handleRemove(req.user.id)}
                   disabled={actionLoading === req.user.id}
                   style={{
-                    fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+                    fontFamily: "var(--font-pixel)", fontSize: 8,
                     padding: '6px 12px', background: 'transparent',
                     border: '1px solid #555', color: '#888', cursor: 'pointer',
                   }}
@@ -274,7 +274,7 @@ export default function FriendList() {
       {/* Friends List */}
       <div className="card-retro" style={{ padding: 20 }}>
         <h3 style={{
-          fontFamily: "'Press Start 2P', monospace", fontSize: 10,
+          fontFamily: "var(--font-pixel)", fontSize: 10,
           color: '#00ffd5', marginBottom: 16, letterSpacing: 1,
         }}>
           👥 FRIENDS ({data.friends.length})
@@ -282,7 +282,7 @@ export default function FriendList() {
         {data.friends.length === 0 ? (
           <p style={{
             textAlign: 'center', color: '#555',
-            fontFamily: "'Press Start 2P', monospace", fontSize: 9, padding: 20,
+            fontFamily: "var(--font-pixel)", fontSize: 9, padding: 20,
           }}>
             No friends yet. Add someone above!
           </p>
@@ -306,7 +306,7 @@ export default function FriendList() {
                       flexShrink: 0,
                     }} />
                     <span style={{
-                      fontFamily: "'Press Start 2P', monospace", fontSize: 10,
+                      fontFamily: "var(--font-pixel)", fontSize: 10,
                       color: online ? '#00ffd5' : '#666',
                       overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                     }}>
@@ -316,7 +316,7 @@ export default function FriendList() {
                   {f.user.pet && (
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 9, color: '#888' }}>
                       <span>{stageEmoji(f.user.pet.stage)}</span>
-                      <span style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8 }}>
+                      <span style={{ fontFamily: "var(--font-pixel)", fontSize: 8 }}>
                         {f.user.pet.stage.toUpperCase()} · Lv.{f.user.pet.level}
                       </span>
                     </div>
@@ -333,7 +333,7 @@ export default function FriendList() {
                       onClick={() => handleRemove(f.user.id)}
                       disabled={actionLoading === f.user.id}
                       style={{
-                        fontFamily: "'Press Start 2P', monospace", fontSize: 7,
+                        fontFamily: "var(--font-pixel)", fontSize: 7,
                         padding: '6px 10px', background: 'transparent',
                         border: '1px solid #333', color: '#555', cursor: 'pointer',
                       }}

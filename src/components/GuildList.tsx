@@ -91,7 +91,7 @@ export default function GuildList() {
 
   if (loading) {
     return (
-      <div style={{ textAlign: 'center', padding: 40, color: '#b44dff', fontFamily: "'Press Start 2P', monospace", fontSize: 12 }}>
+      <div style={{ textAlign: 'center', padding: 40, color: '#b44dff', fontFamily: "var(--font-pixel)", fontSize: 12 }}>
         Loading guilds...
       </div>
     );
@@ -110,14 +110,14 @@ export default function GuildList() {
             style={{
               flex: 1, minWidth: 200, padding: '10px 14px',
               background: 'rgba(255,255,255,0.05)', border: '2px solid #333',
-              color: '#fff', fontFamily: "'Press Start 2P', monospace", fontSize: 9,
+              color: '#fff', fontFamily: "var(--font-pixel)", fontSize: 9,
               outline: 'none', borderRadius: 0,
             }}
           />
           <button
             onClick={() => setShowCreate(!showCreate)}
             style={{
-              fontFamily: "'Press Start 2P', monospace", fontSize: 9,
+              fontFamily: "var(--font-pixel)", fontSize: 9,
               padding: '10px 20px', cursor: 'pointer',
               background: showCreate ? 'rgba(180,77,255,0.2)' : 'rgba(180,77,255,0.1)',
               border: '2px solid #b44dff', color: '#b44dff',
@@ -129,7 +129,7 @@ export default function GuildList() {
 
         {showCreate && (
           <form onSubmit={handleCreate} style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 10 }}>
-            <p style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#ffd700', marginBottom: 4 }}>
+            <p style={{ fontFamily: "var(--font-pixel)", fontSize: 8, color: '#ffd700', marginBottom: 4 }}>
               ⚠ Costs 500 XP from your bot
             </p>
             <input
@@ -142,7 +142,7 @@ export default function GuildList() {
               style={{
                 padding: '10px 14px',
                 background: 'rgba(255,255,255,0.05)', border: '2px solid #333',
-                color: '#fff', fontFamily: "'Press Start 2P', monospace", fontSize: 9,
+                color: '#fff', fontFamily: "var(--font-pixel)", fontSize: 9,
                 outline: 'none', borderRadius: 0,
               }}
             />
@@ -155,7 +155,7 @@ export default function GuildList() {
               style={{
                 padding: '10px 14px',
                 background: 'rgba(255,255,255,0.05)', border: '2px solid #333',
-                color: '#fff', fontFamily: "'Press Start 2P', monospace", fontSize: 9,
+                color: '#fff', fontFamily: "var(--font-pixel)", fontSize: 9,
                 outline: 'none', borderRadius: 0,
               }}
             />
@@ -164,7 +164,7 @@ export default function GuildList() {
                 type="submit"
                 disabled={createLoading}
                 style={{
-                  fontFamily: "'Press Start 2P', monospace", fontSize: 9,
+                  fontFamily: "var(--font-pixel)", fontSize: 9,
                   padding: '10px 20px', cursor: 'pointer',
                   background: 'rgba(180,77,255,0.2)', border: '2px solid #b44dff',
                   color: '#b44dff', opacity: createLoading ? 0.5 : 1,
@@ -176,7 +176,7 @@ export default function GuildList() {
                 type="button"
                 onClick={() => setShowCreate(false)}
                 style={{
-                  fontFamily: "'Press Start 2P', monospace", fontSize: 9,
+                  fontFamily: "var(--font-pixel)", fontSize: 9,
                   padding: '10px 20px', cursor: 'pointer',
                   background: 'transparent', border: '2px solid #333', color: '#666',
                 }}
@@ -185,7 +185,7 @@ export default function GuildList() {
               </button>
             </div>
             {createError && (
-              <p style={{ color: '#ff2d78', fontFamily: "'Press Start 2P', monospace", fontSize: 8 }}>
+              <p style={{ color: '#ff2d78', fontFamily: "var(--font-pixel)", fontSize: 8 }}>
                 ⚠ {createError}
               </p>
             )}
@@ -197,7 +197,7 @@ export default function GuildList() {
       {filtered.length === 0 ? (
         <div style={{
           textAlign: 'center', color: '#555',
-          fontFamily: "'Press Start 2P', monospace", fontSize: 10, padding: 40,
+          fontFamily: "var(--font-pixel)", fontSize: 10, padding: 40,
         }}>
           {search ? 'No guilds match your search' : 'No guilds yet. Be the first to create one!'}
         </div>
@@ -212,13 +212,13 @@ export default function GuildList() {
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
                 <h3 style={{
-                  fontFamily: "'Press Start 2P', monospace", fontSize: 11,
+                  fontFamily: "var(--font-pixel)", fontSize: 11,
                   color: '#b44dff', margin: 0, wordBreak: 'break-word',
                 }}>
                   {guild.name}
                 </h3>
                 <span style={{
-                  fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+                  fontFamily: "var(--font-pixel)", fontSize: 8,
                   color: '#ffd700', background: 'rgba(255,215,0,0.1)',
                   padding: '4px 8px', border: '1px solid rgba(255,215,0,0.3)',
                   whiteSpace: 'nowrap',
@@ -242,7 +242,7 @@ export default function GuildList() {
                 <a
                   href={`/guild/${guild.id}`}
                   style={{
-                    fontFamily: "'Press Start 2P', monospace", fontSize: 7,
+                    fontFamily: "var(--font-pixel)", fontSize: 7,
                     padding: '6px 12px', textDecoration: 'none',
                     background: 'transparent', border: '1px solid #b44dff',
                     color: '#b44dff', cursor: 'pointer',
@@ -254,7 +254,7 @@ export default function GuildList() {
                   onClick={() => handleJoin(guild.id)}
                   disabled={joinLoading === guild.id}
                   style={{
-                    fontFamily: "'Press Start 2P', monospace", fontSize: 7,
+                    fontFamily: "var(--font-pixel)", fontSize: 7,
                     padding: '6px 12px', cursor: 'pointer',
                     background: 'rgba(180,77,255,0.15)', border: '1px solid #b44dff',
                     color: '#b44dff', opacity: joinLoading === guild.id ? 0.5 : 1,
@@ -266,7 +266,7 @@ export default function GuildList() {
 
               {joinMsg && joinMsg.id === guild.id && (
                 <p style={{
-                  fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+                  fontFamily: "var(--font-pixel)", fontSize: 8,
                   marginTop: 8, color: joinMsg.ok ? '#39ff14' : '#ff2d78',
                 }}>
                   {joinMsg.ok ? '✓' : '⚠'} {joinMsg.text}

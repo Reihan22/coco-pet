@@ -80,7 +80,7 @@ export default function SkinSelector({
             onClick={() => setFilter(tab)}
             style={{
               padding: '8px 20px',
-              fontFamily: "'Press Start 2P', monospace",
+              fontFamily: "var(--font-pixel)",
               fontSize: 10,
               background: filter === tab ? '#00ffd5' : '#1a1a2e',
               color: filter === tab ? '#0a0a0f' : '#888',
@@ -141,7 +141,7 @@ export default function SkinSelector({
               <div style={{
                 position: 'absolute', top: 8, right: 8,
                 fontSize: 8,
-                fontFamily: "'Press Start 2P', monospace",
+                fontFamily: "var(--font-pixel)",
                 color: rColor,
                 textTransform: 'uppercase',
                 letterSpacing: 1,
@@ -156,7 +156,7 @@ export default function SkinSelector({
 
               {/* Name */}
               <div style={{
-                fontFamily: "'Press Start 2P', monospace",
+                fontFamily: "var(--font-pixel)",
                 fontSize: 9,
                 color: '#fff',
                 marginBottom: 4,
@@ -174,7 +174,7 @@ export default function SkinSelector({
                 <div style={{
                   background: '#00ffd5',
                   color: '#0a0a0f',
-                  fontFamily: "'Press Start 2P', monospace",
+                  fontFamily: "var(--font-pixel)",
                   fontSize: 8,
                   padding: '4px 12px',
                   display: 'inline-block',
@@ -186,7 +186,7 @@ export default function SkinSelector({
                 <div style={{
                   color: '#ff4444',
                   fontSize: 10,
-                  fontFamily: "'Press Start 2P', monospace",
+                  fontFamily: "var(--font-pixel)",
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -199,7 +199,7 @@ export default function SkinSelector({
                 <div style={{
                   color: '#888',
                   fontSize: 10,
-                  fontFamily: "'Press Start 2P', monospace",
+                  fontFamily: "var(--font-pixel)",
                 }}>
                   Click to equip
                 </div>
@@ -214,7 +214,7 @@ export default function SkinSelector({
           textAlign: 'center',
           padding: 40,
           color: '#555',
-          fontFamily: "'Press Start 2P', monospace",
+          fontFamily: "var(--font-pixel)",
           fontSize: 11,
         }}>
           No skins in this category

@@ -163,7 +163,7 @@ export default function BattleQueue() {
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', padding: 40 }}>
-        <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 11, color: '#ff6b35', animation: 'pulse-glow 2s ease-in-out infinite' }}>
+        <div style={{ fontFamily: "var(--font-pixel)", fontSize: 11, color: '#ff6b35', animation: 'pulse-glow 2s ease-in-out infinite' }}>
           Loading battles...
         </div>
       </div>
@@ -178,7 +178,7 @@ export default function BattleQueue() {
           onClick={() => setShowFriendPicker(!showFriendPicker)}
           disabled={challenging}
           style={{
-            fontFamily: "'Press Start 2P', monospace", fontSize: 9, padding: '10px 16px',
+            fontFamily: "var(--font-pixel)", fontSize: 9, padding: '10px 16px',
             border: '2px solid #ff6b35', background: 'rgba(255,107,53,0.1)',
             color: '#ff6b35', cursor: 'pointer',
           }}
@@ -189,7 +189,7 @@ export default function BattleQueue() {
           onClick={handleRandomMatch}
           disabled={challenging}
           style={{
-            fontFamily: "'Press Start 2P', monospace", fontSize: 9, padding: '10px 16px',
+            fontFamily: "var(--font-pixel)", fontSize: 9, padding: '10px 16px',
             border: '2px solid #00ffd5', background: 'rgba(0,255,213,0.1)',
             color: '#00ffd5', cursor: 'pointer', opacity: challenging ? 0.5 : 1,
           }}
@@ -200,7 +200,7 @@ export default function BattleQueue() {
 
       {error && (
         <div style={{
-          fontFamily: "'Press Start 2P', monospace", fontSize: 9, color: '#ff4444',
+          fontFamily: "var(--font-pixel)", fontSize: 9, color: '#ff4444',
           padding: 10, marginBottom: 16, border: '1px solid #ff4444', background: 'rgba(255,68,68,0.1)',
         }}>
           {error}
@@ -213,11 +213,11 @@ export default function BattleQueue() {
           marginBottom: 20, padding: 16, border: '2px solid #ff6b35',
           background: 'rgba(255,107,53,0.05)',
         }}>
-          <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 9, color: '#ff6b35', marginBottom: 12 }}>
+          <div style={{ fontFamily: "var(--font-pixel)", fontSize: 9, color: '#ff6b35', marginBottom: 12 }}>
             SELECT FRIEND TO CHALLENGE
           </div>
           {friends.length === 0 ? (
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: '#666' }}>No friends yet. Add friends first!</div>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: '#666' }}>No friends yet. Add friends first!</div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {friends.map((f) => (
@@ -228,13 +228,13 @@ export default function BattleQueue() {
                   style={{
                     display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                     padding: '10px 14px', border: '1px solid #333', background: 'rgba(255,255,255,0.03)',
-                    color: '#ccc', cursor: 'pointer', fontFamily: "'Press Start 2P', monospace", fontSize: 9,
+                    color: '#ccc', cursor: 'pointer', fontFamily: "var(--font-pixel)", fontSize: 9,
                   }}
                 >
-                  <span style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                  <span style={{ fontFamily: "var(--font-mono)" }}>
                     {stageEmoji[f.user.pet?.stage || 'egg']} @{f.user.username}
                   </span>
-                  <span style={{ fontFamily: "'JetBrains Mono', monospace", color: '#666' }}>Lv.{f.user.pet?.level || 1}</span>
+                  <span style={{ fontFamily: "var(--font-mono)", color: '#666' }}>Lv.{f.user.pet?.level || 1}</span>
                 </button>
               ))}
             </div>
@@ -249,7 +249,7 @@ export default function BattleQueue() {
             key={t}
             onClick={() => setTab(t)}
             style={{
-              fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+              fontFamily: "var(--font-pixel)", fontSize: 8,
               padding: '8px 14px', border: `2px solid ${tab === t ? '#ff6b35' : '#333'}`,
               background: tab === t ? 'rgba(255,107,53,0.1)' : 'transparent',
               color: tab === t ? '#ff6b35' : '#666', cursor: 'pointer',
@@ -276,15 +276,15 @@ export default function BattleQueue() {
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div>
-                    <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 10, color: '#ffd700' }}>
+                    <div style={{ fontFamily: "var(--font-pixel)", fontSize: 10, color: '#ffd700' }}>
                       ⏳ Challenge from @{b.challenger.username}
                     </div>
-                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#888', marginTop: 4 }}>
+                    <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: '#888', marginTop: 4 }}>
                       {stageEmoji[b.challenger.pet?.stage || 'egg']} {b.challenger.pet?.name || '???'} · Lv.{b.challenger.pet?.level || 1}
                     </div>
                   </div>
                   <div style={{
-                    fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#ffd700',
+                    fontFamily: "var(--font-pixel)", fontSize: 8, color: '#ffd700',
                     padding: '6px 12px', border: '1px solid #ffd700',
                   }}>
                     TAP TO ACCEPT →
@@ -311,15 +311,15 @@ export default function BattleQueue() {
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                      <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 10, color: '#39ff14' }}>
+                      <div style={{ fontFamily: "var(--font-pixel)", fontSize: 10, color: '#39ff14' }}>
                         ⚔️ vs @{opponent.username}
                       </div>
-                      <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#888', marginTop: 4 }}>
+                      <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: '#888', marginTop: 4 }}>
                         {stageEmoji[opponent.pet?.stage || 'egg']} {opponent.pet?.name || '???'} · Lv.{opponent.pet?.level || 1}
                       </div>
                     </div>
                     <div style={{
-                      fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#39ff14',
+                      fontFamily: "var(--font-pixel)", fontSize: 8, color: '#39ff14',
                       padding: '6px 12px', border: '1px solid #39ff14',
                     }}>
                       CONTINUE →
@@ -349,14 +349,14 @@ export default function BattleQueue() {
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                      <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 10, color: won ? '#39ff14' : drew ? '#ffd700' : '#ff4444' }}>
+                      <div style={{ fontFamily: "var(--font-pixel)", fontSize: 10, color: won ? '#39ff14' : drew ? '#ffd700' : '#ff4444' }}>
                         {won ? '🏆 WIN' : drew ? '🤝 DRAW' : '💀 LOSS'} vs @{opponent.username}
                       </div>
-                      <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#888', marginTop: 4 }}>
+                      <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: '#888', marginTop: 4 }}>
                         {stageEmoji[opponent.pet?.stage || 'egg']} {opponent.pet?.name} · +{won ? 50 : 20} XP
                       </div>
                     </div>
-                    <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#555' }}>
+                    <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: '#555' }}>
                       {new Date(b.createdAt).toLocaleDateString()}
                     </div>
                   </div>
@@ -398,8 +398,8 @@ function EmptyState({ emoji, text, subtext }: { emoji: string; text: string; sub
   return (
     <div style={{ textAlign: 'center', padding: 40, color: '#555' }}>
       <div style={{ fontSize: 28, marginBottom: 12 }}>{emoji}</div>
-      <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 10, color: '#666', marginBottom: 6 }}>{text}</div>
-      <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#555' }}>{subtext}</div>
+      <div style={{ fontFamily: "var(--font-pixel)", fontSize: 10, color: '#666', marginBottom: 6 }}>{text}</div>
+      <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: '#555' }}>{subtext}</div>
     </div>
   );
 }

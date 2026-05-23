@@ -135,7 +135,7 @@ export default function GuildDetail({ guildId, currentUserId }: { guildId: strin
 
   if (loading) {
     return (
-      <div style={{ textAlign: 'center', padding: 60, color: '#b44dff', fontFamily: "'Press Start 2P', monospace", fontSize: 12 }}>
+      <div style={{ textAlign: 'center', padding: 60, color: '#b44dff', fontFamily: "var(--font-pixel)", fontSize: 12 }}>
         Loading squad...
       </div>
     );
@@ -143,7 +143,7 @@ export default function GuildDetail({ guildId, currentUserId }: { guildId: strin
 
   if (!guild) {
     return (
-      <div style={{ textAlign: 'center', padding: 60, color: '#ff2d78', fontFamily: "'Press Start 2P', monospace", fontSize: 10 }}>
+      <div style={{ textAlign: 'center', padding: 60, color: '#ff2d78', fontFamily: "var(--font-pixel)", fontSize: 10 }}>
         Squad not found
       </div>
     );
@@ -159,7 +159,7 @@ export default function GuildDetail({ guildId, currentUserId }: { guildId: strin
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16 }}>
           <div>
             <h2 style={{
-              fontFamily: "'Press Start 2P', monospace", fontSize: 16,
+              fontFamily: "var(--font-pixel)", fontSize: 16,
               color: '#b44dff', margin: '0 0 8px 0',
             }}>
               🏰 {guild.name}
@@ -169,7 +169,7 @@ export default function GuildDetail({ guildId, currentUserId }: { guildId: strin
                 {guild.description}
               </p>
             )}
-            <div style={{ display: 'flex', gap: 16, fontSize: 10, color: '#666', fontFamily: "'Press Start 2P', monospace" }}>
+            <div style={{ display: 'flex', gap: 16, fontSize: 10, color: '#666', fontFamily: "var(--font-pixel)" }}>
               <span style={{ color: '#ffd700' }}>Lv.{guild.level}</span>
               <span>👥 {guild.memberCount}/50</span>
               <span>💬 {guild._count.messages} msgs</span>
@@ -179,7 +179,7 @@ export default function GuildDetail({ guildId, currentUserId }: { guildId: strin
             <button
               onClick={handleLeave}
               style={{
-                fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+                fontFamily: "var(--font-pixel)", fontSize: 8,
                 padding: '8px 16px', cursor: 'pointer',
                 background: 'transparent', border: '1px solid #ff2d78',
                 color: '#ff2d78',
@@ -192,7 +192,7 @@ export default function GuildDetail({ guildId, currentUserId }: { guildId: strin
 
         {/* XP Bar */}
         <div style={{ marginTop: 16 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 8, color: '#555', fontFamily: "'Press Start 2P', monospace", marginBottom: 4 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 8, color: '#555', fontFamily: "var(--font-pixel)", marginBottom: 4 }}>
             <span>SQUAD XP</span>
             <span>{levelProgress}/{xpForNext}</span>
           </div>
@@ -208,7 +208,7 @@ export default function GuildDetail({ guildId, currentUserId }: { guildId: strin
 
       {msg && (
         <p style={{
-          fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+          fontFamily: "var(--font-pixel)", fontSize: 8,
           color: msg.ok ? '#39ff14' : '#ff2d78', textAlign: 'center',
         }}>
           {msg.ok ? '✓' : '⚠'} {msg.text}
@@ -222,7 +222,7 @@ export default function GuildDetail({ guildId, currentUserId }: { guildId: strin
             key={tab}
             onClick={() => setActiveTab(tab)}
             style={{
-              fontFamily: "'Press Start 2P', monospace",
+              fontFamily: "var(--font-pixel)",
               fontSize: 9, padding: '8px 16px',
               border: `2px solid ${activeTab === tab ? '#b44dff' : '#333'}`,
               background: activeTab === tab ? 'rgba(180,77,255,0.1)' : 'transparent',
@@ -251,7 +251,7 @@ export default function GuildDetail({ guildId, currentUserId }: { guildId: strin
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, minWidth: 150 }}>
                   <span style={{ fontSize: 14 }}>{roleIcon(member.role)}</span>
                   <span style={{
-                    fontFamily: "'Press Start 2P', monospace", fontSize: 9,
+                    fontFamily: "var(--font-pixel)", fontSize: 9,
                     color: roleColor(member.role),
                   }}>
                     {member.user.username}
@@ -262,7 +262,7 @@ export default function GuildDetail({ guildId, currentUserId }: { guildId: strin
                     </span>
                   )}
                   <span style={{
-                    fontFamily: "'Press Start 2P', monospace", fontSize: 7,
+                    fontFamily: "var(--font-pixel)", fontSize: 7,
                     color: '#444', marginLeft: 4,
                   }}>
                     {member.role.toUpperCase()}
@@ -276,7 +276,7 @@ export default function GuildDetail({ guildId, currentUserId }: { guildId: strin
                         onClick={() => handleChangeRole(member.userId, 'officer')}
                         disabled={actionLoading === member.userId}
                         style={{
-                          fontFamily: "'Press Start 2P', monospace", fontSize: 7,
+                          fontFamily: "var(--font-pixel)", fontSize: 7,
                           padding: '5px 10px', cursor: 'pointer',
                           background: 'rgba(180,77,255,0.1)', border: '1px solid #b44dff',
                           color: '#b44dff', opacity: actionLoading === member.userId ? 0.5 : 1,
@@ -290,7 +290,7 @@ export default function GuildDetail({ guildId, currentUserId }: { guildId: strin
                         onClick={() => handleChangeRole(member.userId, 'member')}
                         disabled={actionLoading === member.userId}
                         style={{
-                          fontFamily: "'Press Start 2P', monospace", fontSize: 7,
+                          fontFamily: "var(--font-pixel)", fontSize: 7,
                           padding: '5px 10px', cursor: 'pointer',
                           background: 'transparent', border: '1px solid #555',
                           color: '#888', opacity: actionLoading === member.userId ? 0.5 : 1,
@@ -303,7 +303,7 @@ export default function GuildDetail({ guildId, currentUserId }: { guildId: strin
                       onClick={() => handleKick(member.userId)}
                       disabled={actionLoading === member.userId}
                       style={{
-                        fontFamily: "'Press Start 2P', monospace", fontSize: 7,
+                        fontFamily: "var(--font-pixel)", fontSize: 7,
                         padding: '5px 10px', cursor: 'pointer',
                         background: 'transparent', border: '1px solid #ff2d78',
                         color: '#ff2d78', opacity: actionLoading === member.userId ? 0.5 : 1,

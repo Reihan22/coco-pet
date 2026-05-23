@@ -55,7 +55,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
         <div className="text-center mb-8">
           <h1
             className="text-4xl text-cyan-400 mb-2"
-            style={{ fontFamily: "'Press Start 2P', cursive" }}
+            style={{ fontFamily: "var(--font-pixel), cursive" }}
           >
             CodeBot
           </h1>

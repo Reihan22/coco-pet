@@ -83,7 +83,7 @@ export default function ActivityFeed({ activities }: ActivityFeedProps) {
           {a.xpEarned > 0 && (
             <span style={{
               fontSize: 11,
-              fontFamily: "'Press Start 2P', monospace",
+              fontFamily: "var(--font-pixel)",
               color: '#39ff14',
               whiteSpace: 'nowrap',
             }}>

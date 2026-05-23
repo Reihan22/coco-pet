@@ -64,13 +64,13 @@ export default function GuildWarHistory() {
   };
 
   if (loading) {
-    return <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 10, color: '#666' }}>Loading war history...</div>;
+    return <div style={{ fontFamily: "var(--font-pixel)", fontSize: 10, color: '#666' }}>Loading war history...</div>;
   }
 
   return (
     <div className="card-retro" style={{ padding: 20 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 16 }}>
-        <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 10, color: '#ff6b35' }}>
+        <div style={{ fontFamily: "var(--font-pixel)", fontSize: 10, color: '#ff6b35' }}>
           WAR HISTORY
         </div>
 
@@ -91,7 +91,7 @@ export default function GuildWarHistory() {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {filteredWars.length === 0 ? (
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: '#555', padding: 12 }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: '#555', padding: 12 }}>
             No wars match filters.
           </div>
         ) : filteredWars.map(war => (
@@ -108,18 +108,18 @@ export default function GuildWarHistory() {
             }}
           >
             <div>
-              <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#888', marginBottom: 4 }}>
+              <div style={{ fontFamily: "var(--font-pixel)", fontSize: 8, color: '#888', marginBottom: 4 }}>
                 {war.guild1.name} vs {war.guild2.name}
               </div>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: '#aaa' }}>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: '#aaa' }}>
                 {new Date(war.scheduledAt).toLocaleDateString()} • {war.score1}-{war.score2}
               </div>
             </div>
             <div style={{ textAlign: 'right' }}>
-              <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: colorForStatus[war.status] || '#888', marginBottom: 4 }}>
+              <div style={{ fontFamily: "var(--font-pixel)", fontSize: 8, color: colorForStatus[war.status] || '#888', marginBottom: 4 }}>
                 {war.status}
               </div>
-              <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 9, color: '#ffd700' }}>
+              <div style={{ fontFamily: "var(--font-pixel)", fontSize: 9, color: '#ffd700' }}>
                 {winnerName(war)}
               </div>
             </div>

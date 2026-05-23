@@ -11,7 +11,7 @@ export default function XPBar({ current, max, level }: XPBarProps) {
 
   return (
     <div style={{ width: '100%' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4, fontSize: 11, fontFamily: "'Press Start 2P', monospace" }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4, fontSize: 11, fontFamily: "var(--font-pixel)" }}>
         <span style={{ color: '#00ffd5' }}>LV.{level}</span>
         <span style={{ color: '#888' }}>{current}/{max} XP</span>
       </div>

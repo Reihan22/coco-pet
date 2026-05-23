@@ -100,20 +100,20 @@ export default function GuildWarScheduler({ onCreated }: { onCreated?: () => voi
 
   return (
     <div className="card-retro" style={{ padding: 24 }}>
-      <h3 style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 12, color: '#ff6b35', marginBottom: 20 }}>
+      <h3 style={{ fontFamily: "var(--font-pixel)", fontSize: 12, color: '#ff6b35', marginBottom: 20 }}>
         ⚔️ SCHEDULE SQUAD WAR
       </h3>
 
       {/* Defender guild */}
       <div style={{ marginBottom: 16 }}>
-        <label style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#888', display: 'block', marginBottom: 6 }}>
+        <label style={{ fontFamily: "var(--font-pixel)", fontSize: 8, color: '#888', display: 'block', marginBottom: 6 }}>
           OPPONENT SQUAD
         </label>
         <select
           value={selectedGuild}
           onChange={e => setSelectedGuild(e.target.value)}
           style={{
-            width: '100%', padding: '10px 12px', fontFamily: "'JetBrains Mono', monospace", fontSize: 12,
+            width: '100%', padding: '10px 12px', fontFamily: "var(--font-mono)", fontSize: 12,
             background: '#111', border: '1px solid #333', color: '#fff',
           }}
         >
@@ -126,7 +126,7 @@ export default function GuildWarScheduler({ onCreated }: { onCreated?: () => voi
 
       {/* Best of */}
       <div style={{ marginBottom: 16 }}>
-        <label style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#888', display: 'block', marginBottom: 6 }}>
+        <label style={{ fontFamily: "var(--font-pixel)", fontSize: 8, color: '#888', display: 'block', marginBottom: 6 }}>
           BEST OF
         </label>
         <div style={{ display: 'flex', gap: 8 }}>
@@ -135,7 +135,7 @@ export default function GuildWarScheduler({ onCreated }: { onCreated?: () => voi
               key={n}
               onClick={() => { setBestOf(n); setSelectedChampions(prev => prev.slice(0, n)); }}
               style={{
-                fontFamily: "'Press Start 2P', monospace", fontSize: 9, padding: '8px 16px',
+                fontFamily: "var(--font-pixel)", fontSize: 9, padding: '8px 16px',
                 border: `2px solid ${bestOf === n ? '#ff6b35' : '#333'}`,
                 background: bestOf === n ? 'rgba(255,107,53,0.1)' : 'transparent',
                 color: bestOf === n ? '#ff6b35' : '#666', cursor: 'pointer',
@@ -149,7 +149,7 @@ export default function GuildWarScheduler({ onCreated }: { onCreated?: () => voi
 
       {/* Scheduled time */}
       <div style={{ marginBottom: 16 }}>
-        <label style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#888', display: 'block', marginBottom: 6 }}>
+        <label style={{ fontFamily: "var(--font-pixel)", fontSize: 8, color: '#888', display: 'block', marginBottom: 6 }}>
           SCHEDULED TIME
         </label>
         <input
@@ -157,7 +157,7 @@ export default function GuildWarScheduler({ onCreated }: { onCreated?: () => voi
           value={scheduledAt}
           onChange={e => setScheduledAt(e.target.value)}
           style={{
-            width: '100%', padding: '10px 12px', fontFamily: "'JetBrains Mono', monospace", fontSize: 12,
+            width: '100%', padding: '10px 12px', fontFamily: "var(--font-mono)", fontSize: 12,
             background: '#111', border: '1px solid #333', color: '#fff',
           }}
         />
@@ -165,11 +165,11 @@ export default function GuildWarScheduler({ onCreated }: { onCreated?: () => voi
 
       {/* Champion selection */}
       <div style={{ marginBottom: 16 }}>
-        <label style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#888', display: 'block', marginBottom: 6 }}>
+        <label style={{ fontFamily: "var(--font-pixel)", fontSize: 8, color: '#888', display: 'block', marginBottom: 6 }}>
           CHAMPIONS ({selectedChampions.length}/{bestOf})
         </label>
         {champions.length === 0 ? (
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#555', padding: 12 }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: '#555', padding: 12 }}>
             No eligible members found
           </div>
         ) : (
@@ -186,7 +186,7 @@ export default function GuildWarScheduler({ onCreated }: { onCreated?: () => voi
                     border: `1px solid ${selected ? '#ff6b35' : '#222'}`,
                     background: selected ? 'rgba(255,107,53,0.1)' : 'transparent',
                     color: selected ? '#ff6b35' : '#888', textAlign: 'left',
-                    fontFamily: "'JetBrains Mono', monospace", fontSize: 11,
+                    fontFamily: "var(--font-mono)", fontSize: 11,
                   }}
                 >
                   <span>
@@ -201,12 +201,12 @@ export default function GuildWarScheduler({ onCreated }: { onCreated?: () => voi
       </div>
 
       {error && (
-        <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#ff2d78', marginBottom: 12 }}>
+        <div style={{ fontFamily: "var(--font-pixel)", fontSize: 8, color: '#ff2d78', marginBottom: 12 }}>
           ⚠ {error}
         </div>
       )}
       {success && (
-        <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#39ff14', marginBottom: 12 }}>
+        <div style={{ fontFamily: "var(--font-pixel)", fontSize: 8, color: '#39ff14', marginBottom: 12 }}>
           ✓ {success}
         </div>
       )}
@@ -215,7 +215,7 @@ export default function GuildWarScheduler({ onCreated }: { onCreated?: () => voi
         onClick={handleSubmit}
         disabled={loading}
         style={{
-          fontFamily: "'Press Start 2P', monospace", fontSize: 10, padding: '12px 24px', width: '100%',
+          fontFamily: "var(--font-pixel)", fontSize: 10, padding: '12px 24px', width: '100%',
           border: '2px solid #ff6b35', background: 'rgba(255,107,53,0.1)', color: '#ff6b35',
           cursor: 'pointer', opacity: loading ? 0.5 : 1,
         }}

@@ -172,7 +172,7 @@ export default function MiMoLab({ tokens, level, stage, stats, personality, pers
       key={t}
       onClick={() => setTab(t)}
       style={{
-        fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+        fontFamily: "var(--font-pixel)", fontSize: 8,
         padding: '8px 14px',
         border: `2px solid ${tab === t ? '#b44dff' : '#333'}`,
         background: tab === t ? 'rgba(180,77,255,0.12)' : 'transparent',
@@ -194,15 +194,15 @@ export default function MiMoLab({ tokens, level, stage, stats, personality, pers
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
       }}>
         <div>
-          <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#b44dff', marginBottom: 4 }}>
+          <div style={{ fontFamily: "var(--font-pixel)", fontSize: 8, color: '#b44dff', marginBottom: 4 }}>
             MiMo Token Balance
           </div>
-          <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 18, color: '#ffd700' }}>
+          <div style={{ fontFamily: "var(--font-pixel)", fontSize: 18, color: '#ffd700' }}>
             🪙 {tokens}
           </div>
         </div>
         <div style={{ textAlign: 'right' }}>
-          <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 7, color: '#666' }}>
+          <div style={{ fontFamily: "var(--font-pixel)", fontSize: 7, color: '#666' }}>
             Powered by Xiaomi MiMo V2.5 Pro
           </div>
         </div>
@@ -222,7 +222,7 @@ export default function MiMoLab({ tokens, level, stage, stats, personality, pers
           padding: '10px 14px', marginBottom: 16, borderRadius: 6,
           background: msg.type === 'ok' ? 'rgba(57,255,20,0.1)' : 'rgba(255,45,120,0.1)',
           border: `1px solid ${msg.type === 'ok' ? '#39ff14' : '#ff2d78'}`,
-          fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+          fontFamily: "var(--font-pixel)", fontSize: 8,
           color: msg.type === 'ok' ? '#39ff14' : '#ff2d78',
         }}>
           {msg.text}
@@ -232,22 +232,22 @@ export default function MiMoLab({ tokens, level, stage, stats, personality, pers
       {/* MINING TAB */}
       {tab === 'mining' && (
         <div>
-          <p style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#888', marginBottom: 16, lineHeight: 1.6 }}>
+          <p style={{ fontFamily: "var(--font-pixel)", fontSize: 8, color: '#888', marginBottom: 16, lineHeight: 1.6 }}>
             Your bot mines tokens passively based on its Mark level. Claim every 3 days max!
           </p>
           {miningData && (
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 20 }}>
               <div style={{ textAlign: 'center', padding: 16, background: 'rgba(255,215,0,0.05)', border: '1px solid rgba(255,215,0,0.2)', borderRadius: 8 }}>
-                <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 7, color: '#888', marginBottom: 6 }}>Rate</div>
-                <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 14, color: '#ffd700' }}>{miningData.rate}/h</div>
+                <div style={{ fontFamily: "var(--font-pixel)", fontSize: 7, color: '#888', marginBottom: 6 }}>Rate</div>
+                <div style={{ fontFamily: "var(--font-pixel)", fontSize: 14, color: '#ffd700' }}>{miningData.rate}/h</div>
               </div>
               <div style={{ textAlign: 'center', padding: 16, background: 'rgba(57,255,20,0.05)', border: '1px solid rgba(57,255,20,0.2)', borderRadius: 8 }}>
-                <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 7, color: '#888', marginBottom: 6 }}>Pending</div>
-                <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 14, color: '#39ff14' }}>{miningData.pending}</div>
+                <div style={{ fontFamily: "var(--font-pixel)", fontSize: 7, color: '#888', marginBottom: 6 }}>Pending</div>
+                <div style={{ fontFamily: "var(--font-pixel)", fontSize: 14, color: '#39ff14' }}>{miningData.pending}</div>
               </div>
               <div style={{ textAlign: 'center', padding: 16, background: 'rgba(180,77,255,0.05)', border: '1px solid rgba(180,77,255,0.2)', borderRadius: 8 }}>
-                <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 7, color: '#888', marginBottom: 6 }}>Level</div>
-                <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 14, color: '#b44dff' }}>Mk.{level}</div>
+                <div style={{ fontFamily: "var(--font-pixel)", fontSize: 7, color: '#888', marginBottom: 6 }}>Level</div>
+                <div style={{ fontFamily: "var(--font-pixel)", fontSize: 14, color: '#b44dff' }}>Mk.{level}</div>
               </div>
             </div>
           )}
@@ -270,7 +270,7 @@ export default function MiMoLab({ tokens, level, stage, stats, personality, pers
       {/* TRAINING TAB */}
       {tab === 'training' && (
         <div>
-          <p style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#888', marginBottom: 16, lineHeight: 1.6 }}>
+          <p style={{ fontFamily: "var(--font-pixel)", fontSize: 8, color: '#888', marginBottom: 16, lineHeight: 1.6 }}>
             Train your bot with AI-powered upgrades. Permanent stat boosts!
           </p>
           {trainOptions && Object.entries(trainOptions).map(([key, opt]: [string, any]) => {
@@ -283,10 +283,10 @@ export default function MiMoLab({ tokens, level, stage, stats, personality, pers
                 border: `1px solid ${learned ? '#39ff14' : '#333'}`,
               }}>
                 <div>
-                  <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 9, color: learned ? '#39ff14' : '#fff', marginBottom: 4 }}>
+                  <div style={{ fontFamily: "var(--font-pixel)", fontSize: 9, color: learned ? '#39ff14' : '#fff', marginBottom: 4 }}>
                     {learned && '✓ '}{opt.name}
                   </div>
-                  <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 7, color: '#888' }}>
+                  <div style={{ fontFamily: "var(--font-pixel)", fontSize: 7, color: '#888' }}>
                     {opt.desc}
                   </div>
                 </div>
@@ -307,7 +307,7 @@ export default function MiMoLab({ tokens, level, stage, stats, personality, pers
       {/* PERSONALITY TAB */}
       {tab === 'personality' && (
         <div>
-          <p style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#888', marginBottom: 16, lineHeight: 1.6 }}>
+          <p style={{ fontFamily: "var(--font-pixel)", fontSize: 8, color: '#888', marginBottom: 16, lineHeight: 1.6 }}>
             {personalityUnlocked
               ? `Current: ${personality?.toUpperCase() || 'None'}. Change costs 150 tokens.`
               : 'Unlock a personality to give your bot a unique combat style! Costs 300 tokens.'}
@@ -320,10 +320,10 @@ export default function MiMoLab({ tokens, level, stage, stats, personality, pers
               border: `1px solid ${personality === key ? '#b44dff' : '#333'}`,
             }}>
               <div>
-                <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 9, color: '#fff', marginBottom: 4 }}>
+                <div style={{ fontFamily: "var(--font-pixel)", fontSize: 9, color: '#fff', marginBottom: 4 }}>
                   {p.icon} {p.name} {personality === key && '(Active)'}
                 </div>
-                <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 7, color: '#888' }}>
+                <div style={{ fontFamily: "var(--font-pixel)", fontSize: 7, color: '#888' }}>
                   {p.desc}
                 </div>
               </div>
@@ -348,7 +348,7 @@ export default function MiMoLab({ tokens, level, stage, stats, personality, pers
       {/* FUSION TAB */}
       {tab === 'fusion' && (
         <div>
-          <p style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#888', marginBottom: 16, lineHeight: 1.6 }}>
+          <p style={{ fontFamily: "var(--font-pixel)", fontSize: 8, color: '#888', marginBottom: 16, lineHeight: 1.6 }}>
             Fuse your bot with MiMo energy to permanently boost all stats. Epic fusion requires Mk.III+.
           </p>
           {fusionCosts && Object.entries(fusionCosts).map(([key, cost]: [string, any]) => {
@@ -362,10 +362,10 @@ export default function MiMoLab({ tokens, level, stage, stats, personality, pers
                 background: `${color}08`, border: `1px solid ${color}33`,
               }}>
                 <div>
-                  <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 9, color, marginBottom: 4 }}>
+                  <div style={{ fontFamily: "var(--font-pixel)", fontSize: 9, color, marginBottom: 4 }}>
                     {key === 'standard' ? '⚡' : key === 'rare' ? '✨' : '💀'} {key.charAt(0).toUpperCase() + key.slice(1)} Fusion
                   </div>
-                  <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 7, color: '#888' }}>
+                  <div style={{ fontFamily: "var(--font-pixel)", fontSize: 7, color: '#888' }}>
                     +{boost} all stats{key === 'rare' ? ' + partner bonus' : ''}{locked ? ' (Req: Mk.III)' : ''}
                   </div>
                 </div>
@@ -383,7 +383,7 @@ export default function MiMoLab({ tokens, level, stage, stats, personality, pers
 
           {/* Partner input for rare/epic */}
           <div style={{ marginTop: 16 }}>
-            <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 7, color: '#888', marginBottom: 6 }}>
+            <div style={{ fontFamily: "var(--font-pixel)", fontSize: 7, color: '#888', marginBottom: 6 }}>
               Partner Username (for Rare/Epic fusion bonus)
             </div>
             <input
@@ -394,7 +394,7 @@ export default function MiMoLab({ tokens, level, stage, stats, personality, pers
               style={{
                 width: '100%', padding: '10px 14px', borderRadius: 6,
                 border: '1px solid #333', background: 'rgba(255,255,255,0.03)',
-                color: '#fff', fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+                color: '#fff', fontFamily: "var(--font-pixel)", fontSize: 8,
                 outline: 'none',
               }}
             />

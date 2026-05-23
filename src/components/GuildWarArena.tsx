@@ -110,7 +110,7 @@ export default function GuildWarArena({ warId }: { warId: string }) {
 
   if (loading) {
     return (
-      <div style={{ textAlign: 'center', padding: 60, color: '#ff6b35', fontFamily: "'Press Start 2P', monospace", fontSize: 12 }}>
+      <div style={{ textAlign: 'center', padding: 60, color: '#ff6b35', fontFamily: "var(--font-pixel)", fontSize: 12 }}>
         Loading war...
       </div>
     );
@@ -118,7 +118,7 @@ export default function GuildWarArena({ warId }: { warId: string }) {
 
   if (error && !war) {
     return (
-      <div style={{ textAlign: 'center', padding: 60, color: '#ff2d78', fontFamily: "'Press Start 2P', monospace", fontSize: 10 }}>
+      <div style={{ textAlign: 'center', padding: 60, color: '#ff2d78', fontFamily: "var(--font-pixel)", fontSize: 10 }}>
         {error}
       </div>
     );
@@ -147,29 +147,29 @@ export default function GuildWarArena({ warId }: { warId: string }) {
       <div className="card-retro" style={{ padding: 24, background: 'rgba(255,107,53,0.04)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
           <div>
-            <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#666', marginBottom: 8 }}>
+            <div style={{ fontFamily: "var(--font-pixel)", fontSize: 8, color: '#666', marginBottom: 8 }}>
               GUILD WAR • Best of {war.bestOf}
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <span style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 14, color: '#00ffd5' }}>
+              <span style={{ fontFamily: "var(--font-pixel)", fontSize: 14, color: '#00ffd5' }}>
                 {war.guild1.name}
               </span>
-              <span style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 16, color: '#ff6b35' }}>
+              <span style={{ fontFamily: "var(--font-pixel)", fontSize: 16, color: '#ff6b35' }}>
                 VS
               </span>
-              <span style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 14, color: '#ff6b35' }}>
+              <span style={{ fontFamily: "var(--font-pixel)", fontSize: 14, color: '#ff6b35' }}>
                 {war.guild2.name}
               </span>
             </div>
           </div>
           <div style={{ textAlign: 'right' }}>
             <div style={{
-              fontFamily: "'Press Start 2P', monospace", fontSize: 10,
+              fontFamily: "var(--font-pixel)", fontSize: 10,
               color: statusColor(war.status), marginBottom: 4,
             }}>
               {war.status.toUpperCase()}
             </div>
-            <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 20, color: '#fff' }}>
+            <div style={{ fontFamily: "var(--font-pixel)", fontSize: 20, color: '#fff' }}>
               {war.score1} — {war.score2}
             </div>
           </div>
@@ -182,14 +182,14 @@ export default function GuildWarArena({ warId }: { warId: string }) {
             background: 'rgba(255,215,0,0.1)',
             border: '1px solid rgba(255,215,0,0.3)',
             textAlign: 'center',
-            fontFamily: "'Press Start 2P', monospace", fontSize: 10, color: '#ffd700',
+            fontFamily: "var(--font-pixel)", fontSize: 10, color: '#ffd700',
           }}>
             🏆 {war.winnerGuild.name} WINS!
           </div>
         )}
 
         {/* Schedule info */}
-        <div style={{ marginTop: 12, fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#555' }}>
+        <div style={{ marginTop: 12, fontFamily: "var(--font-mono)", fontSize: 10, color: '#555' }}>
           Scheduled: {new Date(war.scheduledAt).toLocaleString()}
           {war.startedAt && ` • Started: ${new Date(war.startedAt).toLocaleString()}`}
           {war.finishedAt && ` • Finished: ${new Date(war.finishedAt).toLocaleString()}`}
@@ -198,7 +198,7 @@ export default function GuildWarArena({ warId }: { warId: string }) {
 
       {error && (
         <div style={{
-          fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#ff2d78', textAlign: 'center', padding: 8,
+          fontFamily: "var(--font-pixel)", fontSize: 8, color: '#ff2d78', textAlign: 'center', padding: 8,
           border: '1px solid #ff2d78', background: 'rgba(255,45,120,0.1)',
         }}>
           ⚠ {error}
@@ -212,7 +212,7 @@ export default function GuildWarArena({ warId }: { warId: string }) {
             onClick={() => handleAction('start')}
             disabled={actionLoading}
             style={{
-              fontFamily: "'Press Start 2P', monospace", fontSize: 9, padding: '10px 20px',
+              fontFamily: "var(--font-pixel)", fontSize: 9, padding: '10px 20px',
               border: '2px solid #39ff14', background: 'rgba(57,255,20,0.1)',
               color: '#39ff14', cursor: 'pointer', opacity: actionLoading ? 0.5 : 1,
             }}
@@ -223,7 +223,7 @@ export default function GuildWarArena({ warId }: { warId: string }) {
             onClick={() => handleAction('cancel')}
             disabled={actionLoading}
             style={{
-              fontFamily: "'Press Start 2P', monospace", fontSize: 9, padding: '10px 20px',
+              fontFamily: "var(--font-pixel)", fontSize: 9, padding: '10px 20px',
               border: '2px solid #ff2d78', background: 'transparent',
               color: '#ff2d78', cursor: 'pointer', opacity: actionLoading ? 0.5 : 1,
             }}
@@ -235,7 +235,7 @@ export default function GuildWarArena({ warId }: { warId: string }) {
 
       {/* Match bracket / list */}
       <div className="card-retro" style={{ padding: 20 }}>
-        <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 10, color: '#ff6b35', marginBottom: 16 }}>
+        <div style={{ fontFamily: "var(--font-pixel)", fontSize: 10, color: '#ff6b35', marginBottom: 16 }}>
           ⚔️ MATCHES
         </div>
 
@@ -249,7 +249,7 @@ export default function GuildWarArena({ warId }: { warId: string }) {
               transition: 'width 0.5s',
             }} />
           </div>
-          <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 7, color: '#555', marginTop: 4, textAlign: 'right' }}>
+          <div style={{ fontFamily: "var(--font-pixel)", fontSize: 7, color: '#555', marginTop: 4, textAlign: 'right' }}>
             {battles.length}/{war.bestOf} matches
           </div>
         </div>
@@ -268,10 +268,10 @@ export default function GuildWarArena({ warId }: { warId: string }) {
                   background: canResolve && i === nextMatch ? 'rgba(255,107,53,0.05)' : 'transparent',
                 }}>
                   <div>
-                    <span style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#444' }}>
+                    <span style={{ fontFamily: "var(--font-pixel)", fontSize: 8, color: '#444' }}>
                       MATCH {i + 1}
                     </span>
-                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#333', marginLeft: 12 }}>
+                    <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: '#333', marginLeft: 12 }}>
                       Pending...
                     </span>
                   </div>
@@ -280,7 +280,7 @@ export default function GuildWarArena({ warId }: { warId: string }) {
                       onClick={() => handleResolveMatch(i)}
                       disabled={actionLoading}
                       style={{
-                        fontFamily: "'Press Start 2P', monospace", fontSize: 8, padding: '6px 14px',
+                        fontFamily: "var(--font-pixel)", fontSize: 8, padding: '6px 14px',
                         border: '2px solid #ff6b35', background: 'rgba(255,107,53,0.1)',
                         color: '#ff6b35', cursor: 'pointer', opacity: actionLoading ? 0.5 : 1,
                       }}
@@ -308,18 +308,18 @@ export default function GuildWarArena({ warId }: { warId: string }) {
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1 }}>
-                    <span style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#666' }}>
+                    <span style={{ fontFamily: "var(--font-pixel)", fontSize: 8, color: '#666' }}>
                       MATCH {i + 1}
                     </span>
-                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#00ffd5' }}>
+                    <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: '#00ffd5' }}>
                       {stageEmoji[match.champion1.stage] || '🐣'} {c1Name} Lv.{match.champion1.level}
                     </span>
-                    <span style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#444' }}>vs</span>
-                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#ff6b35' }}>
+                    <span style={{ fontFamily: "var(--font-pixel)", fontSize: 8, color: '#444' }}>vs</span>
+                    <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: '#ff6b35' }}>
                       {stageEmoji[match.champion2.stage] || '🐣'} {c2Name} Lv.{match.champion2.level}
                     </span>
                   </div>
-                  <span style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 9, color: winnerColor }}>
+                  <span style={{ fontFamily: "var(--font-pixel)", fontSize: 9, color: winnerColor }}>
                     🏆 {winnerName}
                   </span>
                 </button>
@@ -330,16 +330,16 @@ export default function GuildWarArena({ warId }: { warId: string }) {
                     background: 'rgba(0,0,0,0.3)',
                   }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                      <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#00ffd5' }}>
+                      <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: '#00ffd5' }}>
                         {c1Name}: {match.champion1RemainingHp} HP left
                       </span>
-                      <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#ff6b35' }}>
+                      <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: '#ff6b35' }}>
                         {c2Name}: {match.champion2RemainingHp} HP left
                       </span>
                     </div>
                     {match.rounds?.map((r, ri) => (
                       <div key={ri} style={{
-                        fontFamily: "'JetBrains Mono', monospace", fontSize: 9, color: '#555',
+                        fontFamily: "var(--font-mono)", fontSize: 9, color: '#555',
                         padding: '2px 0',
                       }}>
                         R{r.round}: {c1Name} -{r.dmg2to1}HP | {c2Name} -{r.dmg1to2}HP → {r.hp1} vs {r.hp2}
@@ -356,31 +356,31 @@ export default function GuildWarArena({ warId }: { warId: string }) {
       {/* Champions overview */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
         <div className="card-retro" style={{ padding: 16 }}>
-          <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#00ffd5', marginBottom: 8 }}>
+          <div style={{ fontFamily: "var(--font-pixel)", fontSize: 8, color: '#00ffd5', marginBottom: 8 }}>
             {war.guild1.name} CHAMPIONS
           </div>
           {(war.champions1 as string[]).map((uid, i) => {
             const match = battles.find(m => m.champion1.userId === uid);
             return (
-              <div key={uid} style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#888', padding: '4px 0' }}>
+              <div key={uid} style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: '#888', padding: '4px 0' }}>
                 {match ? `${stageEmoji[match.champion1.stage] || '🐣'} ${match.champion1.username} Lv.${match.champion1.level}` : `#${i + 1} ${uid.slice(0, 8)}...`}
               </div>
             );
           })}
         </div>
         <div className="card-retro" style={{ padding: 16 }}>
-          <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: '#ff6b35', marginBottom: 8 }}>
+          <div style={{ fontFamily: "var(--font-pixel)", fontSize: 8, color: '#ff6b35', marginBottom: 8 }}>
             {war.guild2.name} CHAMPIONS
           </div>
           {(war.champions2 as string[]).length === 0 ? (
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#444', fontStyle: 'italic' }}>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: '#444', fontStyle: 'italic' }}>
               Not set yet
             </div>
           ) : (
             (war.champions2 as string[]).map((uid, i) => {
               const match = battles.find(m => m.champion2.userId === uid);
               return (
-                <div key={uid} style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: '#888', padding: '4px 0' }}>
+                <div key={uid} style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: '#888', padding: '4px 0' }}>
                   {match ? `${stageEmoji[match.champion2.stage] || '🐣'} ${match.champion2.username} Lv.${match.champion2.level}` : `#${i + 1} ${uid.slice(0, 8)}...`}
                 </div>
               );
@@ -391,7 +391,7 @@ export default function GuildWarArena({ warId }: { warId: string }) {
 
       {/* Back link */}
       <Link href="/guild-wars" style={{
-        fontFamily: "'Press Start 2P', monospace", fontSize: 8,
+        fontFamily: "var(--font-pixel)", fontSize: 8,
         color: '#666', textDecoration: 'none', textAlign: 'center',
       }}>
         ← BACK TO SQUAD WARS

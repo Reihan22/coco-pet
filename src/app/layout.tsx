@@ -1,5 +1,20 @@
 import type { Metadata } from "next";
+import { Press_Start_2P, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+
+const pressStart = Press_Start_2P({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-press-start",
+  display: "swap",
+});
+
+const jetbrains = JetBrains_Mono({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "CodeBot — Your Dev Bot",
@@ -12,12 +27,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full antialiased">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
-      <body className="min-h-full flex flex-col" style={{ background: '#0a0a0f', color: '#e0e0e0', fontFamily: "'JetBrains Mono', monospace" }}>
+    <html lang="en" className={`h-full antialiased ${pressStart.variable} ${jetbrains.variable}`}>
+      <body className="min-h-full flex flex-col" style={{ background: '#0a0a0f', color: '#e0e0e0', fontFamily: "var(--font-jetbrains), monospace" }}>
         {children}
       </body>
     </html>

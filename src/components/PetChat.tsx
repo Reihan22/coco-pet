@@ -138,7 +138,7 @@ export default function PetChat({ petName }: { petName: string }) {
       >
         <span
           style={{
-            fontFamily: "'Press Start 2P', monospace",
+            fontFamily: "var(--font-pixel)",
             fontSize: 11,
             color: '#00ffd5',
           }}
@@ -149,7 +149,7 @@ export default function PetChat({ petName }: { petName: string }) {
           style={{
             fontSize: 9,
             color: '#555',
-            fontFamily: "'JetBrains Mono', monospace",
+            fontFamily: "var(--font-mono)",
           }}
         >
           {AI_LABEL}
@@ -251,7 +251,7 @@ export default function PetChat({ petName }: { petName: string }) {
             color: '#e0e0e0',
             padding: '10px 14px',
             fontSize: 13,
-            fontFamily: "'JetBrains Mono', monospace",
+            fontFamily: "var(--font-mono)",
             outline: 'none',
             opacity: isLoading ? 0.6 : 1,
           }}
@@ -267,7 +267,7 @@ export default function PetChat({ petName }: { petName: string }) {
             border: `2px solid ${isLoading || !input.trim() ? '#333' : '#00ffd5'}`,
             color: isLoading || !input.trim() ? '#555' : '#00ffd5',
             cursor: isLoading ? 'wait' : 'pointer',
-            fontFamily: "'Press Start 2P', monospace",
+            fontFamily: "var(--font-pixel)",
             transition: 'all 0.2s',
           }}
         >

@@ -20,7 +20,7 @@ export default function StatCard({ label, value, icon, color, sublabel }: StatCa
     }}>
       <span style={{ fontSize: 22 }}>{icon}</span>
       <div>
-        <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 16, color }}>{value}</div>
+        <div style={{ fontFamily: "var(--font-pixel)", fontSize: 16, color }}>{value}</div>
         <div style={{ fontSize: 11, color: '#777', marginTop: 3 }}>{label}</div>
         {sublabel && <div style={{ fontSize: 9, color: '#555', marginTop: 2 }}>{sublabel}</div>}
       </div>
