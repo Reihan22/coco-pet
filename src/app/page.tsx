@@ -134,7 +134,7 @@ export default function HomePage() {
             transition: 'all 0.8s ease 0.4s',
           }}
         >
-          Your AI-Powered Mech Builder
+          Build. Train. Battle. Evolve.
         </p>
 
         {/* MiMo badge */}
@@ -210,8 +210,8 @@ export default function HomePage() {
             transition: 'all 0.8s ease 0.6s',
           }}
         >
-          A robot that grows with your coding activity. Train your bot with AI-powered challenges,
-          duel friends in turn-based mech combat, and join squad wars. Build it from Frame to Legend.
+          Build a mech that grows with every line of code. Train with MiMo-powered AI challenges,
+          duel rivals in turn-based combat, and evolve from scrap Frame to legendary Titan.
         </p>
 
         <div style={{
@@ -268,7 +268,7 @@ export default function HomePage() {
           marginBottom: 60,
           lineHeight: 2,
         }}>
-          Your bot evolves as you code. 5 stages from scrap to legend.
+          Your mech evolves as you code. 5 stages from scrap to legend.
         </p>
 
         {/* Evolution timeline - horizontal on desktop, grid on mobile */}

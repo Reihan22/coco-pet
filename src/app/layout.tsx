@@ -18,7 +18,7 @@ const jetbrains = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "CodeBot — Your Dev Bot",
-  description: "A virtual bot that grows with your GitHub activity. Track commits, complete AI challenges, and watch your bot evolve!",
+  description: "CodeBot — Build your AI-powered mech, battle in turn-based combat, and evolve from Frame to Legend. Powered by Xiaomi MiMo V2.5 Pro.",
 };
 
 export default function RootLayout({
